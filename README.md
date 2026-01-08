@@ -150,7 +150,6 @@ The following scripts are provided in `Shared_Environment/scripts/` for assessor
 | **Gas Savings (ERC-1155)** | 89.4% for batch operations |
 | **Docker Containers** | 11-13 per environment |
 | **API Endpoints** | 45+ REST endpoints |
-| **Documentation** | 7,000+ lines |
 
 ---
 
