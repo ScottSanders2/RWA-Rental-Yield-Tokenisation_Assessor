@@ -1,0 +1,44 @@
+{
+  "api_property_register": [
+    {
+      "timestamp": "2025-10-12T08:36:46.561449",
+      "operation": "api_property_register",
+      "elapsed_time_seconds": 1.2636184692382812e-05,
+      "additional_data": {}
+    },
+    {
+      "timestamp": "2025-10-12T08:37:52.300298",
+      "operation": "api_property_register",
+      "elapsed_time_seconds": 0.20642971992492676,
+      "additional_data": {}
+    }
+  ],
+  "web3_mint_property_nft": [
+    {
+      "timestamp": "2025-10-12T08:37:52.258902",
+      "operation": "web3_mint_property_nft",
+      "elapsed_time_seconds": 0.11029982566833496,
+      "additional_data": {
+        "contract": "PropertyNFT"
+      }
+    }
+  ],
+  "service_property_register": [
+    {
+      "timestamp": "2025-10-12T08:37:52.298572",
+      "operation": "service_property_register",
+      "elapsed_time_seconds": 0.1683666706085205,
+      "additional_data": {
+        "token_standard": "ERC721"
+      }
+    }
+  ],
+  "api_property_verify": [
+    {
+      "timestamp": "2025-10-12T08:38:05.151057",
+      "operation": "api_property_verify",
+      "elapsed_time_seconds": 0.1976628303527832,
+      "additional_data": {}
+    }
+  ]
+}

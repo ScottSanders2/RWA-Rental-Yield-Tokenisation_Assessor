@@ -1,0 +1,33 @@
+# Exclude backups directory from EAS builds
+../backups/
+
+# Exclude other environment directories that aren't needed for mobile build
+../Shared_Environment/
+../Production_Environment/
+../Test_Environment/
+
+# Exclude node_modules (should be handled by EAS anyway)
+node_modules/
+
+# Exclude build artifacts
+build/
+dist/
+*.ipa
+*.app
+
+# Exclude development files
+.vscode/
+.idea/
+*.log
+coverage/
+
+# Exclude environment files
+.env*
+
+
+
+
+
+
+
+

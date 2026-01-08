@@ -1,0 +1,600 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "forge-std/Test.sol";
+import "../helpers/KYCTestHelper.sol";
+import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import "../../src/GovernanceController.sol";
+import "../../src/YieldBase.sol";
+import "../../src/YieldSharesToken.sol";
+import "../../src/PropertyNFT.sol";
+import "../../src/storage/GovernanceStorage.sol";
+
+/**
+ * @title GovernanceProposalsTest
+ * @notice Simulation test suite for governance proposal scenarios with participation rate tracking
+ * @dev Tests complete proposal lifecycles, voter distribution, and participation metrics
+ * 
+ * Participation Rate Tracking:
+ * - Total eligible voters = all token holders
+ * - Actual voters = unique addresses that cast votes
+ * - Participation rate = (actual voters / total eligible voters) * 100
+ * - Target metrics: Low (<20%), Medium (40-60%), High (>70%)
+ */
+contract GovernanceProposalsTest is Test {
+    // Contract instances
+    GovernanceController public governance;
+    YieldBase public yieldBase;
+    PropertyNFT public propertyNFT;
+    YieldSharesToken public yieldSharesToken;
+
+    // Test accounts
+    address public owner;
+    address public propertyOwner;
+    address[] public voters; // Dynamic array for multiple voters
+
+    // Test data
+    uint256 public testPropertyTokenId;
+    uint256 public testAgreementId;
+    uint256 public constant TOTAL_SUPPLY = 1_000_000 ether;
+    uint256 public constant UPFRONT_CAPITAL = 1_000_000 ether; // Match total supply
+
+    // Participation metrics
+    struct ParticipationMetrics {
+        uint256 totalEligibleVoters;
+        uint256 actualVoters;
+        uint256 participationRatePercent;
+        bool quorumReached;
+        bool proposalSucceeded;
+    }
+
+    function setUp() public {
+        // Setup test accounts
+        owner = address(this);
+        propertyOwner = makeAddr("propertyOwner");
+
+        // Fund accounts
+        vm.deal(owner, 1000 ether);
+        vm.deal(propertyOwner, 1000 ether);
+
+        // Deploy contracts (same as GovernanceController.t.sol)
+        _deployContracts();
+
+        // Create test property and agreement
+        _createTestAgreement();
+    }
+
+    function _deployContracts() internal {
+        // Deploy PropertyNFT
+        PropertyNFT propertyNFTImpl = new PropertyNFT();
+        bytes memory propertyNFTData = abi.encodeWithSelector(
+            PropertyNFT.initialize.selector,
+            owner,
+            "Test Property NFT",
+            "TPROP"
+        );
+        propertyNFT = PropertyNFT(address(new ERC1967Proxy(address(propertyNFTImpl), propertyNFTData)));
+
+        // Deploy YieldBase
+        YieldBase yieldBaseImpl = new YieldBase();
+        bytes memory yieldBaseData = abi.encodeWithSelector(YieldBase.initialize.selector, owner);
+        yieldBase = YieldBase(payable(address(new ERC1967Proxy(address(yieldBaseImpl), yieldBaseData))));
+
+        // Link contracts
+        yieldBase.setPropertyNFT(address(propertyNFT));
+        propertyNFT.setYieldBase(address(yieldBase));
+
+        // Deploy GovernanceController
+        GovernanceController governanceImpl = new GovernanceController();
+        bytes memory governanceData = abi.encodeWithSelector(
+            GovernanceController.initialize.selector,
+            owner,
+            address(yieldBase)
+        );
+        governance = GovernanceController(payable(address(new ERC1967Proxy(address(governanceImpl), governanceData))));
+
+        // Link governance
+        yieldBase.setGovernanceController(address(governance));
+    }
+
+    function _createTestAgreement() internal {
+        // Mint property (as owner, verify, then transfer to propertyOwner)
+        testPropertyTokenId = propertyNFT.mintProperty(
+            keccak256(abi.encodePacked("123 Test St")),
+            "ipfs://QmTestProperty"
+        );
+        propertyNFT.verifyProperty(testPropertyTokenId);
+        propertyNFT.transferFrom(owner, propertyOwner, testPropertyTokenId);
+
+        // Create agreement
+        vm.prank(propertyOwner);
+        propertyNFT.approve(address(yieldBase), testPropertyTokenId);
+        
+        vm.prank(propertyOwner);
+        testAgreementId = yieldBase.createYieldAgreement(
+            testPropertyTokenId,
+            UPFRONT_CAPITAL,
+            100000e18, // USD value
+            12,   // 12 months
+            1200, // 12% ROI
+            propertyOwner, // propertyPayer
+            30,   // 30 day grace
+            500,  // 5% penalty
+            3,    // defaultThreshold (3 missed payments)
+            true,  // allow partial
+            true   // allow early
+        );
+
+        // Get yield shares token
+        yieldSharesToken = YieldSharesToken(yieldBase.getYieldSharesToken(testAgreementId));
+    }
+
+    function testROIAdjustmentProposalLifecycle() public {
+        console.log("=== ROI Adjustment Proposal Lifecycle Test ===");
+        
+        // Distribute voting power to 10 investors
+        _distributeVotingPower10Investors();
+
+        // Create proposal to increase ROI from 12% to 12.5%
+        // Use voter[0] who has 10% voting power (above 1% threshold)
+        uint16 newROI = 1250;
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            newROI,
+            "Increase ROI from 12% to 12.5% to attract more investors"
+        );
+
+        console.log("Proposal created:", proposalId);
+
+        // Advance past voting delay
+        vm.warp(block.timestamp + 1 days + 1);
+
+        // Cast votes with varying support (8 out of 10 vote)
+        vm.prank(voters[0]); // 10% - FOR
+        governance.castVote(proposalId, 1);
+        
+        vm.prank(voters[1]); // 10% - FOR
+        governance.castVote(proposalId, 1);
+        
+        vm.prank(voters[2]); // 10% - FOR
+        governance.castVote(proposalId, 1);
+        
+        vm.prank(voters[3]); // 10% - FOR
+        governance.castVote(proposalId, 1);
+        
+        vm.prank(voters[4]); // 10% - AGAINST
+        governance.castVote(proposalId, 0);
+        
+        vm.prank(voters[5]); // 10% - AGAINST
+        governance.castVote(proposalId, 0);
+        
+        vm.prank(voters[6]); // 10% - ABSTAIN
+        governance.castVote(proposalId, 2);
+        
+        vm.prank(voters[7]); // 10% - ABSTAIN
+        governance.castVote(proposalId, 2);
+
+        // voters[8] and voters[9] do not vote
+
+        // Wait for voting period to end
+        vm.warp(block.timestamp + 7 days + 1);
+
+        // Execute proposal
+        governance.executeProposal(proposalId);
+
+        // Verify execution
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.executed, "Proposal should be executed");
+        assertTrue(proposal.quorumReached, "Quorum should be reached");
+
+        // Verify ROI updated in YieldBase
+        (,, uint16 termMonths, uint16 annualROI,,,,,,,) = yieldBase.getAgreement(testAgreementId);
+        assertEq(annualROI, newROI, "ROI should be updated");
+
+        // Calculate participation metrics
+        ParticipationMetrics memory metrics = _calculateParticipationMetrics(proposalId, 10, 8);
+        console.log("Total eligible voters:", metrics.totalEligibleVoters);
+        console.log("Actual voters:", metrics.actualVoters);
+        console.log("Participation rate:", metrics.participationRatePercent, "%");
+        
+        assertEq(metrics.participationRatePercent, 80, "Should have 80% participation");
+    }
+
+    function testReserveAllocationProposal() public {
+        console.log("=== Reserve Allocation Proposal Test ===");
+        
+        // Distribute voting power
+        _distributeVotingPower10Investors();
+
+        // Fund governance contract for reserve
+        vm.deal(address(governance), 20 ether);
+
+        // Record pre-state balances
+        uint256 governanceBalanceBefore = address(governance).balance;
+        uint256 yieldBaseBalanceBefore = address(yieldBase).balance;
+        uint256 reserveBalanceBefore = yieldBase.getAgreementReserve(testAgreementId);
+
+        // Create proposal to allocate 10 ETH reserve
+        // Use voter[0] who has 10% voting power (above 1% threshold)
+        uint256 reserveAmount = 10 ether;
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ReserveAllocation,
+            reserveAmount,
+            "Allocate 10 ETH as default protection reserve (10% of capital)"
+        );
+
+        // Advance and vote (90% participation, high approval)
+        vm.warp(block.timestamp + 1 days + 1);
+        
+        for (uint256 i = 0; i < 9; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 1); // All vote FOR
+        }
+
+        // Execute
+        vm.warp(block.timestamp + 7 days + 1);
+        
+        // Expect event emission
+        vm.expectEmit(true, false, false, true);
+        emit GovernanceController.ReserveAllocated(testAgreementId, reserveAmount);
+        
+        governance.executeProposal(proposalId);
+
+        // Verify execution
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.executed, "Proposal should be executed");
+
+        // Assert balances changed correctly
+        assertEq(
+            address(governance).balance,
+            governanceBalanceBefore - reserveAmount,
+            "Governance balance should decrease by reserve amount"
+        );
+        assertEq(
+            address(yieldBase).balance,
+            yieldBaseBalanceBefore + reserveAmount,
+            "YieldBase balance should increase by reserve amount"
+        );
+        assertEq(
+            yieldBase.getAgreementReserve(testAgreementId),
+            reserveBalanceBefore + reserveAmount,
+            "Agreement reserve balance should increase by reserve amount"
+        );
+
+        // Calculate metrics
+        ParticipationMetrics memory metrics = _calculateParticipationMetrics(proposalId, 10, 9);
+        console.log("Participation rate:", metrics.participationRatePercent, "%");
+        console.log("Reserve allocated:", reserveAmount);
+        console.log("New agreement reserve balance:", yieldBase.getAgreementReserve(testAgreementId));
+        assertEq(metrics.participationRatePercent, 90);
+    }
+
+    function testReserveAllocationInsufficientBalance() public {
+        console.log("=== Reserve Allocation Insufficient Balance Test ===");
+        
+        // Distribute voting power
+        _distributeVotingPower10Investors();
+
+        // Fund governance contract with insufficient balance
+        vm.deal(address(governance), 5 ether);
+
+        // Create proposal to allocate 10 ETH reserve (more than available)
+        uint256 reserveAmount = 10 ether;
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ReserveAllocation,
+            reserveAmount,
+            "Attempt to allocate more than available"
+        );
+
+        // Advance and vote
+        vm.warp(block.timestamp + 1 days + 1);
+        for (uint256 i = 0; i < 9; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 1);
+        }
+
+        // Try to execute - should revert due to insufficient balance
+        vm.warp(block.timestamp + 7 days + 1);
+        vm.expectRevert("Insufficient reserve funds");
+        governance.executeProposal(proposalId);
+
+        console.log("Reserve allocation correctly reverted with insufficient balance");
+    }
+
+    function testLowParticipationDefeat() public {
+        console.log("=== Low Participation Defeat Test ===");
+        
+        // Distribute to 20 investors for more realistic scenario
+        _distributeVotingPower20Investors();
+
+        // Create proposal (voter[0] has 5% voting power, above 1% threshold)
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1260,
+            "Test low participation"
+        );
+
+        // Only 1 voter participates (5% turnout - below 10% quorum)
+        vm.warp(block.timestamp + 1 days + 1);
+        vm.prank(voters[0]);
+        governance.castVote(proposalId, 1);
+
+        // Execute
+        vm.warp(block.timestamp + 7 days + 1);
+        governance.executeProposal(proposalId);
+
+        // Verify defeat due to quorum
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.defeated);
+        assertFalse(proposal.quorumReached);
+
+        // Calculate metrics
+        ParticipationMetrics memory metrics = _calculateParticipationMetrics(proposalId, 20, 1);
+        console.log("Low participation rate:", metrics.participationRatePercent, "%");
+        assertEq(metrics.participationRatePercent, 5);
+    }
+
+    function testHighParticipationSuccess() public {
+        console.log("=== High Participation Success Test ===");
+        
+        _distributeVotingPower10Investors();
+
+        // Create proposal (voter[0] has 10% voting power, above 1% threshold)
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1260,
+            "High participation test"
+        );
+
+        // 10 out of 10 voters participate (100% turnout)
+        vm.warp(block.timestamp + 1 days + 1);
+        
+        for (uint256 i = 0; i < 10; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 1); // All vote FOR
+        }
+
+        // Execute
+        vm.warp(block.timestamp + 7 days + 1);
+        governance.executeProposal(proposalId);
+
+        // Verify success
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.executed);
+        assertTrue(proposal.quorumReached);
+
+        // Calculate metrics
+        ParticipationMetrics memory metrics = _calculateParticipationMetrics(proposalId, 10, 10);
+        console.log("High participation rate:", metrics.participationRatePercent, "%");
+        assertEq(metrics.participationRatePercent, 100);
+    }
+
+    function testVoterDistributionAnalysisWhale() public {
+        console.log("=== Whale Voter Distribution Test ===");
+        
+        // One whale with 60%, others with small amounts
+        address whale = makeAddr("whale");
+        vm.deal(whale, 100 ether);
+        
+        vm.prank(propertyOwner);
+        yieldSharesToken.transfer(whale, 600_000 ether);
+        
+        // 4 small holders with 10% each
+        for (uint256 i = 0; i < 4; i++) {
+            address smallHolder = makeAddr(string(abi.encodePacked("small", i)));
+            vm.deal(smallHolder, 1 ether);
+            voters.push(smallHolder);
+            
+            vm.prank(propertyOwner);
+            yieldSharesToken.transfer(smallHolder, 100_000 ether);
+        }
+
+        // Create proposal (whale has 90% voting power, well above 1% threshold)
+        vm.prank(whale);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1260,
+            "Whale voting test"
+        );
+
+        // Whale votes FOR, small holders vote AGAINST
+        vm.warp(block.timestamp + 1 days + 1);
+        
+        vm.prank(whale);
+        governance.castVote(proposalId, 1); // 60% FOR
+        
+        for (uint256 i = 0; i < 4; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 0); // 40% AGAINST combined
+        }
+
+        // Execute
+        vm.warp(block.timestamp + 7 days + 1);
+        governance.executeProposal(proposalId);
+
+        // Verify whale wins
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.executed);
+        console.log("Whale voting power dominates: proposal passed");
+    }
+
+    function testVoterDistributionAnalysisDistributed() public {
+        console.log("=== Distributed Voter Test ===");
+        
+        // 100 voters with 1% each (10,000 tokens)
+        for (uint256 i = 0; i < 100; i++) {
+            address voter = makeAddr(string(abi.encodePacked("voter", i)));
+            vm.deal(voter, 1 ether);
+            voters.push(voter);
+            
+            vm.prank(propertyOwner);
+            yieldSharesToken.transfer(voter, 10_000 ether);
+        }
+
+        // Create proposal (voter[0] has 1% voting power, exactly at threshold)
+        vm.prank(voters[0]);
+        uint256 proposalId = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1260,
+            "Distributed voting test"
+        );
+
+        // 60 vote FOR, 40 vote AGAINST (60% vs 40%)
+        vm.warp(block.timestamp + 1 days + 1);
+        
+        for (uint256 i = 0; i < 60; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 1); // FOR
+        }
+        
+        for (uint256 i = 60; i < 100; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposalId, 0); // AGAINST
+        }
+
+        // Execute
+        vm.warp(block.timestamp + 7 days + 1);
+        governance.executeProposal(proposalId);
+
+        // Verify democratic majority wins
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        assertTrue(proposal.executed);
+        console.log("Democratic majority: proposal passed with 60% support");
+        
+        // Metrics
+        ParticipationMetrics memory metrics = _calculateParticipationMetrics(proposalId, 100, 100);
+        assertEq(metrics.participationRatePercent, 100);
+    }
+
+    function testMultipleSimultaneousProposals() public {
+        console.log("=== Multiple Simultaneous Proposals Test ===");
+        
+        _distributeVotingPower10Investors();
+
+        // Create 3 proposals simultaneously (voter[0] has 10% voting power, above 1% threshold)
+        vm.prank(voters[0]);
+        uint256 proposal1 = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1260,
+            "Proposal 1: ROI increase"
+        );
+
+        vm.prank(voters[0]);
+        uint256 proposal2 = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ReserveAllocation,
+            10 ether,
+            "Proposal 2: Reserve allocation"
+        );
+
+        vm.prank(voters[0]);
+        uint256 proposal3 = governance.createProposal(
+            testAgreementId,
+            GovernanceStorage.ProposalType.ROIAdjustment,
+            1140,
+            "Proposal 3: ROI decrease"
+        );
+
+        // Vote on each independently
+        vm.warp(block.timestamp + 1 days + 1);
+        
+        // Proposal 1: High support
+        for (uint256 i = 0; i < 8; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposal1, 1);
+        }
+
+        // Proposal 2: Medium support
+        for (uint256 i = 0; i < 5; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposal2, 1);
+        }
+        for (uint256 i = 5; i < 8; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposal2, 0);
+        }
+
+        // Proposal 3: Low support
+        for (uint256 i = 0; i < 3; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposal3, 1);
+        }
+        for (uint256 i = 3; i < 8; i++) {
+            vm.prank(voters[i]);
+            governance.castVote(proposal3, 0);
+        }
+
+        // Execute all
+        vm.warp(block.timestamp + 7 days + 1);
+        governance.executeProposal(proposal1);
+        governance.executeProposal(proposal2);
+        governance.executeProposal(proposal3);
+
+        // Verify independent execution
+        GovernanceStorage.Proposal memory p1 = governance.getProposal(proposal1);
+        GovernanceStorage.Proposal memory p2 = governance.getProposal(proposal2);
+        GovernanceStorage.Proposal memory p3 = governance.getProposal(proposal3);
+
+        assertTrue(p1.executed, "Proposal 1 should pass");
+        assertTrue(p2.executed, "Proposal 2 should pass");
+        assertTrue(p3.defeated, "Proposal 3 should fail");
+
+        console.log("Multiple proposals handled independently");
+    }
+
+    // ============ Helper Functions ============
+
+    function _distributeVotingPower10Investors() internal {
+        // Distribute equally to 10 investors (10% each = 100,000 tokens)
+        for (uint256 i = 0; i < 10; i++) {
+            address voter = makeAddr(string(abi.encodePacked("voter", i)));
+            vm.deal(voter, 1 ether);
+            voters.push(voter);
+            
+            vm.prank(propertyOwner);
+            yieldSharesToken.transfer(voter, 100_000 ether);
+        }
+    }
+
+    function _distributeVotingPower20Investors() internal {
+        // Distribute equally to 20 investors (5% each = 50,000 tokens)
+        for (uint256 i = 0; i < 20; i++) {
+            address voter = makeAddr(string(abi.encodePacked("voter", i)));
+            vm.deal(voter, 1 ether);
+            voters.push(voter);
+            
+            vm.prank(propertyOwner);
+            yieldSharesToken.transfer(voter, 50_000 ether);
+        }
+    }
+
+    function _calculateParticipationMetrics(
+        uint256 proposalId,
+        uint256 totalEligible,
+        uint256 actualVoters
+    ) internal view returns (ParticipationMetrics memory) {
+        GovernanceStorage.Proposal memory proposal = governance.getProposal(proposalId);
+        
+        return ParticipationMetrics({
+            totalEligibleVoters: totalEligible,
+            actualVoters: actualVoters,
+            participationRatePercent: (actualVoters * 100) / totalEligible,
+            quorumReached: proposal.quorumReached,
+            proposalSucceeded: proposal.executed
+        });
+    }
+}
+

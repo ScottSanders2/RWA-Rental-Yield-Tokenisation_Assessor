@@ -1,0 +1,183 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+description: 'RWA Tokenization Platform Analytics - Autonomous ROI Reporting and Pooling Analytics'
+repository: https://github.com/your-repo/rwa-tokenization-platform
+dataSources:
+  # PropertyNFT - Static contract for property tokenization (Diamond Proxy)
+  - kind: ethereum/contract
+    name: PropertyNFT
+    network: mainnet
+    source:
+      address: '0x3Aa5ebB10DC797CAC828524e59A333d0A371443c'
+      abi: PropertyNFT
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Property
+        - YieldAgreement
+      abis:
+        - name: PropertyNFT
+          file: ../contracts/out/PropertyNFT.sol/PropertyNFT.json
+      eventHandlers:
+        - event: PropertyMinted(indexed uint256,bytes32,string)
+          handler: handlePropertyMinted
+        - event: PropertyVerified(indexed uint256,address)
+          handler: handlePropertyVerified
+        - event: PropertyLinkedToYieldAgreement(indexed uint256,uint256)
+          handler: handlePropertyLinkedToYieldAgreement
+      file: ./src/mappings/propertyNFT.ts
+  
+  # YieldBase Diamond - Phase 7: Diamond Proxy (EIP-2535)
+  - kind: ethereum/contract
+    name: YieldBase
+    network: mainnet
+    source:
+      address: '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1'
+      abi: YieldBase
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - YieldAgreement
+        - Repayment
+        - AnalyticsSummary
+        - Property
+      abis:
+        - name: YieldBase
+          file: ../contracts/out/DiamondYieldBase_ABI.json
+        - name: YieldSharesToken
+          file: ../contracts/out/YieldSharesToken.sol/YieldSharesToken.json
+      eventHandlers:
+        - event: YieldAgreementCreated(indexed uint256,indexed uint256,uint256,uint256,uint16,uint16,uint16,uint16,bool,bool)
+          handler: handleYieldAgreementCreated
+        - event: RepaymentMade(indexed uint256,uint256,uint256)
+          handler: handleRepaymentMade
+        - event: PartialRepaymentMade(indexed uint256,uint256,uint256,uint256)
+          handler: handlePartialRepaymentMade
+        - event: EarlyRepaymentMade(indexed uint256,uint256,uint256)
+          handler: handleEarlyRepaymentMade
+        - event: YieldAgreementCompleted(indexed uint256,uint256)
+          handler: handleYieldAgreementCompleted
+        - event: PaymentMissed(indexed uint256,uint256,uint256)
+          handler: handlePaymentMissed
+        - event: AgreementDefaulted(indexed uint256,uint256,uint256)
+          handler: handleAgreementDefaulted
+        - event: ROIAdjusted(indexed uint256,uint16,uint16)
+          handler: handleROIAdjusted
+        - event: ReserveAllocated(indexed uint256,uint256)
+          handler: handleReserveAllocated
+        - event: ReserveWithdrawn(indexed uint256,uint256)
+          handler: handleReserveWithdrawn
+      file: ./src/mappings/yieldBase.ts
+  
+  # GovernanceController - Diamond Proxy
+  - kind: ethereum/contract
+    name: GovernanceController
+    network: mainnet
+    source:
+      address: '0x59b670e9fA9D0A427751Af201D676719a970857b'
+      abi: GovernanceController
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - GovernanceProposal
+        - Vote
+        - YieldAgreement
+        - AnalyticsSummary
+      abis:
+        - name: GovernanceController
+          file: ../contracts/out/GovernanceController.sol/GovernanceController.json
+      eventHandlers:
+        - event: ProposalCreated(indexed uint256,indexed address,uint256,uint8,uint256,string)
+          handler: handleProposalCreated
+        - event: VoteCast(indexed uint256,indexed address,uint8,uint256)
+          handler: handleVoteCast
+        - event: ProposalExecuted(indexed uint256,bool)
+          handler: handleProposalExecuted
+        - event: ProposalDefeated(indexed uint256)
+          handler: handleProposalDefeated
+        - event: ReserveDistributedToHolders(indexed uint256,uint256,uint256,uint256)
+          handler: handleReserveDistributedToHolders
+      file: ./src/mappings/governance.ts
+  
+  # CombinedPropertyYieldToken - Diamond Proxy
+  - kind: ethereum/contract
+    name: CombinedPropertyYieldToken
+    network: mainnet
+    source:
+      address: '0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E'
+      abi: CombinedPropertyYieldToken
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Property
+        - YieldAgreement
+        - Repayment
+        - Shareholder
+      abis:
+        - name: CombinedPropertyYieldToken
+          file: ../contracts/out/DiamondCombinedToken_ABI.json
+      eventHandlers:
+        - event: PropertyTokenMinted(indexed uint256,bytes32,string)
+          handler: handlePropertyTokenMinted
+        - event: YieldTokenMinted(indexed uint256,indexed uint256,uint256,uint256,uint256,uint16,uint16,uint16,uint16,bool,bool)
+          handler: handleYieldTokenMinted
+        - event: RepaymentDistributed(indexed uint256,uint256)
+          handler: handleRepaymentDistributed
+        - event: PropertyVerified(indexed uint256)
+          handler: handlePropertyVerified
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+      file: ./src/mappings/combinedToken.ts
+
+templates:
+  - kind: ethereum/contract
+    name: YieldSharesToken
+    network: mainnet
+    source:
+      abi: YieldSharesToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Shareholder
+        - Repayment
+        - YieldAgreement
+        - TransferRestrictionEvent
+        - AnalyticsSummary
+      abis:
+        - name: YieldSharesToken
+          file: ../contracts/out/YieldSharesToken.sol/YieldSharesToken.json
+      eventHandlers:
+        - event: SharesMinted(indexed uint256,indexed address,uint256,uint256)
+          handler: handleSharesMinted
+        - event: SharesMintedBatch(indexed uint256,address[],uint256[],uint256)
+          handler: handleSharesMintedBatch
+        - event: RepaymentDistributed(indexed uint256,uint256,uint256)
+          handler: handleRepaymentDistributed
+        - event: PartialRepaymentDistributed(indexed uint256,uint256,uint256,uint256)
+          handler: handlePartialRepaymentDistributed
+        - event: SharesBurned(indexed uint256,indexed address,uint256)
+          handler: handleSharesBurned
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: TransferBlocked(indexed address,indexed address,uint256,string)
+          handler: handleTransferBlocked
+        - event: TransferRestrictionsUpdated(uint256,uint256,uint256)
+          handler: handleTransferRestrictionsUpdated
+      file: ./src/mappings/yieldSharesToken.ts

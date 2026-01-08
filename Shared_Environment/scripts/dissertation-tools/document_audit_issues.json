@@ -1,0 +1,1371 @@
+{
+  "image_issues": [
+    {
+      "type": "image",
+      "number": 1,
+      "para_index": 215,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The prototype adopts a Docker-first paradigm with three segregated environments (Development, Test, ",
+        "Docker Compose orchestration implements prescribed resource allocations per environment, with Develo",
+        "This containerisation approach addresses the reproducibility challenges identified in the literature"
+      ],
+      "context_after": [
+        "4.3.2 Technology Stack Selection",
+        "The technology stack selection reflects careful consideration of the platform\u2019s dual requirements fo"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 2,
+      "para_index": 216,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Docker Compose orchestration implements prescribed resource allocations per environment, with Develo",
+        "This containerisation approach addresses the reproducibility challenges identified in the literature"
+      ],
+      "context_after": [
+        "4.3.2 Technology Stack Selection",
+        "The technology stack selection reflects careful consideration of the platform\u2019s dual requirements fo",
+        "The backend implementation uses FastAPI (Python) as the API framework, providing automatic OpenAPI d"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 3,
+      "para_index": 229,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Node-exporter (v1.7.0) collects host-level metrics including CPU usage, memory consumption, disk I/O",
+        "Grafana (v10.2.0) queries Prometheus via PromQL and renders real-time dashboards for operational vis",
+        "Resource allocation for monitoring services balances observability requirements against overhead con"
+      ],
+      "context_after": [
+        "4.3.4 Frontend Web Architecture",
+        "The frontend web implementation adopts a component-based architecture using React 18.2 with Vite 5.0",
+        "Addressing Research Question 4 regarding UX factors for non-crypto user onboarding and Research Ques"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 4,
+      "para_index": 242,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Mobile-specific UX optimisations address the unique constraints and opportunities of touch-based int",
+        "Detox v20.14.0 provides gray-box end-to-end testing for React Native applications with iOS Simulator",
+        "Mobile development maintains partial Docker integration with the rwa-dev-mobile container for Metro "
+      ],
+      "context_after": [
+        "4.3.6 Mobile Environment Isolation",
+        "Following identification of mobile frontend configuration inconsistencies across development, test, ",
+        "The remediation process identified and corrected three critical configuration issues: Development en"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 5,
+      "para_index": 251,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The backend implementation adopts a clean architecture pattern with four distinct layers ensuring te",
+        "The repository layer implements three primary models mirroring the system\u2019s entity-relationship desi",
+        "The Web3Service class provides comprehensive blockchain interaction abstraction, loading contract AB"
+      ],
+      "context_after": [
+        "Request and response schemas implement comprehensive validation through Pydantic models, including d",
+        "4.3.8 Smart Contract Architecture"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 6,
+      "para_index": 252,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The repository layer implements three primary models mirroring the system\u2019s entity-relationship desi",
+        "The Web3Service class provides comprehensive blockchain interaction abstraction, loading contract AB"
+      ],
+      "context_after": [
+        "Request and response schemas implement comprehensive validation through Pydantic models, including d",
+        "4.3.8 Smart Contract Architecture",
+        "The smart contract layer adopts an upgrade-first architecture using the UUPS (Universal Upgradeable "
+      ]
+    },
+    {
+      "type": "image",
+      "number": 7,
+      "para_index": 260,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "To comply with Ethereum\u2019s 24KB contract bytecode limit established by EIP-170, complex mathematical ",
+        "The platform implements comprehensive property tokenisation using the ERC-721 standard to represent ",
+        "Bidirectional linking between property NFTs and yield agreements establishes clear ownership chains "
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 8,
+      "para_index": 261,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The platform implements comprehensive property tokenisation using the ERC-721 standard to represent ",
+        "Bidirectional linking between property NFTs and yield agreements establishes clear ownership chains "
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 9,
+      "para_index": 262,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Bidirectional linking between property NFTs and yield agreements establishes clear ownership chains "
+      ],
+      "context_after": [
+        "As a parallel implementation supporting Research Question 1\u2019s comparative analysis, the platform inc"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 10,
+      "para_index": 263,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": [
+        "As a parallel implementation supporting Research Question 1\u2019s comparative analysis, the platform inc",
+        "4.3.9 Diamond Pattern Architecture (EIP-2535)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 11,
+      "para_index": 264,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": [
+        "As a parallel implementation supporting Research Question 1\u2019s comparative analysis, the platform inc",
+        "4.3.9 Diamond Pattern Architecture (EIP-2535)",
+        "By Iteration 6, the monolithic YieldBase contract had reached approximately 22.5KB after optimisatio"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 12,
+      "para_index": 273,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "To enable facets to share state whilst preventing storage collisions, the Diamond implementation ado",
+        "The Diamond Pattern\u2019s delegatecall-based architecture introduces marginal gas overhead compared to m",
+        "The Diamond migration necessitated complete test suite reconstruction to validate facet interactions"
+      ],
+      "context_after": [
+        "4.3.10 Analytics Infrastructure (The Graph Protocol)",
+        "Addressing Research Questions 1 (token standard comparison), 3 (Layer 2 scalability), 6 (financial i",
+        "The Graph Node stack comprises three containerised services deployed via Docker Compose with prescri"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 13,
+      "para_index": 279,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The Graph Node stack comprises three containerised services deployed via Docker Compose with prescri",
+        "The GraphQL schema defines a comprehensive data model supporting autonomous analytics across propert",
+        "The React frontend integrates Apollo Client with normalised caching implementing type policies that "
+      ],
+      "context_after": [
+        "4.3.11 Survey Research Methodology",
+        "To complement the technical prototype development with primary empirical research, a cross-sectional"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 14,
+      "para_index": 280,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The GraphQL schema defines a comprehensive data model supporting autonomous analytics across propert",
+        "The React frontend integrates Apollo Client with normalised caching implementing type policies that "
+      ],
+      "context_after": [
+        "4.3.11 Survey Research Methodology",
+        "To complement the technical prototype development with primary empirical research, a cross-sectional",
+        "The survey captured responses from 217 participants recruited through purposive sampling targeting i"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 15,
+      "para_index": 316,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Proposal validation enforces reasonable bounds to prevent governance attacks or unreasonable restric",
+        "Upon execution, governance proposals call the appropriate restriction configuration functions on Yie",
+        "The governance integration for transfer restrictions exemplifies the platform\u2019s broader governance p"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 16,
+      "para_index": 317,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "Upon execution, governance proposals call the appropriate restriction configuration functions on Yie",
+        "The governance integration for transfer restrictions exemplifies the platform\u2019s broader governance p"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 17,
+      "para_index": 318,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [
+        "The governance integration for transfer restrictions exemplifies the platform\u2019s broader governance p"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 18,
+      "para_index": 319,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 19,
+      "para_index": 320,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 20,
+      "para_index": 321,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 21,
+      "para_index": 322,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 22,
+      "para_index": 323,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 23,
+      "para_index": 324,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 24,
+      "para_index": 325,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 25,
+      "para_index": 326,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 26,
+      "para_index": 327,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 27,
+      "para_index": 328,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 28,
+      "para_index": 329,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 29,
+      "para_index": 330,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 30,
+      "para_index": 331,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": [
+        "4.3.16 Fuzzing and Invariant Testing Methodology"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 31,
+      "para_index": 332,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": [
+        "4.3.16 Fuzzing and Invariant Testing Methodology",
+        "The platform\u2019s testing strategy expanded in Iteration 15 to incorporate property-based testing via F"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 32,
+      "para_index": 333,
+      "section": "4. System Design",
+      "subsection": "4.3 Materials and Methodology",
+      "context_before": [],
+      "context_after": [
+        "4.3.16 Fuzzing and Invariant Testing Methodology",
+        "The platform\u2019s testing strategy expanded in Iteration 15 to incorporate property-based testing via F",
+        "Fuzzing Configuration and Execution Strategy. The fuzzing configuration implements a two-tier execut"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 33,
+      "para_index": 429,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "The comprehensive backup system implements multi-component capture ensuring complete platform state ",
+        "SHA256 integrity verification and manifest generation ensure backup reliability through cryptographi",
+        "The backup infrastructure directly supports the mandatory development process requirement for robust"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 34,
+      "para_index": 430,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "SHA256 integrity verification and manifest generation ensure backup reliability through cryptographi",
+        "The backup infrastructure directly supports the mandatory development process requirement for robust"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 35,
+      "para_index": 431,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "The backup infrastructure directly supports the mandatory development process requirement for robust"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 36,
+      "para_index": 432,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "5.2.2 Smart Contract Foundation (Iterations 3-4)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 37,
+      "para_index": 433,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "5.2.2 Smart Contract Foundation (Iterations 3-4)",
+        "Iteration 3 established the smart contract development environment using Foundry as the primary deve"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 38,
+      "para_index": 434,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "5.2.2 Smart Contract Foundation (Iterations 3-4)",
+        "Iteration 3 established the smart contract development environment using Foundry as the primary deve",
+        "The YieldBase contract was implemented as the core yield management component, inheriting from OpenZ"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 39,
+      "para_index": 445,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "The Foundry project initialisation established a fresh project structure in Development_Environment/",
+        "The per-agreement payer role security enhancement extended the access control model to support desig",
+        "The multi-environment deployment infrastructure developed deployment scripts using Foundry\u2019s Script "
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 40,
+      "para_index": 446,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "The per-agreement payer role security enhancement extended the access control model to support desig",
+        "The multi-environment deployment infrastructure developed deployment scripts using Foundry\u2019s Script "
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 41,
+      "para_index": 447,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [
+        "The multi-environment deployment infrastructure developed deployment scripts using Foundry\u2019s Script "
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 42,
+      "para_index": 448,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 43,
+      "para_index": 449,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "The YieldCalculations library implementation provides pure functions for yield calculations with hig"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 44,
+      "para_index": 450,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "The YieldCalculations library implementation provides pure functions for yield calculations with hig",
+        "The production deployment architecture implements enterprise-grade infrastructure patterns ensuring "
+      ]
+    },
+    {
+      "type": "image",
+      "number": 45,
+      "para_index": 451,
+      "section": "5. Implementation",
+      "subsection": "5.2 Foundation Phase (Iterations 1-4)",
+      "context_before": [],
+      "context_after": [
+        "The YieldCalculations library implementation provides pure functions for yield calculations with hig",
+        "The production deployment architecture implements enterprise-grade infrastructure patterns ensuring ",
+        "Multi-stage build optimisation ensures all Dockerfiles produce minimal production image sizes throug"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 46,
+      "para_index": 500,
+      "section": "5. Implementation",
+      "subsection": "5.4 Application Development Phase (Iterations 7-9)",
+      "context_before": [
+        "Platform-specific context adaptations maintain API compatibility whilst using platform-appropriate s",
+        "Mobile screens implementation includes Dashboard.native.jsx rendering React Native Paper components ",
+        "The Detox end-to-end test suite mirrors Cypress workflows for mobile validation. Test files include "
+      ],
+      "context_after": [
+        "5.5 Platform Enhancement Phase (Iterations 10-12)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 47,
+      "para_index": 501,
+      "section": "5. Implementation",
+      "subsection": "5.4 Application Development Phase (Iterations 7-9)",
+      "context_before": [
+        "Mobile screens implementation includes Dashboard.native.jsx rendering React Native Paper components ",
+        "The Detox end-to-end test suite mirrors Cypress workflows for mobile validation. Test files include "
+      ],
+      "context_after": [
+        "5.5 Platform Enhancement Phase (Iterations 10-12)",
+        "5.5.1 Governance and Compliance Implementation (Iterations 10-11)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 48,
+      "para_index": 502,
+      "section": "5. Implementation",
+      "subsection": "5.4 Application Development Phase (Iterations 7-9)",
+      "context_before": [
+        "The Detox end-to-end test suite mirrors Cypress workflows for mobile validation. Test files include "
+      ],
+      "context_after": [
+        "5.5 Platform Enhancement Phase (Iterations 10-12)",
+        "5.5.1 Governance and Compliance Implementation (Iterations 10-11)",
+        "Iterations 10 and 11 implemented the governance and compliance infrastructure essential for Research"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 49,
+      "para_index": 570,
+      "section": "5. Implementation",
+      "subsection": "5.6 Advanced Features Phase (Iterations 13-15)",
+      "context_before": [
+        "The deployment methodology followed a systematic approach beginning with contract preparation throug",
+        "The deployment execution completed on December 2, 2025, with total gas consumption of 32,647,862 acr",
+        "Variance analysis comparing Amoy testnet performance against Anvil baseline demonstrated consistent "
+      ],
+      "context_after": [
+        "Token standard efficiency validation confirmed ERC-1155\u2019s 89.4% gas savings versus ERC-721+ERC-20 fo"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 50,
+      "para_index": 571,
+      "section": "5. Implementation",
+      "subsection": "5.6 Advanced Features Phase (Iterations 13-15)",
+      "context_before": [
+        "The deployment execution completed on December 2, 2025, with total gas consumption of 32,647,862 acr",
+        "Variance analysis comparing Amoy testnet performance against Anvil baseline demonstrated consistent "
+      ],
+      "context_after": [
+        "Token standard efficiency validation confirmed ERC-1155\u2019s 89.4% gas savings versus ERC-721+ERC-20 fo",
+        "5.7 Deployment and Validation Phase (Iterations 16-18)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 51,
+      "para_index": 572,
+      "section": "5. Implementation",
+      "subsection": "5.6 Advanced Features Phase (Iterations 13-15)",
+      "context_before": [
+        "Variance analysis comparing Amoy testnet performance against Anvil baseline demonstrated consistent "
+      ],
+      "context_after": [
+        "Token standard efficiency validation confirmed ERC-1155\u2019s 89.4% gas savings versus ERC-721+ERC-20 fo",
+        "5.7 Deployment and Validation Phase (Iterations 16-18)",
+        "5.7.1 Performance Optimisation and Benchmarking (Iteration 16)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 52,
+      "para_index": 580,
+      "section": "5. Implementation",
+      "subsection": "5.7 Deployment and Validation Phase (Iterations 16-18)",
+      "context_before": [
+        "A critical architectural discovery during testing revealed that the monolithic multi-contract design",
+        "Diamond architecture stress testing achieved 100% pass rate across all scenarios. Load testing valid",
+        "Token standard comparison benchmarking validated ERC-1155\u2019s superiority for multi-investor scenarios"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 53,
+      "para_index": 581,
+      "section": "5. Implementation",
+      "subsection": "5.7 Deployment and Validation Phase (Iterations 16-18)",
+      "context_before": [
+        "Diamond architecture stress testing achieved 100% pass rate across all scenarios. Load testing valid",
+        "Token standard comparison benchmarking validated ERC-1155\u2019s superiority for multi-investor scenarios"
+      ],
+      "context_after": [
+        "5.7.2 Polygon Amoy Testnet Deployment (Iterations 15-16)"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 54,
+      "para_index": 582,
+      "section": "5. Implementation",
+      "subsection": "5.7 Deployment and Validation Phase (Iterations 16-18)",
+      "context_before": [
+        "Token standard comparison benchmarking validated ERC-1155\u2019s superiority for multi-investor scenarios"
+      ],
+      "context_after": [
+        "5.7.2 Polygon Amoy Testnet Deployment (Iterations 15-16)",
+        "The platform deployment to Polygon Amoy testnet successfully deployed 23 Diamond architecture contra"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 55,
+      "para_index": 583,
+      "section": "5. Implementation",
+      "subsection": "5.7 Deployment and Validation Phase (Iterations 16-18)",
+      "context_before": [],
+      "context_after": [
+        "5.7.2 Polygon Amoy Testnet Deployment (Iterations 15-16)",
+        "The platform deployment to Polygon Amoy testnet successfully deployed 23 Diamond architecture contra",
+        "The deployment sequence followed eight phases. Phase 1 deployed supporting contracts including Prope"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 59,
+      "para_index": 712,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 60,
+      "para_index": 713,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 61,
+      "para_index": 714,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 62,
+      "para_index": 715,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 63,
+      "para_index": 716,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 64,
+      "para_index": 717,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 65,
+      "para_index": 718,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 66,
+      "para_index": 719,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 67,
+      "para_index": 720,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": [
+        "6.5 Research Question Validation Through Testing"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 68,
+      "para_index": 721,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": [
+        "6.5 Research Question Validation Through Testing",
+        "The comprehensive testing programme provides empirical evidence addressing multiple research questio"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 69,
+      "para_index": 722,
+      "section": "6. Testing",
+      "subsection": "6.4 Security Audit Results",
+      "context_before": [],
+      "context_after": [
+        "6.5 Research Question Validation Through Testing",
+        "The comprehensive testing programme provides empirical evidence addressing multiple research questio",
+        "Research Question 1 regarding token standard suitability for fractional RWA ownership receives valid"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 70,
+      "para_index": 1058,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [
+        "Appendix F: Reference Mapping Document",
+        "A comprehensive reference mapping document is available at: DissertationProgressFinal-Reference-Map.",
+        "This document contains: - Section-by-section citation mapping - Full citation details where availabl"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 71,
+      "para_index": 1059,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [
+        "A comprehensive reference mapping document is available at: DissertationProgressFinal-Reference-Map.",
+        "This document contains: - Section-by-section citation mapping - Full citation details where availabl"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 72,
+      "para_index": 1060,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [
+        "This document contains: - Section-by-section citation mapping - Full citation details where availabl"
+      ],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 73,
+      "para_index": 1061,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 74,
+      "para_index": 1062,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 75,
+      "para_index": 1063,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 76,
+      "para_index": 1064,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 77,
+      "para_index": 1065,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 78,
+      "para_index": 1066,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 79,
+      "para_index": 1067,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 80,
+      "para_index": 1068,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 81,
+      "para_index": 1069,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 82,
+      "para_index": 1070,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 83,
+      "para_index": 1071,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 84,
+      "para_index": 1072,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 85,
+      "para_index": 1073,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": []
+    },
+    {
+      "type": "image",
+      "number": 86,
+      "para_index": 1074,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": [
+        "Appendix D: Additional UI Wireframes"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 87,
+      "para_index": 1075,
+      "section": "9. References and Appendices",
+      "subsection": "9.2 Appendices",
+      "context_before": [],
+      "context_after": [
+        "Appendix D: Additional UI Wireframes",
+        "D.1 Web Application Wireframes"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 88,
+      "para_index": 1080,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Appendix D: Additional UI Wireframes",
+        "D.1 Web Application Wireframes",
+        "Figure D.1: Analytics Dashboard"
+      ],
+      "context_after": [
+        "Figure D.2: Governance Dashboard",
+        "Figure D.3: Governance Proposal Detail"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 89,
+      "para_index": 1082,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.1: Analytics Dashboard",
+        "Figure D.2: Governance Dashboard"
+      ],
+      "context_after": [
+        "Figure D.3: Governance Proposal Detail",
+        "Figure D.4: KYC Verification"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 90,
+      "para_index": 1084,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.2: Governance Dashboard",
+        "Figure D.3: Governance Proposal Detail"
+      ],
+      "context_after": [
+        "Figure D.4: KYC Verification",
+        "Figure D.5: KYC Admin Dashboard"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 91,
+      "para_index": 1086,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.3: Governance Proposal Detail",
+        "Figure D.4: KYC Verification"
+      ],
+      "context_after": [
+        "Figure D.5: KYC Admin Dashboard",
+        "Figure D.6: Marketplace"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 92,
+      "para_index": 1088,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.4: KYC Verification",
+        "Figure D.5: KYC Admin Dashboard"
+      ],
+      "context_after": [
+        "Figure D.6: Marketplace",
+        "Figure D.7: Portfolio Dashboard"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 93,
+      "para_index": 1090,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.5: KYC Admin Dashboard",
+        "Figure D.6: Marketplace"
+      ],
+      "context_after": [
+        "Figure D.7: Portfolio Dashboard",
+        "Figure D.8: Properties List"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 94,
+      "para_index": 1092,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.6: Marketplace",
+        "Figure D.7: Portfolio Dashboard"
+      ],
+      "context_after": [
+        "Figure D.8: Properties List",
+        "Figure D.9: Yield Agreement Detail"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 95,
+      "para_index": 1094,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.7: Portfolio Dashboard",
+        "Figure D.8: Properties List"
+      ],
+      "context_after": [
+        "Figure D.9: Yield Agreement Detail",
+        "Figure D.10: Yield Agreements List"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 96,
+      "para_index": 1096,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.8: Properties List",
+        "Figure D.9: Yield Agreement Detail"
+      ],
+      "context_after": [
+        "Figure D.10: Yield Agreements List",
+        "D.2 Mobile Application Wireframes"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 97,
+      "para_index": 1098,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.1 Web Application Wireframes",
+      "context_before": [
+        "Figure D.9: Yield Agreement Detail",
+        "Figure D.10: Yield Agreements List"
+      ],
+      "context_after": [
+        "D.2 Mobile Application Wireframes",
+        "Figure D.11: Mobile Analytics"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 98,
+      "para_index": 1101,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "D.2 Mobile Application Wireframes",
+        "Figure D.11: Mobile Analytics"
+      ],
+      "context_after": [
+        "Figure D.12: Mobile Governance",
+        "Figure D.13: Mobile KYC"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 99,
+      "para_index": 1103,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.11: Mobile Analytics",
+        "Figure D.12: Mobile Governance"
+      ],
+      "context_after": [
+        "Figure D.13: Mobile KYC",
+        "Figure D.14: Mobile KYC Admin"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 100,
+      "para_index": 1105,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.12: Mobile Governance",
+        "Figure D.13: Mobile KYC"
+      ],
+      "context_after": [
+        "Figure D.14: Mobile KYC Admin",
+        "Figure D.15: Mobile Marketplace"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 101,
+      "para_index": 1107,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.13: Mobile KYC",
+        "Figure D.14: Mobile KYC Admin"
+      ],
+      "context_after": [
+        "Figure D.15: Mobile Marketplace",
+        "Figure D.16: Mobile Portfolio"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 102,
+      "para_index": 1109,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.14: Mobile KYC Admin",
+        "Figure D.15: Mobile Marketplace"
+      ],
+      "context_after": [
+        "Figure D.16: Mobile Portfolio",
+        "Figure D.17: Mobile Properties List"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 103,
+      "para_index": 1111,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.15: Mobile Marketplace",
+        "Figure D.16: Mobile Portfolio"
+      ],
+      "context_after": [
+        "Figure D.17: Mobile Properties List",
+        "Figure D.18: Mobile Property Registration"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 104,
+      "para_index": 1113,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.16: Mobile Portfolio",
+        "Figure D.17: Mobile Properties List"
+      ],
+      "context_after": [
+        "Figure D.18: Mobile Property Registration",
+        "Figure D.19: Mobile Yield Agreements List"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 105,
+      "para_index": 1115,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.17: Mobile Properties List",
+        "Figure D.18: Mobile Property Registration"
+      ],
+      "context_after": [
+        "Figure D.19: Mobile Yield Agreements List"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 106,
+      "para_index": 1117,
+      "section": "Appendix D: Additional UI Wireframes",
+      "subsection": "D.2 Mobile Application Wireframes",
+      "context_before": [
+        "Figure D.18: Mobile Property Registration",
+        "Figure D.19: Mobile Yield Agreements List"
+      ],
+      "context_after": [
+        "Appendix E: Additional Research Charts",
+        "E.1 Survey Analysis Charts"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 107,
+      "para_index": 1122,
+      "section": "Appendix E: Additional Research Charts",
+      "subsection": "E.1 Survey Analysis Charts",
+      "context_before": [
+        "Appendix E: Additional Research Charts",
+        "E.1 Survey Analysis Charts",
+        "Figure E.1: Respondent Cluster Analysis"
+      ],
+      "context_after": [
+        "Figure E.2: Platform Feature Importance Rankings",
+        "Figure E.3: Investment Motivations and Concerns"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 108,
+      "para_index": 1124,
+      "section": "Appendix E: Additional Research Charts",
+      "subsection": "E.1 Survey Analysis Charts",
+      "context_before": [
+        "Figure E.1: Respondent Cluster Analysis",
+        "Figure E.2: Platform Feature Importance Rankings"
+      ],
+      "context_after": [
+        "Figure E.3: Investment Motivations and Concerns",
+        "E.2 Interview Analysis Charts"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 109,
+      "para_index": 1126,
+      "section": "Appendix E: Additional Research Charts",
+      "subsection": "E.1 Survey Analysis Charts",
+      "context_before": [
+        "Figure E.2: Platform Feature Importance Rankings",
+        "Figure E.3: Investment Motivations and Concerns"
+      ],
+      "context_after": [
+        "E.2 Interview Analysis Charts",
+        "Figure E.4: Landlord vs FinTech Expert Comparison"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 110,
+      "para_index": 1129,
+      "section": "Appendix E: Additional Research Charts",
+      "subsection": "E.2 Interview Analysis Charts",
+      "context_before": [
+        "E.2 Interview Analysis Charts",
+        "Figure E.4: Landlord vs FinTech Expert Comparison"
+      ],
+      "context_after": [
+        "Figure E.5: Likert Scale Response Distributions"
+      ]
+    },
+    {
+      "type": "image",
+      "number": 111,
+      "para_index": 1131,
+      "section": "Appendix E: Additional Research Charts",
+      "subsection": "E.2 Interview Analysis Charts",
+      "context_before": [
+        "Figure E.4: Landlord vs FinTech Expert Comparison",
+        "Figure E.5: Likert Scale Response Distributions"
+      ],
+      "context_after": []
+    }
+  ],
+  "table_issues": [
+    {
+      "type": "table",
+      "number": 1,
+      "first_cell": "Contract",
+      "rows": 6,
+      "cols": 3
+    },
+    {
+      "type": "table",
+      "number": 2,
+      "first_cell": "Test Category",
+      "rows": 4,
+      "cols": 4
+    },
+    {
+      "type": "table",
+      "number": 3,
+      "first_cell": "Operation",
+      "rows": 4,
+      "cols": 4
+    },
+    {
+      "type": "table",
+      "number": 4,
+      "first_cell": "Demographic",
+      "rows": 5,
+      "cols": 2
+    },
+    {
+      "type": "table",
+      "number": 5,
+      "first_cell": "Participant Category",
+      "rows": 4,
+      "cols": 3
+    }
+  ],
+  "total_images": 111,
+  "total_tables": 5
+}

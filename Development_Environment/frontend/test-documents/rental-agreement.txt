@@ -1,0 +1,76 @@
+RENTAL AGREEMENT - TEST DOCUMENT
+
+LANDLORD: John Smith
+PROPERTY ADDRESS: 123 Main Street, London, UK
+
+TENANT DETAILS
+Tenant Name: Jane Doe
+Contact: jane.doe@example.com
+Move-in Date: 2024-01-01
+
+RENTAL TERMS
+Monthly Rent: £2,500
+Payment Due: 1st of each month
+Security Deposit: £5,000
+Lease Term: 12 months
+Lease Start Date: 2024-01-01
+Lease End Date: 2024-12-31
+
+PROPERTY DESCRIPTION
+- Property Type: Residential House
+- Bedrooms: 3
+- Bathrooms: 2
+- Square Footage: 1500 sq ft
+- Furnished: Yes
+- Parking: 1 space included
+
+TENANT RESPONSIBILITIES
+1. Pay rent on time each month
+2. Maintain property in good condition
+3. Report any maintenance issues promptly
+4. Comply with all building regulations
+5. No subletting without written permission
+
+LANDLORD RESPONSIBILITIES
+1. Maintain property structure and exterior
+2. Ensure all utilities are functional
+3. Conduct repairs within reasonable timeframe
+4. Provide 24 hours notice before property visits
+5. Return security deposit within 30 days of lease end
+
+UTILITIES INCLUDED
+- Water
+- Council Tax (if applicable)
+
+UTILITIES NOT INCLUDED (Tenant Responsible)
+- Electricity
+- Gas
+- Internet/TV
+
+EARLY TERMINATION
+Either party may terminate this agreement with 2 months written notice.
+Early termination fee: 1 month's rent
+
+MAINTENANCE CONTACT
+Emergency: 0800-XXX-XXXX
+Non-Emergency: maintenance@example.com
+
+This is a test document for RWA Tokenization Platform development purposes only.
+IPFS URI: ipfs://QmTest1234567890abcdefghijklmnopqrstuvwxyz
+
+---
+LEGAL DISCLAIMER: This is a mock rental agreement for testing purposes only.
+It does not represent a real rental agreement or legally binding contract.
+
+SIGNATURES
+Landlord: _________________________ Date: __________
+Tenant: ___________________________ Date: __________
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,188 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+description: 'RWA Tokenization Platform Analytics - Autonomous ROI Reporting and Pooling Analytics'
+repository: https://github.com/your-repo/rwa-tokenization-platform
+dataSources:
+  # PropertyNFT - Static contract for property tokenization
+  - kind: ethereum/contract
+    name: PropertyNFT
+    network: mainnet # Use 'mainnet' for local Anvil, 'polygon-amoy' for testnet deployment
+    source:
+      address: '0xfd471836031dc5108809d173a067e8486b9047a3'
+      abi: PropertyNFT
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Property
+        - YieldAgreement
+      abis:
+        - name: PropertyNFT
+          file: ../contracts/out/PropertyNFT.sol/PropertyNFT.json
+      eventHandlers:
+        - event: PropertyMinted(indexed uint256,bytes32,string)
+          handler: handlePropertyMinted
+        - event: PropertyVerified(indexed uint256,address)
+          handler: handlePropertyVerified
+        - event: PropertyLinkedToYieldAgreement(indexed uint256,uint256)
+          handler: handlePropertyLinkedToYieldAgreement
+      file: ./src/mappings/propertyNFT.ts
+  
+  # YieldBase - Static contract for yield agreement management
+  - kind: ethereum/contract
+    name: YieldBase
+    network: mainnet
+    source:
+      address: '0x7bc06c482dead17c0e297afbc32f6e63d3846650'
+      abi: YieldBase
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - YieldAgreement
+        - Repayment
+        - AnalyticsSummary
+        - Property
+      abis:
+        - name: YieldBase
+          file: ../contracts/out/YieldBase.sol/YieldBase.json
+        - name: YieldSharesToken
+          file: ../contracts/out/YieldSharesToken.sol/YieldSharesToken.json
+      eventHandlers:
+        - event: YieldAgreementCreated(indexed uint256,indexed uint256,uint256,uint16,uint16,uint16,uint16,bool,bool)
+          handler: handleYieldAgreementCreated
+        - event: RepaymentMade(indexed uint256,uint256,uint256)
+          handler: handleRepaymentMade
+        - event: PartialRepaymentMade(indexed uint256,uint256,uint256,uint256)
+          handler: handlePartialRepaymentMade
+        - event: EarlyRepaymentMade(indexed uint256,uint256,uint256)
+          handler: handleEarlyRepaymentMade
+        - event: YieldAgreementCompleted(indexed uint256,uint256)
+          handler: handleYieldAgreementCompleted
+        - event: PaymentMissed(indexed uint256,uint256,uint256)
+          handler: handlePaymentMissed
+        - event: AgreementDefaulted(indexed uint256,uint256,uint256)
+          handler: handleAgreementDefaulted
+        - event: ROIAdjusted(indexed uint256,uint16,uint16)
+          handler: handleROIAdjusted
+        - event: ReserveAllocated(indexed uint256,uint256)
+          handler: handleReserveAllocated
+        - event: ReserveWithdrawn(indexed uint256,uint256)
+          handler: handleReserveWithdrawn
+      file: ./src/mappings/yieldBase.ts
+  
+  # GovernanceController - Static contract for on-chain governance
+  - kind: ethereum/contract
+    name: GovernanceController
+    network: mainnet
+    source:
+      address: '0x1429859428c0abc9c2c47c8ee9fbaf82cfa0f20f'
+      abi: GovernanceController
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - GovernanceProposal
+        - Vote
+        - YieldAgreement
+        - AnalyticsSummary
+      abis:
+        - name: GovernanceController
+          file: ../contracts/out/GovernanceController.sol/GovernanceController.json
+      eventHandlers:
+        - event: ProposalCreated(indexed uint256,indexed address,uint256,uint8,uint256,string)
+          handler: handleProposalCreated
+        - event: VoteCast(indexed uint256,indexed address,uint8,uint256)
+          handler: handleVoteCast
+        - event: ProposalExecuted(indexed uint256,bool)
+          handler: handleProposalExecuted
+        - event: ProposalDefeated(indexed uint256)
+          handler: handleProposalDefeated
+        - event: ReserveDistributedToHolders(indexed uint256,uint256,uint256,uint256)
+          handler: handleReserveDistributedToHolders
+      file: ./src/mappings/governance.ts
+  
+  # CombinedPropertyYieldToken - Static contract for ERC-1155 variant
+  # This contract is optional and only deployed when using ERC-1155 token standard
+  - kind: ethereum/contract
+    name: CombinedPropertyYieldToken
+    network: mainnet
+    source:
+      address: '0x2e2ed0cfd3ad2f1d34481277b3204d807ca2f8c2'
+      abi: CombinedPropertyYieldToken
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Property
+        - YieldAgreement
+        - Repayment
+        - Shareholder
+      abis:
+        - name: CombinedPropertyYieldToken
+          file: ../contracts/out/CombinedPropertyYieldToken.sol/CombinedPropertyYieldToken.json
+      eventHandlers:
+        - event: PropertyTokenMinted(indexed uint256,bytes32,string)
+          handler: handlePropertyTokenMinted
+        - event: YieldTokenMinted(indexed uint256,indexed uint256,uint256)
+          handler: handleYieldTokenMinted
+        - event: RepaymentDistributed(indexed uint256,uint256)
+          handler: handleRepaymentDistributed
+        - event: PropertyVerified(indexed uint256)
+          handler: handlePropertyVerified
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+      file: ./src/mappings/combinedToken.ts
+
+# YieldSharesToken Template - Dynamic data source for per-agreement token contracts
+# A new YieldSharesToken contract is deployed for each agreement in ERC-721+ERC-20 mode
+# Template enables indexing of dynamically created token contracts
+templates:
+  - kind: ethereum/contract
+    name: YieldSharesToken
+    network: mainnet
+    source:
+      abi: YieldSharesToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Shareholder
+        - Repayment
+        - YieldAgreement
+        - TransferRestrictionEvent
+        - AnalyticsSummary
+      abis:
+        - name: YieldSharesToken
+          file: ../contracts/out/YieldSharesToken.sol/YieldSharesToken.json
+      eventHandlers:
+        - event: SharesMinted(indexed uint256,indexed address,uint256,uint256)
+          handler: handleSharesMinted
+        - event: SharesMintedBatch(indexed uint256,address[],uint256[],uint256)
+          handler: handleSharesMintedBatch
+        - event: RepaymentDistributed(indexed uint256,uint256,uint256)
+          handler: handleRepaymentDistributed
+        - event: PartialRepaymentDistributed(indexed uint256,uint256,uint256,uint256)
+          handler: handlePartialRepaymentDistributed
+        - event: SharesBurned(indexed uint256,indexed address,uint256)
+          handler: handleSharesBurned
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: TransferBlocked(indexed address,indexed address,uint256,string)
+          handler: handleTransferBlocked
+        - event: TransferRestrictionsUpdated(uint256,uint256,uint256)
+          handler: handleTransferRestrictionsUpdated
+      file: ./src/mappings/yieldSharesToken.ts
+

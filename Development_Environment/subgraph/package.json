@@ -1,0 +1,21 @@
+{
+  "name": "rwa-tokenization-subgraph",
+  "version": "0.1.0",
+  "description": "The Graph subgraph for RWA tokenization platform analytics",
+  "private": true,
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy:local": "graph create --node http://localhost:8220/ rwa-tokenization && graph deploy --node http://localhost:8220/ --ipfs http://localhost:5001 --version-label v0.1.0 rwa-tokenization",
+    "deploy:studio": "graph deploy --studio rwa-tokenization",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-ts": "^0.31.0"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.98.1",
+    "assemblyscript": "^0.27.0",
+    "matchstick-as": "^0.6.0"
+  }
+}

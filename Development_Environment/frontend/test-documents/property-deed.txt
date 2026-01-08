@@ -1,0 +1,39 @@
+PROPERTY DEED - TEST DOCUMENT
+
+Property Address: 123 Main Street, London, UK
+Property Type: Residential House
+Bedrooms: 3
+Bathrooms: 2
+Square Footage: 1500 sq ft
+
+DEED DETAILS
+Deed Number: TEST-DEED-001
+Registration Date: 2024-01-15
+Owner: John Smith
+Title Type: Freehold
+
+PROPERTY DESCRIPTION
+A well-maintained three-bedroom house located in central London. 
+The property features modern amenities and is in excellent condition.
+
+BOUNDARIES
+North: Public road (Main Street)
+South: Garden boundary
+East: Adjacent property
+West: Adjacent property
+
+This is a test document for RWA Tokenization Platform development purposes only.
+Hash: 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+
+---
+LEGAL DISCLAIMER: This is a mock document for testing purposes only.
+It does not represent a real property deed or legal document.
+
+
+
+
+
+
+
+
+

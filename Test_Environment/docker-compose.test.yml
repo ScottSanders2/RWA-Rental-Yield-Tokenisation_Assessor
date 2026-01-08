@@ -1,0 +1,411 @@
+version: '3.8'
+
+networks:
+  rwa-test-network:
+    driver: bridge
+
+services:
+  rwa-test-postgres:
+    image: postgres:15-alpine
+    container_name: rwa-test-postgres
+    env_file:
+      - .env.test
+    volumes:
+      - rwa-test-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 2g
+    cpus: 2.0
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
+          cpus: '1.0'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-redis:
+    image: redis:7-alpine
+    container_name: rwa-test-redis
+    command: redis-server
+    env_file:
+      - .env.test
+    volumes:
+      - rwa-test-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 1g
+    cpus: 1.0
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-foundry:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.foundry
+    container_name: rwa-test-foundry
+    command: ["/workspace/contracts/start-anvil.sh"]
+    ports:
+      - "8546:8545"
+    volumes:
+      - ./contracts:/workspace/contracts
+    healthcheck:
+      test: ["CMD-SHELL", "curl -X POST -H 'Content-Type: application/json' --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_blockNumber\",\"params\":[],\"id\":1}' http://localhost:8545 | grep -q 'result'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 2g
+    cpus: 2.0
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
+          cpus: '1.0'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.backend
+    container_name: rwa-test-backend
+    environment:
+      POSTGRES_USER: rwa_test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: rwa_test_db
+      REDIS_PASSWORD: test_redis_pass
+      WEB3_EVENT_MONITORING: "true"
+      WEB3_TESTING_MODE: "true"
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./backend:/app
+      - ./contracts:/contracts:ro
+    depends_on:
+      rwa-test-postgres:
+        condition: service_healthy
+      rwa-test-redis:
+        condition: service_healthy
+      rwa-test-foundry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 3g
+    cpus: 2.5
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '2.5'
+        reservations:
+          memory: 1536M
+          cpus: '1.25'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.frontend
+    container_name: rwa-test-frontend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8001
+    # env_file:
+    #   - .env.test
+    ports:
+      - "5174:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.js:/app/vite.config.js
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/package-lock.json:/app/package-lock.json
+      - ../Shared_Environment/frontend:/app/src/shared:ro
+      - /app/node_modules
+    depends_on:
+      rwa-test-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5173"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 2g
+    cpus: 1.0
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-mobile:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.mobile
+    container_name: rwa-test-mobile
+    env_file:
+      - .env.test
+    environment:
+      - API_BASE_URL=http://rwa-test-backend:8000
+      - WALLETCONNECT_PROJECT_ID=c0eadd099105a31f3e91753a3fcf4997
+      - ENVIRONMENT=testing
+      - EXPO_NO_TELEMETRY=1
+      - CI=1
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./frontend:/app
+      - ../Shared_Environment/frontend:/app/src/shared:ro
+    depends_on:
+      rwa-test-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 2g
+    cpus: 1.0
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+    labels:
+      com.rwa.service: mobile
+      com.rwa.environment: testing
+
+  rwa-test-cypress:
+    image: cypress/included:13.6.0
+    container_name: rwa-test-cypress
+    working_dir: /e2e
+    volumes:
+      - ./cypress:/e2e
+    depends_on:
+      rwa-test-frontend:
+        condition: service_healthy
+      rwa-test-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "echo", "cypress-service-ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    mem_limit: 1g
+    cpus: 1.0
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    restart: unless-stopped
+    command: cypress run
+    networks:
+      - rwa-test-network
+
+  rwa-test-detox:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.detox
+    container_name: rwa-test-detox
+    command: ["sh", "-c", "emulator -avd Pixel_4_API_30 -no-window -no-audio -gpu swiftshader_indirect & sleep 30 && detox test --configuration android.emu.debug"]
+    volumes:
+      - ./frontend/e2e:/detox/e2e
+      - ./frontend/.detoxrc.js:/detox/.detoxrc.js
+      - ./frontend/android:/detox/android
+    environment:
+      - ANDROID_HOME=/opt/android-sdk
+      - API_BASE_URL=http://rwa-test-backend:8000
+    depends_on:
+      rwa-test-backend:
+        condition: service_healthy
+      rwa-test-frontend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "$ANDROID_HOME/platform-tools/adb devices | grep emulator || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 120s
+    mem_limit: 2g
+    cpus: 1.5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.5'
+        reservations:
+          memory: 1G
+          cpus: '0.75'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+
+  rwa-test-prometheus:
+    image: prom/prometheus:latest
+    container_name: rwa-test-prometheus
+    mem_limit: 1G
+    cpus: 1.0
+    command: --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --web.console.libraries=/usr/share/prometheus/console_libraries --web.console.templates=/usr/share/prometheus/consoles --web.enable-lifecycle
+    ports:
+      - "9091:9090"
+    volumes:
+      - ../Shared_Environment/monitoring/prometheus/prometheus.test.yml:/etc/prometheus/prometheus.yml:ro
+      - rwa-test-prometheus-data:/prometheus
+    env_file:
+      - .env.test
+    environment:
+      ENVIRONMENT: testing
+    depends_on:
+      rwa-test-node-exporter:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "9090"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+    labels:
+      com.rwa.service: prometheus
+      com.rwa.environment: testing
+
+  rwa-test-node-exporter:
+    image: prom/node-exporter:latest
+    container_name: rwa-test-node-exporter
+    mem_limit: 256M
+    cpus: 0.25
+    command:
+      - --path.rootfs=/host
+      - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($|/)
+    ports:
+      - "9101:9100"
+    volumes:
+      - /:/host:ro
+    pid: host
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 9100 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 256MB
+          cpus: '0.25'
+        reservations:
+          memory: 128MB
+          cpus: '0.125'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+    labels:
+      com.rwa.service: node-exporter
+      com.rwa.environment: testing
+
+  rwa-test-grafana:
+    image: grafana/grafana:latest
+    container_name: rwa-test-grafana
+    mem_limit: 1G
+    cpus: 0.5
+    ports:
+      - "3001:3000"
+    volumes:
+      - ../Shared_Environment/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - rwa-test-grafana-data:/var/lib/grafana
+    env_file: .env.test
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_SERVER_ROOT_URL: http://localhost:3001
+      PROMETHEUS_URL: http://rwa-test-prometheus:9090
+    depends_on:
+      rwa-test-prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 256MB
+          cpus: '0.25'
+    restart: unless-stopped
+    networks:
+      - rwa-test-network
+    labels:
+      com.rwa.service: grafana
+      com.rwa.environment: testing
+
+volumes:
+  rwa-test-postgres-data:
+  rwa-test-redis-data:
+  rwa-test-prometheus-data:
+  rwa-test-grafana-data:

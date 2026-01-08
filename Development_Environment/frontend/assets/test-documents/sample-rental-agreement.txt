@@ -1,0 +1,31 @@
+RENTAL AGREEMENT - TEST DOCUMENT
+==================================
+
+This is a sample rental agreement document for testing purposes only.
+
+Property Address: 123 Main Street, London, UK
+Landlord: Test Property Owner
+Tenant: Test Tenant
+Monthly Rent: £1,200
+Lease Term: 12 months
+Start Date: 2025-01-01
+
+Agreement Terms:
+- Rent due on 1st of each month
+- Security deposit: £2,400
+- Utilities included: None
+- Pet policy: No pets allowed
+- Notice period: 2 months
+
+This document URI will be generated automatically when uploaded to the RWA Tokenisation Platform.
+
+For testing file upload functionality only - not a real legal document.
+
+
+
+
+
+
+
+
+

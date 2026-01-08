@@ -1,0 +1,45 @@
+# FastAPI Backend Dockerfile for Production Environment
+# Multi-stage build with security hardening and performance optimization
+
+FROM python:3.11-slim AS base
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN adduser --disabled-password --gecos '' appuser
+
+# Set working directory
+WORKDIR /app
+
+FROM base AS dependencies
+
+    # Copy requirements and install Python dependencies
+    COPY Development_Environment/backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM dependencies AS production
+
+    # Copy application code from Development environment
+    COPY Development_Environment/backend/ .
+
+    # Override with Production-specific configuration
+    COPY Production_Environment/backend/config/settings.py config/settings.py
+
+# Change ownership to non-root user
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Run with multiple workers for performance and warning-level logging
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--log-level", "warning"]

@@ -1,0 +1,11 @@
+/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/contracts/.venv/lib/python3.13/site-packages/eth/__init__.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+mythril.interfaces.cli [ERROR]: Solc experienced a fatal error.
+
+CompilerError: Stack too deep. Try compiling with `--via-ir` (cli) or the equivalent `viaIR: true` (standard JSON) while enabling the optimizer. Otherwise, try removing local variables.
+     --> flattened/cleaned/GovernanceController.flat.sol:10291:60:
+      |
+10291 |                         emit YieldTokenTransferBlocked(id, from, to, amount, reason);
+      |                                                            ^^^^
+
+

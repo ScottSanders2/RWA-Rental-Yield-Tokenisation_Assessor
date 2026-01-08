@@ -1,0 +1,261 @@
+Figure 4.1: Multi-Environment Docker Architecture (Logical View)
+  Placeholder: Placeholder for Mermaid diagram: docker-architecture-logical.mmd - Shows Development, Test, and Production environment pipeline flow with container orchestration
+
+Figure 4.2: Multi-Environment Docker Architecture (Physical View)
+  Placeholder: Placeholder for Mermaid diagram: docker-architecture-physical.mmd - Shows container resource allocations and network topology
+
+Figure 4.3: Monitoring Architecture Diagram
+  Placeholder: Placeholder for Mermaid diagram: monitoring-architecture.mmd - Illustrates data flow from RWA platform containers through node-exporter to Prometheus for time-series storage, and finally to Grafana for visualization
+
+Figure 4.4: Mobile Application Architecture
+  Placeholder: Placeholder for Mermaid diagram: mobile-architecture.mmd - Shows React Native component hierarchy with WalletConnect integration and platform-specific code resolution
+
+Figure 4.5: Backend API Architecture
+  Placeholder: Placeholder for Mermaid diagram: backend-api-architecture.mmd - Layered architecture diagram illustrating the four-tier backend design: API layer (FastAPI routers), Service layer (PropertyService, YieldService, Web3Service), Repository layer (SQLAlchemy models), and Blockchain layer (Web3.py integration)
+
+Figure 4.6: Property Owner Workflow
+  Placeholder: Placeholder for Mermaid diagram: property-owner-workflow.mmd - Use-case diagram showing property owner interactions from registration through verification to yield agreement creation, including API endpoints and blockchain confirmations
+
+Figure 4.7: Yield Tokenisation Architecture
+  Placeholder: Placeholder for Mermaid diagram: yield-architecture.mmd - Core smart contract relationships showing PropertyNFT, YieldBase, YieldAgreement, and YieldSharesToken interactions
+
+Figure 4.8: Complete Yield Tokenization Workflow
+  Placeholder: Placeholder for Mermaid diagram: yield-tokenization-flow.mmd - End-to-end process from property registration through capital collection, token minting, repayment processing, and distribution to completion or default
+
+Figure 4.9: Repayment Processing Decision Tree
+  Placeholder: Placeholder for Mermaid diagram: repayment-processing-flow.mmd - Repayment processing logic with payment type classification (full, partial, overpayment, early repayment) and allocation between arrears and current obligations
+
+Figure 4.10: Pooling Mechanism Workflow
+  Placeholder: Placeholder for Mermaid diagram: pooling-mechanism-flow.mmd - Multi-investor capital pooling, proportional token minting, and distribution mechanics with ERC-1155 batch optimization path
+
+Figure 4.11: Default Handling Workflow
+  Placeholder: Placeholder for Mermaid diagram: default-handling-flow.mmd - Autonomous default detection with grace period evaluation, penalty application, and recovery mechanisms
+
+Figure 4.12: ERC-7201 Storage Layout
+  Placeholder: Placeholder for Mermaid diagram: storage-layout-diagram.mmd - Namespaced storage slots across Diamond facets showing DiamondYieldStorage struct and getStorage() accessor pattern
+
+Figure 4.13: Analytics Architecture (The Graph Protocol)
+  Placeholder: Placeholder for Mermaid diagram: analytics-architecture.mmd - Subgraph deployment, event indexing from Anvil, AssemblyScript mapping execution, and GraphQL query flow to Apollo Client
+
+Figure 4.14: Subgraph Entity Relationships
+  Placeholder: Placeholder for Mermaid diagram: subgraph-entity-relationships.mmd - Entity-relationship diagram showing Property, YieldAgreement, Shareholder, GovernanceProposal, Vote, AnalyticsSummary, and TransferRestrictionEvent entities
+
+Figure 4.15: Governance Architecture
+  Placeholder: Placeholder for Mermaid diagram: governance-architecture.mmd - GovernanceController contract with proposal types, voting periods, quorum requirements, and timelock execution
+
+Figure 4.16: Governance Proposal Flow
+  Placeholder: Placeholder for Mermaid diagram: governance-proposal-flow.mmd - Proposal creation, voting period, quorum achievement, majority verification, timelock expiration, and execution workflow
+
+Figure 4.17: Secondary Market Architecture
+  Placeholder: Placeholder for Mermaid diagram: secondary-market-architecture.mmd - Hybrid architecture with PostgreSQL off-chain order book and on-chain ERC-20/ERC-1155 settlement
+
+Figure 4.18: Transfer Restriction Flow
+  Placeholder: Placeholder for Mermaid diagram: transfer-restriction-flow.mmd - Lockup period validation, concentration limit check, holding period enforcement, whitelist/blacklist verification
+
+Figure 4.19: KYC Architecture
+  Placeholder: Placeholder for Mermaid diagram: kyc-architecture.mmd - KYCRegistry contract with whitelist/blacklist management, verification tiers, and administrative controls
+
+Figure 4.20: KYC Verification Workflow
+  Placeholder: Placeholder for Mermaid diagram: kyc-workflow.mmd - Document submission, admin review, on-chain status update, and enforcement at minting/transfer/governance points
+
+Figure 4.21: Entity-Relationship Diagram
+  Placeholder: Placeholder for Mermaid diagram: er-diagram.mmd - Database entity relationships for Property, YieldAgreement, Transaction, and User models
+
+Figure 4.22: ERC-1155 Architecture
+  Placeholder: Placeholder for Mermaid diagram: erc1155-architecture.mmd - CombinedPropertyYieldToken contract structure with token ID scheme
+
+Figure 4.23: ERC-20 Token Flow
+  Placeholder: Placeholder for Mermaid diagram: erc20-token-flow.mmd - YieldSharesToken minting, transfer, and distribution flow
+
+Figure 4.24: Property NFT Architecture
+  Placeholder: Placeholder for Mermaid diagram: property-nft-architecture.mmd - PropertyNFT contract with verification workflow and metadata storage
+
+Figure 4.25: Share Transfer Architecture
+  Placeholder: Placeholder for Mermaid diagram: share-transfer-architecture.mmd - Secondary market share transfer with restriction validation
+
+Figure 4.26: Use Case Diagram
+  Placeholder: Placeholder for Mermaid diagram: use-case-diagram.mmd - Actor-use case relationships for property owners, investors, and administrators
+
+Figure 4.27: Mobile Workflow
+  Placeholder: Placeholder for Mermaid diagram: mobile-workflow.mmd - React Native user journey from app launch through wallet connection to transaction completion
+
+Figure 4.28: Dashboard Wireframe
+  Placeholder: Placeholder for Mermaid diagram: wireframe-dashboard.mmd - Web dashboard layout with portfolio overview, recent activity, and navigation
+
+Figure 4.29: Property Registration Wireframe
+  Placeholder: Placeholder for Mermaid diagram: wireframe-property-registration.mmd - Property registration form layout with field groupings and validation indicators
+
+Figure 4.30: Yield Agreement Wireframe
+  Placeholder: Placeholder for Mermaid diagram: wireframe-yield-agreement.mmd - Yield agreement creation form with parameter sliders and financial projections
+
+Figure 4.31: Mobile Dashboard Wireframe
+  Placeholder: Placeholder for Mermaid diagram: wireframe-mobile-dashboard.mmd - Mobile-optimised dashboard with bottom navigation and card-based layout
+
+Figure 4.32: Mobile Yield Agreement Wireframe
+  Placeholder: Placeholder for Mermaid diagram: wireframe-mobile-yield-agreement.mmd - Mobile yield agreement form with touch-optimised controls
+
+Figure 5.1: Docker Desktop Container Status
+  Placeholder: Screenshot placeholder: Docker Desktop showing all three environments (Development, Test, Production) with resource allocation metrics
+
+Figure 5.2: Grafana Monitoring Dashboard
+  Placeholder: Screenshot placeholder: Grafana dashboard showing real-time CPU and memory usage across all Development environment containers
+
+Figure 5.3: Prometheus Targets
+  Placeholder: Screenshot placeholder: Prometheus targets page showing all services in 'UP' state with service names (rwa-dev-postgres, rwa-dev-redis, etc.)
+
+Figure 5.4: Node-Exporter Metrics
+  Placeholder: Screenshot placeholder: Node-exporter metrics endpoint showing sample metrics output
+
+Figure 5.5: Multi-Environment Orchestration
+  Placeholder: Screenshot placeholder: Terminal output demonstrating multi-environment orchestration via docker-compose commands
+
+Figure 5.6: Backup Directory Structure
+  Placeholder: Screenshot placeholder: Backup directory structure showing automatic rotation maintaining 5 most recent backups
+
+Figure 5.7: Foundry Project Structure
+  Placeholder: Screenshot placeholder: Foundry project structure showing src/, test/, script/ directories and foundry.toml configuration
+
+Figure 5.8: Forge Test Output
+  Placeholder: Screenshot placeholder: forge test output showing all tests passing with gas usage metrics
+
+Figure 5.9: Gas Report
+  Placeholder: Screenshot placeholder: forge test --gas-report output showing gas usage for key functions
+
+Figure 5.10: Anvil Container Logs
+  Placeholder: Screenshot placeholder: Docker container logs showing Anvil running and accepting connections on port 8545
+
+Figure 5.11: Deployment Script Output
+  Placeholder: Screenshot placeholder: Deployment script output showing implementation and proxy addresses
+
+Figure 5.12: ERC-7201 Storage Layout
+  Placeholder: Screenshot placeholder: Foundry inspect storage-layout output showing ERC-7201 namespace isolation
+
+Figure 5.13: Bytecode Size Verification
+  Placeholder: Screenshot placeholder: Contract bytecode size verification showing compliance with 24KB limit
+
+Figure 5.14: Diamond Deployment to Amoy
+  Placeholder: Screenshot placeholder: Remix IDE deployment interface showing Diamond architecture contract deployment to Polygon Amoy testnet
+
+Figure 5.15: PolygonScan Transaction Confirmation
+  Placeholder: Screenshot placeholder: PolygonScan transaction confirmation for DiamondYieldBase proxy deployment (address: 0xb921e03a44fb126289c9b788ab1d08731cddfafe)
+
+Figure 5.16: Diamond Architecture Test Results
+  Placeholder: Screenshot placeholder: Foundry test execution output demonstrating 93.1% pass rate (217/233 tests) for Diamond architecture
+
+Figure 5.17: Property Registration Form
+  Placeholder: Screenshot placeholder: Property registration form with USD-first display and ERC-721 token standard selection
+
+Figure 5.18: Yield Agreement Creation Interface
+  Placeholder: Screenshot placeholder: Yield agreement creation interface showing dual currency display (USD primary, ETH secondary)
+
+Figure 5.19: Analytics Dashboard
+  Placeholder: Screenshot placeholder: Analytics dashboard with token standard comparison charts and governance proposal status
+
+Figure 5.20: Simulation Test Results
+  Placeholder: Screenshot placeholder: Simulation test results showing DefaultScenarios.t.sol passing all 8 tests with variance metrics
+
+Figure 5.21: Gas Comparison Report
+  Placeholder: Screenshot placeholder: Gas comparison report showing ERC-1155 batch operations achieving 20-30% savings over ERC-721+ERC-20
+
+Figure 5.22: Variance Tracking Metrics
+  Placeholder: Screenshot placeholder: Variance tracking metrics showing partial payment allocation accuracy within acceptable tolerance
+
+Figure 5.23: Yield Tokenization Flowchart
+  Placeholder: Screenshot placeholder: Flowchart export showing yield-tokenization-flow.mmd rendered as dissertation figure
+
+Figure 6.1: Token Standard Gas Comparison (Bar Chart)
+  Placeholder: Chart placeholder: Bar chart comparing gas costs between ERC-721+ERC-20 and ERC-1155 for key operations
+
+Figure 6.2: Batch Operation Scaling Curve (Line Chart)
+  Placeholder: Chart placeholder: Line chart showing gas cost scaling with increasing recipient counts for ERC-1155 batch vs ERC-20 sequential operations
+
+Figure 6.3: Amoy vs Anvil Variance Heatmap
+  Placeholder: Chart placeholder: Heatmap visualizing variance percentages across different operation types and environments
+
+Figure 6.4: Volatile Simulation Recovery Percentages (Radar Chart)
+  Placeholder: Chart placeholder: Radar chart visualizing platform performance across 8 stress dimensions
+
+Figure 6.5: Diamond Architecture Call Overhead Analysis (Box Plot)
+  Placeholder: Chart placeholder: Box plot showing delegatecall overhead distribution across different operation types
+
+Figure 6.6: Load Testing Throughput vs Shareholder Count (Scatter Plot)
+  Placeholder: Chart placeholder: Scatter plot with trend lines showing distribution throughput scaling with shareholder counts from 10 to 1000
+
+Figure 6.7: Gas Cost Projections for Mainnet Scenarios (Multi-Series Line Chart)
+  Placeholder: Chart placeholder: Multi-series line chart projecting gas costs for Ethereum mainnet vs Polygon at various ETH prices
+
+Figure 6.8: Test Pass Rate Evolution (Stacked Area Chart)
+  Placeholder: Chart placeholder: Stacked area chart showing test pass rate evolution across iterations for different test categories
+
+Figure 6.9: Architecture Comparison (Side-by-Side Diagram)
+  Placeholder: Diagram placeholder: Side-by-side comparison of monolithic vs Diamond architecture showing contract relationships and gas flow
+
+Figure 6.10: User Workflow Diagrams (Sequence Diagrams)
+  Placeholder: Diagram placeholder: Sequence diagrams showing property registration, yield agreement creation, and repayment distribution workflows
+
+Figure 6.11: Load Test System Architecture
+  Placeholder: Placeholder for Mermaid diagram: load-test-system-architecture.mmd - Load testing infrastructure with test runner, Anvil, and metrics collection
+
+Figure 6.12: Load Test Workflow
+  Placeholder: Placeholder for Mermaid diagram: load-test-workflow.mmd - Load test execution sequence from setup through execution to results collection
+
+Figure 6.13: Load Testing Results Summary
+  Placeholder: Placeholder for Mermaid diagram: load-testing-results.mmd - Comprehensive load testing results with pass/fail indicators and performance metrics
+
+Figure 6.14: Load Test Gas Scaling
+  Placeholder: Placeholder for Mermaid diagram: load-test-gas-scaling.mmd - Gas consumption scaling with increasing shareholder counts
+
+Figure 6.15: Load Test Shareholder Distribution
+  Placeholder: Placeholder for Mermaid diagram: load-test-shareholder-distribution.mmd - Distribution performance across shareholder count scenarios (10, 50, 100, 500, 1000)
+
+Figure 6.16: Load Test Success Rates
+  Placeholder: Placeholder for Mermaid diagram: load-test-success-rates.mmd - Success rate percentages across different load test scenarios
+
+Figure 6.17: Load Test Latency Distribution
+  Placeholder: Placeholder for Mermaid diagram: load-test-latency-distribution.mmd - Transaction latency distribution histogram with percentile markers
+
+Figure 6.18: Load Test Metrics Summary
+  Placeholder: Placeholder for Mermaid diagram: load-test-metrics-summary.mmd - Summary dashboard of key load testing metrics
+
+Figure 6.19: Load Test Cost Comparison
+  Placeholder: Placeholder for Mermaid diagram: load-test-cost-comparison.mmd - Cost comparison between ERC-721+ERC-20 and ERC-1155 under load
+
+Figure 6.20: Load Test ERC-1155 Efficiency
+  Placeholder: Placeholder for Mermaid diagram: load-test-erc1155-efficiency.mmd - ERC-1155 batch operation efficiency under varying loads
+
+Figure 6.21: Load Test Token Recycling
+  Placeholder: Placeholder for Mermaid diagram: load-test-token-recycling.mmd - Token recycling mechanism for sustained load testing
+
+Figure 6.22: Load Test Restriction Enforcement
+  Placeholder: Placeholder for Mermaid diagram: load-test-restriction-enforcement.mmd - Transfer restriction validation under load conditions
+
+Figure 6.23: Load Test Restriction Overhead
+  Placeholder: Placeholder for Mermaid diagram: load-test-restriction-overhead.mmd - Gas overhead analysis for transfer restrictions under load
+
+Figure 6.24: Load Test Research Question Validation
+  Placeholder: Placeholder for Mermaid diagram: load-test-rq-validation.mmd - Mapping of load test results to research question validation
+
+Figure 7.1: Survey Respondent Demographics Overview (4-Panel Composite)
+  Placeholder: Chart placeholder: Four-panel composite showing gender distribution, age distribution, education levels, and real estate experience years
+
+Figure 7.2: Tokenisation Interest Distribution and Cross-Tabulation
+  Placeholder: Chart placeholder: Tokenisation interest levels with cross-tabulations against cryptocurrency experience and digital confidence
+
+Figure 7.3: Spearman Rank Correlation Matrix
+  Placeholder: Chart placeholder: Heatmap showing multivariate relationships among key ordinal survey variables
+
+Figure 7.4: Interview Participant Demographics (4-Panel Composite)
+  Placeholder: Chart placeholder: Four-panel composite showing participant type, gender, experience levels, and age distribution for interview sample (n=8)
+
+Figure 7.5: Theme Frequency Analysis
+  Placeholder: Chart placeholder: Bar chart showing frequency of themes across interviews with coding density metrics
+
+Figure 7.6: Token Standard Decision Framework
+  Placeholder: Diagram placeholder: Decision tree for token standard selection based on investor count, batch operation frequency, and ecosystem requirements
+
+Figure 7.7: Volatile Market Simulation Recovery Comparison
+  Placeholder: Chart placeholder: Comparison of recovery percentages across 8 stress scenarios between Diamond and monolithic architectures
+
+Figure 7.8: Testnet vs Local Performance Comparison
+  Placeholder: Chart placeholder: Amoy testnet vs Anvil local performance variance across key operations
+

@@ -1,0 +1,32 @@
+# Foundry
+cache/
+out/
+broadcast/
+
+# Dependencies
+lib/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Hardhat
+artifacts/
+cache/
+typechain/
+typechain-types/
+node_modules/
+package-lock.json
+gas-report.txt
+coverage/
+coverage.json

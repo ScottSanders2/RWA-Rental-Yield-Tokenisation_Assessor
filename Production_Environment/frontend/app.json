@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "RWA Tokenization Platform",
+    "slug": "rwa-tokenization-mobile",
+    "version": "1.0.0",
+    "entryPoint": "./index.js",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rwa.tokenization",
+      "buildNumber": "20251107.1"
+    },
+    "android": {
+      "package": "com.rwa.tokenization",
+      "versionCode": 20251107
+    },
+    "scheme": "rwa",
+    "extra": {
+      "eas": {
+        "projectId": "2f91569d-7ea9-4ea1-87b2-d396976debd1"
+      },
+      "environment": "production",
+      "iteration": "stable-release",
+      "buildDate": "2025-11-07"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}

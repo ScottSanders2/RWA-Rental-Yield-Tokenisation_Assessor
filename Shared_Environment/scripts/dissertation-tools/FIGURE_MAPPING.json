@@ -1,0 +1,507 @@
+{
+  "mapped": [
+    [
+      "4.1",
+      "docker-architecture-logical",
+      "Multi-Environment Docker Architecture (Logical View)",
+      "rendered_diagrams_drawio/docker-architecture-logical.png"
+    ],
+    [
+      "4.2",
+      "docker-architecture-physical",
+      "Multi-Environment Docker Architecture (Physical View)",
+      "rendered_diagrams_drawio/docker-architecture-physical.png"
+    ],
+    [
+      "4.3",
+      "monitoring-architecture",
+      "Monitoring Architecture Diagram",
+      "rendered_diagrams_drawio/monitoring-architecture.png"
+    ],
+    [
+      "4.4",
+      "mobile-architecture",
+      "Mobile Application Architecture",
+      "rendered_diagrams_drawio/mobile-architecture.png"
+    ],
+    [
+      "4.5",
+      "backend-api-architecture",
+      "Backend API Architecture",
+      "rendered_diagrams_drawio/backend-api-architecture.png"
+    ],
+    [
+      "4.6",
+      "property-owner-workflow",
+      "Property Owner Workflow",
+      "rendered_diagrams_drawio/property-owner-workflow.png"
+    ],
+    [
+      "4.7",
+      "yield-architecture",
+      "Yield Tokenisation Architecture",
+      "rendered_diagrams_drawio/yield-architecture.png"
+    ],
+    [
+      "4.8",
+      "yield-tokenization-flow",
+      "Complete Yield Tokenization Workflow",
+      "rendered_diagrams_drawio/yield-tokenization-flow.png"
+    ],
+    [
+      "4.9",
+      "repayment-processing-flow",
+      "Repayment Processing Decision Tree",
+      "rendered_diagrams_drawio/repayment-processing-flow.png"
+    ],
+    [
+      "4.10",
+      "pooling-mechanism-flow",
+      "Pooling Mechanism Workflow",
+      "rendered_diagrams_drawio/pooling-mechanism-flow.png"
+    ],
+    [
+      "4.11",
+      "default-handling-flow",
+      "Default Handling Workflow",
+      "rendered_diagrams_drawio/default-handling-flow.png"
+    ],
+    [
+      "4.12",
+      "storage-layout-diagram",
+      "ERC-7201 Storage Layout",
+      "rendered_diagrams_drawio/storage-layout-diagram.png"
+    ],
+    [
+      "4.13",
+      "analytics-architecture",
+      "Analytics Architecture (The Graph Protocol)",
+      "rendered_diagrams_drawio/analytics-architecture.png"
+    ],
+    [
+      "4.14",
+      "subgraph-entity-relationships",
+      "Subgraph Entity Relationships",
+      "rendered_diagrams_drawio/subgraph-entity-relationships.png"
+    ],
+    [
+      "4.15",
+      "governance-architecture",
+      "Governance Architecture",
+      "rendered_diagrams_drawio/governance-architecture.png"
+    ],
+    [
+      "4.16",
+      "governance-proposal-flow",
+      "Governance Proposal Flow",
+      "rendered_diagrams_drawio/governance-proposal-flow.png"
+    ],
+    [
+      "4.17",
+      "secondary-market-architecture",
+      "Secondary Market Architecture",
+      "rendered_diagrams_drawio/secondary-market-architecture.png"
+    ],
+    [
+      "4.18",
+      "transfer-restriction-flow",
+      "Transfer Restriction Flow",
+      "rendered_diagrams_drawio/transfer-restriction-flow.png"
+    ],
+    [
+      "4.19",
+      "kyc-architecture",
+      "KYC Architecture",
+      "rendered_diagrams_drawio/kyc-architecture.png"
+    ],
+    [
+      "4.20",
+      "kyc-workflow",
+      "KYC Verification Workflow",
+      "rendered_diagrams_drawio/kyc-workflow.png"
+    ],
+    [
+      "4.21",
+      "er-diagram",
+      "Entity-Relationship Diagram",
+      "rendered_diagrams_drawio/er-diagram.png"
+    ],
+    [
+      "4.22",
+      "erc1155-architecture",
+      "ERC-1155 Architecture",
+      "rendered_diagrams_drawio/erc1155-architecture.png"
+    ],
+    [
+      "4.23",
+      "erc20-token-flow",
+      "ERC-20 Token Flow",
+      "rendered_diagrams_drawio/erc20-token-flow.png"
+    ],
+    [
+      "4.24",
+      "property-nft-architecture",
+      "Property NFT Architecture",
+      "rendered_diagrams_drawio/property-nft-architecture.png"
+    ],
+    [
+      "4.25",
+      "share-transfer-architecture",
+      "Share Transfer Architecture",
+      "rendered_diagrams_drawio/share-transfer-architecture.png"
+    ],
+    [
+      "4.26",
+      "use-case-diagram",
+      "Use Case Diagram",
+      "rendered_diagrams_drawio/use-case-diagram.png"
+    ],
+    [
+      "4.27",
+      "mobile-workflow",
+      "Mobile Workflow",
+      "rendered_diagrams_drawio/mobile-workflow.png"
+    ],
+    [
+      "4.28",
+      "wireframe-dashboard",
+      "Dashboard Wireframe",
+      "rendered_diagrams_drawio/wireframe-dashboard.png"
+    ],
+    [
+      "4.29",
+      "wireframe-property-registration",
+      "Property Registration Wireframe",
+      "rendered_diagrams_drawio/wireframe-property-registration.png"
+    ],
+    [
+      "4.30",
+      "wireframe-yield-agreement",
+      "Yield Agreement Wireframe",
+      "rendered_diagrams_drawio/wireframe-yield-agreement.png"
+    ],
+    [
+      "4.31",
+      "wireframe-mobile-dashboard",
+      "Mobile Dashboard Wireframe",
+      "rendered_diagrams_drawio/wireframe-mobile-dashboard.png"
+    ],
+    [
+      "4.32",
+      "wireframe-mobile-yield-agreement",
+      "Mobile Yield Agreement Wireframe",
+      "rendered_diagrams_drawio/wireframe-mobile-yield-agreement.png"
+    ],
+    [
+      "5.1",
+      "docker-desktop-dashboard",
+      "Docker Desktop Container Status",
+      "generated_screenshots/docker-desktop-dashboard.png"
+    ],
+    [
+      "5.11",
+      "smart-contract-deployment",
+      "Deployment Script Output",
+      "generated_screenshots/smart-contract-deployment.png"
+    ],
+    [
+      "5.14",
+      "amoy-testnet-deployment",
+      "Diamond Deployment to Amoy",
+      "generated_screenshots/amoy-testnet-deployment.png"
+    ],
+    [
+      "5.19",
+      "analytics-dashboard",
+      "Analytics Dashboard",
+      "generated_screenshots/analytics-dashboard.png"
+    ],
+    [
+      "5.23",
+      "yield-tokenization-flow",
+      "Yield Tokenization Flowchart",
+      "rendered_diagrams_drawio/yield-tokenization-flow.png"
+    ],
+    [
+      "6.1",
+      "fig_6_1_token_standard_gas_comparison",
+      "Token Standard Gas Comparison",
+      "generated_charts/fig_6_1_token_standard_gas_comparison.png"
+    ],
+    [
+      "6.2",
+      "fig_6_2_batch_operation_scaling",
+      "Batch Operation Scaling Curve",
+      "generated_charts/fig_6_2_batch_operation_scaling.png"
+    ],
+    [
+      "6.3",
+      "fig_6_3_amoy_anvil_variance_heatmap",
+      "Amoy vs Anvil Variance Heatmap",
+      "generated_charts/fig_6_3_amoy_anvil_variance_heatmap.png"
+    ],
+    [
+      "6.4",
+      "fig_6_4_volatile_simulation_radar",
+      "Volatile Simulation Recovery Radar",
+      "generated_charts/fig_6_4_volatile_simulation_radar.png"
+    ],
+    [
+      "6.5",
+      "fig_6_5_diamond_overhead_boxplot",
+      "Diamond Architecture Call Overhead",
+      "generated_charts/fig_6_5_diamond_overhead_boxplot.png"
+    ],
+    [
+      "6.6",
+      "fig_6_6_load_testing_scatter",
+      "Load Testing Throughput Scatter",
+      "generated_charts/fig_6_6_load_testing_scatter.png"
+    ],
+    [
+      "6.7",
+      "fig_6_7_gas_cost_projections",
+      "Gas Cost Projections",
+      "generated_charts/fig_6_7_gas_cost_projections.png"
+    ],
+    [
+      "6.8",
+      "fig_6_8_test_pass_rate_evolution",
+      "Test Pass Rate Evolution",
+      "generated_charts/fig_6_8_test_pass_rate_evolution.png"
+    ],
+    [
+      "6.11",
+      "load-test-system-architecture",
+      "Load Test System Architecture",
+      "rendered_diagrams_drawio/load-test-system-architecture.png"
+    ],
+    [
+      "6.12",
+      "load-test-workflow",
+      "Load Test Workflow",
+      "rendered_diagrams_drawio/load-test-workflow.png"
+    ],
+    [
+      "6.13",
+      "load-testing-results",
+      "Load Testing Results Summary",
+      "rendered_diagrams_drawio/load-testing-results.png"
+    ],
+    [
+      "6.14",
+      "load-test-gas-scaling",
+      "Load Test Gas Scaling",
+      "rendered_diagrams_drawio/load-test-gas-scaling.png"
+    ],
+    [
+      "6.15",
+      "load-test-shareholder-distribution",
+      "Load Test Shareholder Distribution",
+      "rendered_diagrams_drawio/load-test-shareholder-distribution.png"
+    ],
+    [
+      "6.16",
+      "load-test-success-rates",
+      "Load Test Success Rates",
+      "rendered_diagrams_drawio/load-test-success-rates.png"
+    ],
+    [
+      "6.17",
+      "load-test-latency-distribution",
+      "Load Test Latency Distribution",
+      "rendered_diagrams_drawio/load-test-latency-distribution.png"
+    ],
+    [
+      "6.18",
+      "load-test-metrics-summary",
+      "Load Test Metrics Summary",
+      "rendered_diagrams_drawio/load-test-metrics-summary.png"
+    ],
+    [
+      "6.19",
+      "load-test-cost-comparison",
+      "Load Test Cost Comparison",
+      "rendered_diagrams_drawio/load-test-cost-comparison.png"
+    ],
+    [
+      "6.20",
+      "load-test-erc1155-efficiency",
+      "Load Test ERC-1155 Efficiency",
+      "rendered_diagrams_drawio/load-test-erc1155-efficiency.png"
+    ],
+    [
+      "6.21",
+      "load-test-token-recycling",
+      "Load Test Token Recycling",
+      "rendered_diagrams_drawio/load-test-token-recycling.png"
+    ],
+    [
+      "6.22",
+      "load-test-restriction-enforcement",
+      "Load Test Restriction Enforcement",
+      "rendered_diagrams_drawio/load-test-restriction-enforcement.png"
+    ],
+    [
+      "6.23",
+      "load-test-restriction-overhead",
+      "Load Test Restriction Overhead",
+      "rendered_diagrams_drawio/load-test-restriction-overhead.png"
+    ],
+    [
+      "6.24",
+      "load-test-rq-validation",
+      "Load Test Research Question Validation",
+      "rendered_diagrams_drawio/load-test-rq-validation.png"
+    ],
+    [
+      "7.1",
+      "fig_demographic_overview",
+      "Survey Demographics Overview",
+      "survey_interview_charts/fig_demographic_overview.png"
+    ],
+    [
+      "7.2",
+      "fig_tokenisation_interest_analysis",
+      "Tokenisation Interest Analysis",
+      "survey_interview_charts/fig_tokenisation_interest_analysis.png"
+    ],
+    [
+      "7.3",
+      "fig_correlation_matrix",
+      "Spearman Correlation Matrix",
+      "survey_interview_charts/fig_correlation_matrix.png"
+    ],
+    [
+      "7.4",
+      "fig_interview_demographics",
+      "Interview Demographics",
+      "survey_interview_charts/fig_interview_demographics.png"
+    ],
+    [
+      "7.5",
+      "fig_thematic_code_frequencies",
+      "Theme Frequency Analysis",
+      "survey_interview_charts/fig_thematic_code_frequencies.png"
+    ],
+    [
+      "7.7",
+      "fig_7_7_volatile_recovery_comparison",
+      "Volatile Market Recovery Comparison",
+      "generated_charts/fig_7_7_volatile_recovery_comparison.png"
+    ],
+    [
+      "7.8",
+      "fig_7_8_testnet_local_comparison",
+      "Testnet vs Local Performance",
+      "generated_charts/fig_7_8_testnet_local_comparison.png"
+    ]
+  ],
+  "missing": [
+    [
+      "5.2",
+      "NEED_CREATE_grafana-dashboard",
+      "Grafana Monitoring Dashboard"
+    ],
+    [
+      "5.3",
+      "NEED_CREATE_prometheus-targets",
+      "Prometheus Targets"
+    ],
+    [
+      "5.4",
+      "NEED_CREATE_node-exporter-metrics",
+      "Node-Exporter Metrics"
+    ],
+    [
+      "5.5",
+      "NEED_CREATE_multi-env-orchestration",
+      "Multi-Environment Orchestration"
+    ],
+    [
+      "5.6",
+      "NEED_CREATE_backup-directory",
+      "Backup Directory Structure"
+    ],
+    [
+      "5.7",
+      "NEED_CREATE_foundry-project-structure",
+      "Foundry Project Structure"
+    ],
+    [
+      "5.8",
+      "NEED_CREATE_forge-test-output",
+      "Forge Test Output"
+    ],
+    [
+      "5.9",
+      "NEED_CREATE_gas-report",
+      "Gas Report"
+    ],
+    [
+      "5.10",
+      "NEED_CREATE_anvil-container-logs",
+      "Anvil Container Logs"
+    ],
+    [
+      "5.12",
+      "NEED_CREATE_erc7201-storage-layout",
+      "ERC-7201 Storage Layout Screenshot"
+    ],
+    [
+      "5.13",
+      "NEED_CREATE_bytecode-size-verification",
+      "Bytecode Size Verification"
+    ],
+    [
+      "5.15",
+      "NEED_CREATE_polygonscan-confirmation",
+      "PolygonScan Transaction Confirmation"
+    ],
+    [
+      "5.16",
+      "NEED_CREATE_diamond-test-results",
+      "Diamond Architecture Test Results"
+    ],
+    [
+      "5.17",
+      "NEED_CREATE_property-registration-form",
+      "Property Registration Form"
+    ],
+    [
+      "5.18",
+      "NEED_CREATE_yield-agreement-interface",
+      "Yield Agreement Creation Interface"
+    ],
+    [
+      "5.20",
+      "NEED_CREATE_simulation-test-results",
+      "Simulation Test Results"
+    ],
+    [
+      "5.21",
+      "NEED_CREATE_gas-comparison-report",
+      "Gas Comparison Report"
+    ],
+    [
+      "5.22",
+      "NEED_CREATE_variance-tracking",
+      "Variance Tracking Metrics"
+    ],
+    [
+      "6.9",
+      "NEED_CREATE_architecture-comparison",
+      "Architecture Comparison Diagram"
+    ],
+    [
+      "6.10",
+      "NEED_CREATE_user-workflow-diagrams",
+      "User Workflow Diagrams"
+    ],
+    [
+      "7.6",
+      "NEED_CREATE_token-decision-framework",
+      "Token Standard Decision Framework"
+    ]
+  ]
+}

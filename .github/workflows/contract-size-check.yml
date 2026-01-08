@@ -1,0 +1,138 @@
+# Contract Bytecode Size Monitoring
+# Prevents deployment of contracts exceeding EVM 24KB limit
+# Runs on every push to contracts directory
+
+name: Contract Size Check
+
+on:
+  push:
+    paths:
+      - 'Development_Environment/contracts/src/**'
+      - 'Test_Environment/contracts/src/**'
+      - 'Production_Environment/contracts/src/**'
+  pull_request:
+    paths:
+      - 'Development_Environment/contracts/src/**'
+      - 'Test_Environment/contracts/src/**'
+      - 'Production_Environment/contracts/src/**'
+
+jobs:
+  check-contract-sizes:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      
+      - name: Check Development Environment Contract Sizes
+        run: |
+          cd Development_Environment/contracts
+          forge build --force
+          
+          MAX_SIZE=24576
+          WARN_SIZE=20000
+          EXIT_CODE=0
+          
+          echo "=== Development Environment Contract Sizes ==="
+          
+          for contract in YieldBase CombinedPropertyYieldToken PropertyNFT YieldSharesToken GovernanceController; do
+            if forge inspect $contract deployedBytecode > /dev/null 2>&1; then
+              HEX_SIZE=$(forge inspect $contract deployedBytecode | wc -c)
+              SIZE=$(( ($HEX_SIZE - 2) / 2 ))
+              PERCENT=$(awk "BEGIN {printf \"%.1f\", ($SIZE / $MAX_SIZE) * 100}")
+              
+              if [ $SIZE -gt $MAX_SIZE ]; then
+                echo "❌ FAILED: $contract: $SIZE bytes (${PERCENT}% of 24KB limit) - EXCEEDS LIMIT"
+                EXIT_CODE=1
+              elif [ $SIZE -gt $WARN_SIZE ]; then
+                echo "⚠️  WARNING: $contract: $SIZE bytes (${PERCENT}% of 24KB limit) - APPROACHING LIMIT"
+              else
+                echo "✅ PASSED: $contract: $SIZE bytes (${PERCENT}% of 24KB limit)"
+              fi
+            else
+              echo "⚠️  SKIP: $contract not found or compilation failed"
+            fi
+          done
+          
+          exit $EXIT_CODE
+      
+      - name: Check Test Environment Contract Sizes (if exists)
+        run: |
+          if [ -d "Test_Environment/contracts" ]; then
+            cd Test_Environment/contracts
+            forge build --force
+            
+            MAX_SIZE=24576
+            WARN_SIZE=20000
+            
+            echo "=== Test Environment Contract Sizes ==="
+            
+            for contract in YieldBase CombinedPropertyYieldToken PropertyNFT YieldSharesToken GovernanceController; do
+              if forge inspect $contract deployedBytecode > /dev/null 2>&1; then
+                HEX_SIZE=$(forge inspect $contract deployedBytecode | wc -c)
+                SIZE=$(( ($HEX_SIZE - 2) / 2 ))
+                PERCENT=$(awk "BEGIN {printf \"%.1f\", ($SIZE / $MAX_SIZE) * 100}")
+                
+                if [ $SIZE -gt $MAX_SIZE ]; then
+                  echo "❌ FAILED: $contract: $SIZE bytes (${PERCENT}% of 24KB limit)"
+                  exit 1
+                elif [ $SIZE -gt $WARN_SIZE ]; then
+                  echo "⚠️  WARNING: $contract: $SIZE bytes (${PERCENT}% of 24KB limit)"
+                else
+                  echo "✅ PASSED: $contract: $SIZE bytes (${PERCENT}% of 24KB limit)"
+                fi
+              fi
+            done
+          else
+            echo "⚠️  Test Environment not found, skipping"
+          fi
+      
+      - name: Generate Size Report
+        if: always()
+        run: |
+          echo "## Contract Size Report" > size_report.md
+          echo "" >> size_report.md
+          echo "**EVM Limit:** 24,576 bytes (24KB)" >> size_report.md
+          echo "**Warning Threshold:** 20,000 bytes (81.4% of limit)" >> size_report.md
+          echo "" >> size_report.md
+          
+          cd Development_Environment/contracts
+          forge build --force
+          
+          echo "### Development Environment" >> ../../size_report.md
+          echo "" >> ../../size_report.md
+          echo "| Contract | Size (bytes) | % of Limit | Status |" >> ../../size_report.md
+          echo "|----------|--------------|------------|--------|" >> ../../size_report.md
+          
+          for contract in YieldBase CombinedPropertyYieldToken PropertyNFT YieldSharesToken GovernanceController; do
+            if forge inspect $contract deployedBytecode > /dev/null 2>&1; then
+              HEX_SIZE=$(forge inspect $contract deployedBytecode | wc -c)
+              SIZE=$(( ($HEX_SIZE - 2) / 2 ))
+              PERCENT=$(awk "BEGIN {printf \"%.1f\", ($SIZE / 24576) * 100}")
+              
+              if [ $SIZE -gt 24576 ]; then
+                STATUS="❌ FAIL"
+              elif [ $SIZE -gt 20000 ]; then
+                STATUS="⚠️  WARN"
+              else
+                STATUS="✅ PASS"
+              fi
+              
+              echo "| $contract | $SIZE | ${PERCENT}% | $STATUS |" >> ../../size_report.md
+            fi
+          done
+          
+          cat ../../size_report.md
+      
+      - name: Upload Size Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: contract-size-report
+          path: size_report.md
+

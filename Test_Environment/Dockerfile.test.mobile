@@ -1,0 +1,48 @@
+# Multi-stage build for React Native mobile testing environment
+FROM node:18-alpine AS base
+
+# Install system dependencies for React Native development
+RUN apk add --no-cache \
+    curl \
+    git \
+    bash \
+    openjdk11 \
+    && rm -rf /var/cache/apk/*
+
+# Set working directory
+WORKDIR /app
+
+# Dependencies stage
+FROM base AS dependencies
+
+# Copy package files
+COPY frontend/package*.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+# Testing stage
+FROM dependencies AS testing
+
+# Copy all frontend files
+COPY frontend/ ./
+
+# Set environment variables for testing
+ENV NODE_ENV=test
+ENV ENVIRONMENT=testing
+
+# Expose Metro bundler port (different from dev to avoid conflicts)
+EXPOSE 8082
+
+# Health check for Expo dev server
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8082/status || exit 1
+
+# Start Expo dev server for testing with host binding for Docker and offline mode
+CMD ["sh", "-c", "npx expo start --offline --host lan --port 8082"]
+
+# This Dockerfile sets up React Native testing environment with Expo dev server for Test environment, enabling E2E testing via Detox and manual user testing, with Test-specific configuration and port 8082 to avoid conflicts with Development environment (port 8081).
+
+
+
+

@@ -1,0 +1,50 @@
+name: Submodule Status Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Run daily at 9 AM UTC to catch any uncommitted work
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  check-submodules:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      
+      - name: Set up permissions
+        run: chmod +x Shared_Environment/scripts/check-submodule-status.sh
+      
+      - name: Check submodule status
+        id: submodule-check
+        run: |
+          echo "::group::Submodule Status Check"
+          Shared_Environment/scripts/check-submodule-status.sh
+          echo "::endgroup::"
+        continue-on-error: true
+      
+      - name: Report results
+        if: steps.submodule-check.outcome == 'failure'
+        run: |
+          echo "::error::Submodules have uncommitted changes"
+          echo "This indicates that contract development work has been done but not committed."
+          echo "Please commit submodule changes to preserve this work."
+          exit 1
+      
+      - name: Success notification
+        if: steps.submodule-check.outcome == 'success'
+        run: |
+          echo "::notice::All submodules are clean - no uncommitted changes detected"
+

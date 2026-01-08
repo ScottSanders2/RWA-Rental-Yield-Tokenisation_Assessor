@@ -1,0 +1,1 @@
+module.exports = { e2e: { baseUrl: "http://rwa-test-frontend:5173", supportFile: "support/e2e.js", specPattern: "e2e/**/*.cy.{js,jsx,ts,tsx}", video: false, screenshotOnRunFailure: true, }, viewportWidth: 1280, viewportHeight: 720, defaultCommandTimeout: 10000 }

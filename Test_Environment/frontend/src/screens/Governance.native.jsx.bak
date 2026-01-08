@@ -1,0 +1,397 @@
+/**
+ * Governance Dashboard Screen (React Native)
+ * Mobile-optimized governance interface with touch-friendly UI
+ */
+
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  RefreshControl
+} from 'react-native';
+import { getProposals } from '../services/apiClient.native';
+
+const Governance = ({ navigation }) => {
+  const [proposals, setProposals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('active'); // active | executed | defeated
+
+  // Placeholder - integrate with actual context
+  const tokenStandard = 'ERC721';
+  const userVotingPower = 50000;
+
+  useEffect(() => {
+    fetchProposals();
+  }, []);
+
+  const fetchProposals = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Mock data for demonstration
+      const mockProposals = [
+        {
+          proposal_id: 1,
+          agreement_id: 1,
+          proposal_type: 'ROI_ADJUSTMENT',
+          description: 'Increase ROI from 12% to 12.6%',
+          voting_end: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+          for_votes: 300000,
+          against_votes: 150000,
+          executed: false,
+          defeated: false
+        }
+      ];
+      setProposals(mockProposals);
+    } catch (err) {
+      setError('Failed to load proposals');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchProposals();
+    setRefreshing(false);
+  };
+
+  const filterProposals = () => {
+    switch (activeTab) {
+      case 'active':
+        // Show ACTIVE and PENDING proposals (not yet executed or defeated)
+        return proposals.filter(p => 
+          !p.executed && 
+          !p.defeated && 
+          (p.status === 'ACTIVE' || p.status === 'PENDING')
+        );
+      case 'executed':
+        return proposals.filter(p => p.executed || p.status === 'EXECUTED');
+      case 'defeated':
+        return proposals.filter(p => p.defeated || p.status === 'DEFEATED');
+      default:
+        return proposals;
+    }
+  };
+
+  const filteredProposals = filterProposals();
+
+  if (loading) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color="#2196F3" />
+        <Text style={styles.loadingText}>Loading governance...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Governance</Text>
+        <Text style={styles.subtitle}>Token-weighted voting</Text>
+      </View>
+
+      {/* Info Card */}
+      <View style={styles.infoCard}>
+        <Text style={styles.infoText}>
+          Token Standard: <Text style={styles.bold}>{tokenStandard}</Text>
+        </Text>
+        <Text style={styles.infoText}>
+          Your Voting Power: <Text style={styles.bold}>{userVotingPower.toLocaleString()}</Text> tokens
+        </Text>
+      </View>
+
+      {/* Quick Actions */}
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => navigation.navigate('GovernanceCreate')}
+        >
+          <Text style={styles.actionButtonText}>+ Create Proposal</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Tabs */}
+      <View style={styles.tabsContainer}>
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'active' && styles.activeTab]}
+          onPress={() => setActiveTab('active')}
+        >
+          <Text style={[styles.tabText, activeTab === 'active' && styles.activeTabText]}>
+            Active ({proposals.filter(p => !p.executed && !p.defeated).length})
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'executed' && styles.activeTab]}
+          onPress={() => setActiveTab('executed')}
+        >
+          <Text style={[styles.tabText, activeTab === 'executed' && styles.activeTabText]}>
+            Executed ({proposals.filter(p => p.executed).length})
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'defeated' && styles.activeTab]}
+          onPress={() => setActiveTab('defeated')}
+        >
+          <Text style={[styles.tabText, activeTab === 'defeated' && styles.activeTabText]}>
+            Defeated ({proposals.filter(p => p.defeated).length})
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Proposals List */}
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
+
+      {filteredProposals.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No proposals in this category</Text>
+        </View>
+      ) : (
+        filteredProposals.map((proposal) => (
+          <TouchableOpacity
+            key={proposal.proposal_id}
+            style={styles.proposalCard}
+            onPress={() => navigation.navigate('GovernanceDetail', { proposalId: proposal.proposal_id })}
+          >
+            <View style={styles.proposalHeader}>
+              <Text style={styles.proposalTitle}>Proposal #{proposal.proposal_id}</Text>
+              <View style={styles.statusBadge}>
+                <Text style={styles.statusText}>
+                  {proposal.executed ? 'Executed' : proposal.defeated ? 'Defeated' : 'Active'}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.proposalType}>{proposal.proposal_type.replace('_', ' ')}</Text>
+            <Text style={styles.proposalDescription} numberOfLines={2}>
+              {proposal.description}
+            </Text>
+            <View style={styles.votesContainer}>
+              <View style={styles.voteChip}>
+                <Text style={styles.voteChipText}>For: {proposal.for_votes.toLocaleString()}</Text>
+              </View>
+              <View style={[styles.voteChip, styles.voteChipAgainst]}>
+                <Text style={styles.voteChipText}>Against: {proposal.against_votes.toLocaleString()}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))
+      )}
+
+      {/* Help Section */}
+      <View style={styles.helpContainer}>
+        <Text style={styles.helpTitle}>How Governance Works</Text>
+        <Text style={styles.helpText}>• 1 token = 1 vote</Text>
+        <Text style={styles.helpText}>• 10% quorum required</Text>
+        <Text style={styles.helpText}>• Simple majority wins</Text>
+        <Text style={styles.helpText}>• 7 day voting period</Text>
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#666',
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#2196F3',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#fff',
+    marginTop: 4,
+  },
+  infoCard: {
+    margin: 16,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  infoText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
+  },
+  bold: {
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  actionsContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  actionButton: {
+    backgroundColor: '#2196F3',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  tab: {
+    flex: 1,
+    padding: 12,
+    backgroundColor: '#fff',
+    marginHorizontal: 4,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  activeTab: {
+    backgroundColor: '#2196F3',
+  },
+  tabText: {
+    fontSize: 12,
+    color: '#666',
+  },
+  activeTabText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  proposalCard: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  proposalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  proposalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  statusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+  },
+  statusText: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  proposalType: {
+    fontSize: 12,
+    color: '#2196F3',
+    marginBottom: 4,
+  },
+  proposalDescription: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 12,
+  },
+  votesContainer: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  voteChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#4CAF50',
+    borderRadius: 16,
+  },
+  voteChipAgainst: {
+    backgroundColor: '#F44336',
+  },
+  voteChipText: {
+    fontSize: 12,
+    color: '#fff',
+  },
+  emptyContainer: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#999',
+  },
+  errorContainer: {
+    margin: 16,
+    padding: 16,
+    backgroundColor: '#FFEBEE',
+    borderRadius: 8,
+  },
+  errorText: {
+    color: '#C62828',
+  },
+  helpContainer: {
+    margin: 16,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  helpTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: '#333',
+  },
+  helpText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 6,
+  },
+});
+
+export default Governance;
+

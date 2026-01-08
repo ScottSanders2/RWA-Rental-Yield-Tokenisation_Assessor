@@ -1,0 +1,404 @@
+{
+  "metadata": {
+    "generated_date": "2025-11-30",
+    "architecture": "Diamond Pattern (EIP-2535)",
+    "iteration": "Iteration 13/14 onwards",
+    "environment": "Development Environment with Diamond Architecture",
+    "data_source": "polygon-amoy-deployment-guide.md, DissertationProgress.md Section 3.3",
+    "notes": "Diamond Pattern implemented in Iteration 13/14 to resolve 24KB contract size constraints. All metrics reflect current production architecture."
+  },
+  "contract_sizes": {
+    "yieldbase_diamond": {
+      "proxy": {
+        "name": "DiamondYieldBase",
+        "size_bytes": 231,
+        "size_kb": 0.226,
+        "safety_margin_kb": 23.774,
+        "safety_margin_pct": 99.1
+      },
+      "facets": [
+        {
+          "name": "YieldBaseFacet",
+          "size_kb": 6.2,
+          "safety_margin_kb": 17.8,
+          "safety_margin_pct": 74.2,
+          "functions": "Agreement creation, initialization, KYC integration"
+        },
+        {
+          "name": "RepaymentFacet",
+          "size_kb": 5.8,
+          "safety_margin_kb": 18.2,
+          "safety_margin_pct": 75.8,
+          "functions": "Full/partial/early repayments, overpayment credits"
+        },
+        {
+          "name": "GovernanceFacet",
+          "size_kb": 4.7,
+          "safety_margin_kb": 19.3,
+          "safety_margin_pct": 80.4,
+          "functions": "Proposal execution, reserve management, ROI adjustments"
+        },
+        {
+          "name": "DefaultManagementFacet",
+          "size_kb": 3.9,
+          "safety_margin_kb": 20.1,
+          "safety_margin_pct": 83.8,
+          "functions": "Missed payment detection, penalty enforcement"
+        },
+        {
+          "name": "DistributionFacet",
+          "size_kb": 4.1,
+          "safety_margin_kb": 19.9,
+          "safety_margin_pct": 82.9,
+          "functions": "Autonomous repayment distribution to shareholders"
+        },
+        {
+          "name": "ViewsFacet",
+          "size_kb": 2.1,
+          "safety_margin_kb": 21.9,
+          "safety_margin_pct": 91.3,
+          "functions": "Read-only agreement queries (no gas cost)"
+        },
+        {
+          "name": "KYCFacet",
+          "size_kb": 2.8,
+          "safety_margin_kb": 21.2,
+          "safety_margin_pct": 88.3,
+          "functions": "KYC registry configuration, whitelist validation"
+        }
+      ],
+      "standard_facets": [
+        {"name": "DiamondCutFacet", "size_kb": 3.5, "purpose": "Facet management and upgrades"},
+        {"name": "DiamondLoupeFacet", "size_kb": 2.1, "purpose": "Diamond introspection"},
+        {"name": "OwnershipFacet", "size_kb": 1.8, "purpose": "Access control"}
+      ],
+      "total_facets": 10,
+      "total_size_kb": 36.1,
+      "avg_facet_size_kb": 3.6,
+      "max_theoretical_size_kb": 240.0,
+      "utilization_pct": 15.0
+    },
+    "combined_token_diamond": {
+      "proxy": {
+        "name": "DiamondCombinedToken",
+        "size_bytes": 231,
+        "size_kb": 0.226,
+        "safety_margin_kb": 23.774,
+        "safety_margin_pct": 99.1
+      },
+      "facets": [
+        {
+          "name": "CombinedTokenCoreFacet",
+          "size_kb": 6.9,
+          "safety_margin_kb": 17.1,
+          "safety_margin_pct": 71.3,
+          "functions": "ERC-1155 core, property/yield token minting"
+        },
+        {
+          "name": "MintingFacet",
+          "size_kb": 5.5,
+          "safety_margin_kb": 18.5,
+          "safety_margin_pct": 77.1,
+          "functions": "Pooled capital, batch minting"
+        },
+        {
+          "name": "DistributionFacet",
+          "size_kb": 7.2,
+          "safety_margin_kb": 16.8,
+          "safety_margin_pct": 70.0,
+          "functions": "Yield distribution to ERC-1155 holders"
+        },
+        {
+          "name": "RestrictionsFacet",
+          "size_kb": 6.1,
+          "safety_margin_kb": 17.9,
+          "safety_margin_pct": 74.6,
+          "functions": "Transfer restrictions, compliance enforcement"
+        },
+        {
+          "name": "CombinedViewsFacet",
+          "size_kb": 5.8,
+          "safety_margin_kb": 18.2,
+          "safety_margin_pct": 75.8,
+          "functions": "Read-only ERC-1155 queries"
+        }
+      ],
+      "total_facets": 8,
+      "total_size_kb": 34.3,
+      "avg_facet_size_kb": 4.3
+    },
+    "supporting_contracts_uups": {
+      "PropertyNFT": {
+        "size_kb": 22.5,
+        "safety_margin_kb": 1.5,
+        "safety_margin_pct": 6.3,
+        "notes": "UUPS proxy, near limit but acceptable"
+      },
+      "GovernanceController": {
+        "size_kb": 21.8,
+        "safety_margin_kb": 2.2,
+        "safety_margin_pct": 9.2,
+        "notes": "UUPS proxy, optimized"
+      },
+      "KYCRegistry": {
+        "size_kb": 18.3,
+        "safety_margin_kb": 5.7,
+        "safety_margin_pct": 23.8,
+        "notes": "UUPS proxy, comfortable margin"
+      }
+    }
+  },
+  "deployment_costs_anvil": {
+    "yieldbase_diamond": {
+      "standard_facets_gas": 430000,
+      "business_facets_gas": 3550000,
+      "proxy_deployment_gas": 1200000,
+      "diamond_cut_gas": 500000,
+      "initialization_gas": 150000,
+      "total_gas": 5830000,
+      "notes": "Complete YieldBase Diamond deployment"
+    },
+    "combined_token_diamond": {
+      "business_facets_gas": 3600000,
+      "proxy_deployment_gas": 1100000,
+      "diamond_cut_init_gas": 700000,
+      "total_gas": 5400000,
+      "notes": "Optional ERC-1155 Diamond variant"
+    },
+    "supporting_contracts_uups": {
+      "kycregistry_gas": 850000,
+      "propertynft_gas": 1100000,
+      "governancecontroller_gas": 1400000,
+      "total_gas": 3350000,
+      "notes": "UUPS proxies for supporting contracts"
+    },
+    "post_deployment_linking": {
+      "linking_calls_gas": 180000,
+      "notes": "6 setX() function calls for contract linkage"
+    },
+    "totals": {
+      "without_combined_token": 9360000,
+      "with_combined_token": 14760000,
+      "notes": "Typical deployment uses YieldBase Diamond + supporting contracts"
+    }
+  },
+  "operational_costs_anvil": {
+    "diamond_call_overhead": {
+      "selector_lookup_gas": 400,
+      "delegatecall_base_gas": 700,
+      "total_overhead_gas": 1100,
+      "notes": "Per external call overhead, ~1% of typical operations"
+    },
+    "yieldbase_operations": {
+      "create_agreement": {
+        "total_gas": 450000,
+        "facet": "YieldBaseFacet",
+        "overhead_pct": 0.24,
+        "notes": "Includes YieldSharesToken deployment"
+      },
+      "make_repayment": {
+        "total_gas": 180000,
+        "facet": "RepaymentFacet",
+        "overhead_pct": 0.61,
+        "notes": "Full repayment processing"
+      },
+      "make_partial_repayment": {
+        "total_gas": 160000,
+        "facet": "RepaymentFacet",
+        "overhead_pct": 0.69,
+        "notes": "Partial repayment with arrears tracking"
+      },
+      "make_early_repayment": {
+        "total_gas": 170000,
+        "facet": "RepaymentFacet",
+        "overhead_pct": 0.65,
+        "notes": "Early repayment with rebate calculation"
+      },
+      "distribute_repayment_10_shareholders": {
+        "total_gas": 380000,
+        "facet": "DistributionFacet",
+        "per_shareholder_gas": 38000,
+        "overhead_pct": 0.29,
+        "notes": "Autonomous distribution to shareholders"
+      },
+      "adjust_roi": {
+        "total_gas": 90000,
+        "facet": "GovernanceFacet",
+        "overhead_pct": 1.22,
+        "notes": "Governance-initiated ROI adjustment"
+      },
+      "handle_missed_payment": {
+        "total_gas": 120000,
+        "facet": "DefaultManagementFacet",
+        "overhead_pct": 0.92,
+        "notes": "Penalty calculation and application"
+      }
+    },
+    "combined_token_operations": {
+      "mint_property_token": {
+        "total_gas": 95000,
+        "facet": "CombinedTokenCoreFacet",
+        "notes": "ERC-1155 property NFT minting"
+      },
+      "mint_yield_tokens": {
+        "total_gas": 145000,
+        "facet": "MintingFacet",
+        "notes": "ERC-1155 yield token minting (no proxy deployment)"
+      },
+      "distribute_yield_10_holders": {
+        "total_gas": 360000,
+        "facet": "DistributionFacet",
+        "per_holder_gas": 36000,
+        "notes": "ERC-1155 yield distribution"
+      },
+      "single_transfer_no_restrictions": {
+        "total_gas": 68000,
+        "facet": "CombinedTokenCoreFacet",
+        "notes": "ERC-1155 safeTransferFrom baseline"
+      },
+      "single_transfer_with_restrictions": {
+        "total_gas": 74000,
+        "facet": "CombinedTokenCoreFacet + RestrictionsFacet",
+        "restriction_overhead_gas": 6000,
+        "restriction_overhead_pct": 8.8,
+        "notes": "With lockup/concentration/holding period checks"
+      },
+      "batch_transfer_50_recipients": {
+        "total_gas": 1750000,
+        "per_recipient_gas": 35000,
+        "notes": "ERC-1155 batch operations (50 recipients)"
+      }
+    },
+    "supporting_contracts": {
+      "mint_property_nft": {
+        "total_gas": 176000,
+        "contract": "PropertyNFT (UUPS)",
+        "notes": "ERC-721 property minting"
+      },
+      "whitelist_address": {
+        "total_gas": 52000,
+        "contract": "KYCRegistry (UUPS)",
+        "notes": "Single address whitelist"
+      },
+      "create_governance_proposal": {
+        "total_gas": 180000,
+        "contract": "GovernanceController (UUPS)",
+        "notes": "Proposal creation"
+      }
+    }
+  },
+  "token_standard_comparison": {
+    "deployment": {
+      "erc721_erc20_total": "N/A (deprecated monolithic)",
+      "diamond_yieldbase": 5830000,
+      "diamond_combined_token": 5400000,
+      "notes": "Diamond architecture replaces monolithic. Cannot directly compare deprecated contracts."
+    },
+    "agreement_creation": {
+      "diamond_yieldbase_creates_erc20": 450000,
+      "diamond_combined_token_erc1155": 145000,
+      "savings_pct": 67.8,
+      "notes": "ERC-1155 avoids YieldSharesToken proxy deployment per agreement"
+    },
+    "single_transfer": {
+      "erc20_transfer": 65000,
+      "erc1155_transfer": 68000,
+      "difference_pct": -4.6,
+      "notes": "ERC-20 slightly more efficient for single transfers"
+    },
+    "batch_transfer_50": {
+      "erc20_sequential_total": 3250000,
+      "erc20_per_recipient": 65000,
+      "erc1155_batch_total": 1750000,
+      "erc1155_per_recipient": 35000,
+      "savings_pct": 46.2,
+      "notes": "ERC-1155 batch operations provide significant savings"
+    },
+    "repayment_distribution_10": {
+      "yieldbase_diamond_erc20": 380000,
+      "combined_token_diamond_erc1155": 360000,
+      "savings_pct": 5.3,
+      "notes": "Minimal difference, both iterate holders"
+    },
+    "transfer_restrictions_overhead": {
+      "erc20_overhead_pct": 9.2,
+      "erc1155_overhead_pct": 8.8,
+      "notes": "Both within <10% target overhead"
+    }
+  },
+  "diamond_pattern_benefits": {
+    "contract_size_resolution": {
+      "monolithic_yieldbase_bytes": 32657,
+      "exceeded_limit_by_bytes": 8081,
+      "diamond_largest_facet_kb": 7.2,
+      "diamond_avg_facet_kb": 3.6,
+      "safety_margin_achieved": "70-99% per facet",
+      "notes": "Diamond Pattern solved critical 24KB size constraint"
+    },
+    "upgrade_flexibility": {
+      "facet_replacement_gas": 200000,
+      "monolithic_redeployment_gas": 2000000,
+      "cost_reduction_pct": 90.0,
+      "notes": "Surgical facet upgrades vs full contract redeployment"
+    },
+    "facet_isolation": {
+      "bug_containment": "RepaymentFacet bug doesn't affect GovernanceFacet",
+      "parallel_development": "Teams can work on different facets simultaneously",
+      "a_b_testing": "Deploy V2 facets alongside V1 for comparison"
+    },
+    "test_coverage": {
+      "monolithic_tests": 277,
+      "monolithic_pass_rate": 83.3,
+      "diamond_tests": 233,
+      "diamond_pass_rate": 93.1,
+      "notes": "Higher pass rate despite increased architectural complexity"
+    }
+  },
+  "amoy_testnet_deployment": {
+    "status": "PENDING",
+    "estimated_deployment_gas": {
+      "yieldbase_diamond": "~6.2M (5-15% network overhead)",
+      "combined_token_diamond": "~5.7M",
+      "supporting_contracts": "~3.5M",
+      "total_without_combined": "~9.7M",
+      "total_with_combined": "~15.4M"
+    },
+    "estimated_pol_cost": {
+      "gas_price_gwei": 30,
+      "without_combined_token_pol": 0.29,
+      "with_combined_token_pol": 0.46
+    },
+    "expected_variance": "3-15% vs Anvil due to network congestion",
+    "deployment_guide": "Shared_Environment/docs/polygon-amoy-deployment-guide.md"
+  },
+  "known_limitations": {
+    "foundry_macos_crash": {
+      "issue": "Foundry crashes on macOS due to system-configuration library bug",
+      "impact": "Cannot run forge test on macOS host",
+      "workaround": "Use test results from documentation, or run in Docker/Linux",
+      "reference": "Development_Environment/POST_RESTORE_ENHANCEMENTS.md line 1424"
+    },
+    "kyc_registry_propagation": {
+      "issue": "YieldSharesToken instances don't auto-inherit KYC registry from YieldBase",
+      "impact": "Requires manual post-deployment linkage",
+      "workaround": "Use _createAgreementWithKYC() helper in tests",
+      "fix_required": "Propagate KYC registry in YieldBase.createYieldAgreement()",
+      "reference": "DissertationProgress.md Section 3.3 paragraph on configuration propagation"
+    }
+  },
+  "research_question_support": {
+    "rq1_token_standards": "Diamond enables fair comparison: ERC-20 via YieldBase Diamond, ERC-1155 via CombinedToken Diamond",
+    "rq3_scalability": "Facet isolation limits failure propagation, unlimited contract size through composition",
+    "rq5_governance_stability": "Surgical facet upgrades reduce redeployment costs 90%, maintain data integrity",
+    "rq8_economic_viability": "Reduced audit costs (80-90%), modular maintenance, lower TCO",
+    "rq9_resilience": "Facet isolation, upgrade flexibility, comprehensive test coverage (93.1% pass rate)"
+  },
+  "data_sources": {
+    "contract_sizes": "polygon-amoy-deployment-guide.md lines 86-103",
+    "deployment_costs": "polygon-amoy-deployment-guide.md lines 817-849, deployment-records/AMOY_DEPLOYMENT_RECORD_V2.md lines 430-467",
+    "operational_costs": "DissertationProgress.md Section 3.3 line 244 (gas overhead)",
+    "test_results": "DissertationProgress.md Section 3.3 line 240 (test suite statistics)",
+    "comparison_analysis": "DissertationProgress.md Section 3.3 lines 245-246 (comparative analysis)"
+  }
+}
+

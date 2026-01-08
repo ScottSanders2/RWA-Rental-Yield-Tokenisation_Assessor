@@ -1,0 +1,339 @@
+# The Graph Subgraph Schema for RWA Tokenization Platform
+# Defines entities for autonomous ROI reporting, pooling analytics, and governance tracking
+# Supports both ERC-721+ERC-20 and ERC-1155 token standard variants
+
+"""
+Property entity representing tokenized real estate properties
+Sourced from PropertyNFT contract events
+One-to-one relationship with YieldAgreement
+"""
+type Property @entity {
+  "Property NFT token ID (bytes)"
+  id: Bytes!
+  
+  "Hashed property address for privacy"
+  propertyAddressHash: Bytes!
+  
+  "IPFS URI for property metadata"
+  metadataURI: String!
+  
+  "Verification status"
+  isVerified: Boolean!
+  
+  "Address of verifier (if verified)"
+  verifier: Bytes
+  
+  "Timestamp of verification"
+  verificationTimestamp: BigInt
+  
+  "Linked yield agreement (one-to-one)"
+  yieldAgreement: YieldAgreement
+  
+  "Property creation timestamp"
+  createdAt: BigInt!
+  
+  "Block number of property creation"
+  createdAtBlock: BigInt!
+}
+
+"""
+YieldAgreement entity representing rental yield tokenization agreements
+Sourced from YieldBase contract events
+Core entity for ROI reporting and pooling analytics
+"""
+type YieldAgreement @entity {
+  "Agreement ID (bytes)"
+  id: Bytes!
+  
+  "Linked property NFT"
+  property: Property!
+  
+  "Upfront capital amount in wei"
+  upfrontCapital: BigInt!
+  
+  "Agreement term in months"
+  termMonths: Int!
+  
+  "Annual ROI in basis points (e.g., 1200 = 12%)"
+  annualROIBasisPoints: Int!
+  
+  "Total amount repaid in wei (cumulative)"
+  totalRepaid: BigInt!
+  
+  "Agreement active status"
+  isActive: Boolean!
+  
+  "Agreement completed status"
+  isCompleted: Boolean!
+  
+  "Completion timestamp (if completed)"
+  completedAt: BigInt
+  
+  "Token contract address (YieldSharesToken) or yieldTokenId (ERC-1155)"
+  tokenContract: Bytes!
+  
+  "Token standard: 'ERC721' for separate contracts, 'ERC1155' for combined"
+  tokenStandard: String!
+  
+  "Repayment history (derived from Repayment entities)"
+  repayments: [Repayment!]! @derivedFrom(field: "agreement")
+  
+  "Shareholders/investors (derived from Shareholder entities)"
+  shareholders: [Shareholder!]! @derivedFrom(field: "agreement")
+  
+  "Governance proposals (derived from GovernanceProposal entities)"
+  governanceProposals: [GovernanceProposal!]! @derivedFrom(field: "agreement")
+  
+  "Agreement creation timestamp"
+  createdAt: BigInt!
+  
+  "Block number of agreement creation"
+  createdAtBlock: BigInt!
+  
+  "Last repayment timestamp"
+  lastRepaymentAt: BigInt
+  
+  "Expected monthly payment in wei (calculated from upfrontCapital, termMonths, ROI)"
+  monthlyPaymentExpected: BigInt!
+  
+  "Total expected repayment in wei (calculated from upfrontCapital and ROI)"
+  totalExpectedRepayment: BigInt!
+  
+  "Actual ROI in basis points (calculated from totalRepaid and upfrontCapital)"
+  actualROIBasisPoints: Int
+}
+
+"""
+Repayment entity representing individual repayment transactions
+Sourced from YieldBase RepaymentMade, PartialRepaymentMade, EarlyRepaymentMade events
+Enables repayment history tracking and ROI variance analysis
+"""
+type Repayment @entity {
+  "Transaction hash + log index (unique per event)"
+  id: Bytes!
+  
+  "Linked yield agreement"
+  agreement: YieldAgreement!
+  
+  "Repayment amount in wei"
+  amount: BigInt!
+  
+  "Repayment timestamp"
+  timestamp: BigInt!
+  
+  "Block number of repayment"
+  blockNumber: BigInt!
+  
+  "Partial repayment flag"
+  isPartial: Boolean!
+  
+  "Arrears payment portion (for partial repayments)"
+  arrearsPayment: BigInt
+  
+  "Current payment portion (for partial repayments)"
+  currentPayment: BigInt
+  
+  "Early repayment flag"
+  isEarly: Boolean!
+  
+  "Rebate amount (for early repayments)"
+  rebateAmount: BigInt
+  
+  "Transaction hash"
+  transactionHash: Bytes!
+}
+
+"""
+Shareholder entity representing yield token holders
+Sourced from YieldSharesToken SharesMinted, SharesBurned, Transfer events
+Enables pooling analytics and shareholder distribution tracking
+"""
+type Shareholder @entity {
+  "Agreement ID + investor address (composite key)"
+  id: Bytes!
+  
+  "Linked yield agreement"
+  agreement: YieldAgreement!
+  
+  "Investor address"
+  investor: Bytes!
+  
+  "Current share balance"
+  shares: BigInt!
+  
+  "Initial capital contributed in wei"
+  capitalContributed: BigInt!
+  
+  "Cumulative distributions received in wei"
+  distributionsReceived: BigInt!
+  
+  "Last update timestamp"
+  lastUpdated: BigInt!
+  
+  "Active shareholder flag (shares > 0)"
+  isActive: Boolean!
+}
+
+"""
+GovernanceProposal entity representing on-chain governance proposals
+Sourced from GovernanceController ProposalCreated events
+Enables governance participation tracking and voting analytics
+"""
+type GovernanceProposal @entity {
+  "Proposal ID (bytes)"
+  id: Bytes!
+  
+  "Proposer address"
+  proposer: Bytes!
+  
+  "Linked yield agreement"
+  agreement: YieldAgreement!
+  
+  "Proposal type: ROI_ADJUSTMENT, RESERVE_ALLOCATION, etc."
+  proposalType: String!
+  
+  "Target value for proposal (ROI basis points, reserve amount, etc.)"
+  targetValue: BigInt!
+  
+  "Proposal description"
+  description: String!
+  
+  "Voting start timestamp"
+  votingStart: BigInt!
+  
+  "Voting end timestamp"
+  votingEnd: BigInt!
+  
+  "Total votes in favor (weighted by voting power)"
+  forVotes: BigInt!
+  
+  "Total votes against (weighted by voting power)"
+  againstVotes: BigInt!
+  
+  "Total abstain votes (weighted by voting power)"
+  abstainVotes: BigInt!
+  
+  "Execution status"
+  executed: Boolean!
+  
+  "Defeat status"
+  defeated: Boolean!
+  
+  "Quorum reached flag"
+  quorumReached: Boolean!
+  
+  "Individual votes (derived from Vote entities)"
+  votes: [Vote!]! @derivedFrom(field: "proposal")
+  
+  "Proposal creation timestamp"
+  createdAt: BigInt!
+  
+  "Execution timestamp (if executed)"
+  executedAt: BigInt
+}
+
+"""
+Vote entity representing individual governance votes
+Sourced from GovernanceController VoteCast events
+Enables voting participation analysis and voter behavior tracking
+"""
+type Vote @entity {
+  "Proposal ID + voter address (composite key)"
+  id: Bytes!
+  
+  "Linked governance proposal"
+  proposal: GovernanceProposal!
+  
+  "Voter address"
+  voter: Bytes!
+  
+  "Vote support: 0=against, 1=for, 2=abstain"
+  support: Int!
+  
+  "Voting power (based on share balance)"
+  votingPower: BigInt!
+  
+  "Vote timestamp"
+  timestamp: BigInt!
+  
+  "Transaction hash"
+  transactionHash: Bytes!
+}
+
+"""
+AnalyticsSummary singleton entity for platform-wide aggregate metrics
+Updated by all mapping functions for global analytics
+Single instance with id='GLOBAL'
+"""
+type AnalyticsSummary @entity {
+  "Singleton ID (always 'GLOBAL')"
+  id: Bytes!
+  
+  "Total agreements created"
+  totalAgreements: Int!
+  
+  "Total capital deployed in wei (sum of upfrontCapital)"
+  totalCapitalDeployed: BigInt!
+  
+  "Total repayments distributed in wei (sum of repayment amounts)"
+  totalRepaymentsDistributed: BigInt!
+  
+  "Active agreements count"
+  activeAgreements: Int!
+  
+  "Completed agreements count"
+  completedAgreements: Int!
+  
+  "Total unique shareholders across all agreements"
+  totalShareholders: Int!
+  
+  "Platform-wide average ROI in basis points"
+  averageROIBasisPoints: Int!
+  
+  "ERC-721+ERC-20 agreements count"
+  erc721AgreementCount: Int!
+  
+  "ERC-1155 agreements count"
+  erc1155AgreementCount: Int!
+  
+  "Total governance proposals created"
+  totalGovernanceProposals: Int!
+  
+  "Total votes cast across all proposals"
+  totalVotesCast: Int!
+  
+  "Last update timestamp"
+  lastUpdated: BigInt!
+}
+
+"""
+TransferRestrictionEvent entity representing blocked transfer attempts
+Sourced from YieldSharesToken TransferBlocked events
+Enables secondary market restriction analytics and compliance tracking
+"""
+type TransferRestrictionEvent @entity {
+  "Transaction hash + log index (unique per event)"
+  id: Bytes!
+  
+  "Linked yield agreement"
+  agreement: YieldAgreement!
+  
+  "Transfer sender address"
+  from: Bytes!
+  
+  "Transfer recipient address"
+  to: Bytes!
+  
+  "Attempted transfer amount in shares"
+  amount: BigInt!
+  
+  "Restriction reason (lockup, max shares, min holding, etc.)"
+  reason: String!
+  
+  "Restriction event timestamp"
+  timestamp: BigInt!
+  
+  "Block number"
+  blockNumber: BigInt!
+}
+

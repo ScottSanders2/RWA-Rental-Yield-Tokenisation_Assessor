@@ -1,0 +1,19 @@
+# Detox Mobile Testing Stub Dockerfile for Test Environment
+# Placeholder for future React Native E2E testing
+
+FROM node:18-alpine
+
+# Install system dependencies
+RUN apk add --no-cache curl bash
+
+# Set working directory
+WORKDIR /detox
+
+# Install Detox CLI
+RUN npm install -g detox-cli
+
+# Create placeholder message
+RUN echo "Detox testing container ready. React Native tests will be implemented in future iterations." > /detox/ready.txt
+
+# Default command (placeholder)
+CMD ["cat", "/detox/ready.txt"]

@@ -1,0 +1,31 @@
+fix: Payment Summary static USD calculation and Property Payer Address population
+
+FIXES:
+1. Payment Summary - Static USD Calculation
+   - Removed formatDualCurrency from Payment Summary display
+   - Implemented direct simple interest calculation
+   - Display shows static USD amounts not fluctuating ETH conversions
+
+2. Property Payer Address - Connected Wallet
+   - Modified handleMockWallet to use connected wallet address first
+   - Address properly converted to lowercase for validation
+   - Consistent address across Dashboard and Create Yield Agreement
+
+3. Mock Wallet Address Length Fix
+   - Fixed mock address from 41 to 42 characters
+   - Ethereum address validation now passes
+
+4. Mock Mode UI Enhancement
+   - Added Enable/Disable Mock buttons to Dashboard
+   - Fixed Text variant compatibility issue
+
+VALIDATION:
+- Connect wallet displays correct 42-character address
+- Property Payer Address populated with same address
+- Ethereum address validation passes
+- Payment Summary shows static USD calculations
+- Yield agreement creation successful
+- Agreement ID 46 created in backend
+
+TEST RESULTS: iOS Simulator testing successful
+

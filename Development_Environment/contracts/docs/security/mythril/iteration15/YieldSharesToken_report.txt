@@ -1,0 +1,80 @@
+/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/contracts/.venv/lib/python3.13/site-packages/eth/__init__.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+==== Integer Arithmetic Bugs ====
+SWC ID: 101
+Severity: High
+Contract: KYCRegistry
+Function name: getKYCTier(address)
+PC address: 11532
+Estimated Gas Usage: 3053 - 4185
+The arithmetic operator can underflow.
+It is possible to cause an integer overflow or underflow in the arithmetic operation. 
+--------------------
+In file: #utility.yul:439
+
+      {
+
+            let elementPos :=
+
+--------------------
+Initial State:
+
+Account: [CREATOR], balance: 0x0, nonce:0, storage:{}
+Account: [ATTACKER], balance: 0x0, nonce:0, storage:{}
+
+Transaction Sequence:
+
+Caller: [CREATOR], calldata: , decoded_data: , value: 0x0
+Caller: [CREATOR], function: getKYCTier(address), txdata: 0xc828daa40000000000000000000000000000000000000000000000000000000001ffffcd, decoded_data: ('0x0000000000000000000000000000000001ffffcd',), value: 0x0
+
+==== Integer Arithmetic Bugs ====
+SWC ID: 101
+Severity: High
+Contract: YieldSharesToken
+Function name: name()
+PC address: 27296
+Estimated Gas Usage: 2668 - 3610
+The arithmetic operator can underflow.
+It is possible to cause an integer overflow or underflow in the arithmetic operation. 
+--------------------
+In file: #utility.yul:652
+
+eq(outOfPlaceEncoding, lt(length, 32))
+
+--------------------
+Initial State:
+
+Account: [CREATOR], balance: 0x0, nonce:0, storage:{}
+Account: [ATTACKER], balance: 0x0, nonce:0, storage:{}
+
+Transaction Sequence:
+
+Caller: [CREATOR], calldata: , decoded_data: , value: 0x0
+Caller: [CREATOR], function: name(), txdata: 0x06fdde03, value: 0x0
+
+==== Integer Arithmetic Bugs ====
+SWC ID: 101
+Severity: High
+Contract: YieldSharesToken
+Function name: symbol()
+PC address: 27296
+Estimated Gas Usage: 2710 - 3652
+The arithmetic operator can underflow.
+It is possible to cause an integer overflow or underflow in the arithmetic operation. 
+--------------------
+In file: #utility.yul:652
+
+eq(outOfPlaceEncoding, lt(length, 32))
+
+--------------------
+Initial State:
+
+Account: [CREATOR], balance: 0x0, nonce:0, storage:{}
+Account: [ATTACKER], balance: 0x0, nonce:0, storage:{}
+
+Transaction Sequence:
+
+Caller: [CREATOR], calldata: , decoded_data: , value: 0x0
+Caller: [SOMEGUY], function: symbol(), txdata: 0x95d89b41, value: 0x0
+
+

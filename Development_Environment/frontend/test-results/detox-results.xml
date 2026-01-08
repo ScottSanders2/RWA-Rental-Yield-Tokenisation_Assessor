@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="19" failures="2" errors="0" time="174.554">
+  <testsuite name="Yield Agreement Creation Workflow (Mobile)" errors="0" failures="1" skipped="0" timestamp="2025-11-04T07:48:46" time="76.536" tests="6">
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should display yield agreement creation form" name="Yield Agreement Creation Workflow (Mobile) should display yield agreement creation form" time="5.51">
+    </testcase>
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should create yield agreement with minimum required fields" name="Yield Agreement Creation Workflow (Mobile) should create yield agreement with minimum required fields" time="30.705">
+      <failure>Test Failed: Timed out while waiting for expectation: TOEXIST WITH MATCHER(id == “success_banner”) TIMEOUT(15s)
+
+HINT: To print view hierarchy on failed actions/matches, use log-level verbose or higher.
+    at Object.withTimeout (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/e2e/yield-agreement-creation.detox.test.js:84:10)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+    at _next (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should validate upfront capital field" name="Yield Agreement Creation Workflow (Mobile) should validate upfront capital field" time="17.861">
+    </testcase>
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should display ETH equivalent when USD amount is entered" name="Yield Agreement Creation Workflow (Mobile) should display ETH equivalent when USD amount is entered" time="6.433">
+    </testcase>
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should allow generating mock wallet for property payer" name="Yield Agreement Creation Workflow (Mobile) should allow generating mock wallet for property payer" time="10.943">
+    </testcase>
+    <testcase classname="Yield Agreement Creation Workflow (Mobile) should load creation form quickly" name="Yield Agreement Creation Workflow (Mobile) should load creation form quickly" time="4.215">
+    </testcase>
+  </testsuite>
+  <testsuite name="Property Registration Workflow (Mobile)" errors="0" failures="1" skipped="0" timestamp="2025-11-04T07:50:02" time="59.206" tests="5">
+    <testcase classname="Property Registration Workflow (Mobile) should display property registration form" name="Property Registration Workflow (Mobile) should display property registration form" time="4.352">
+    </testcase>
+    <testcase classname="Property Registration Workflow (Mobile) should register property with minimum required fields" name="Property Registration Workflow (Mobile) should register property with minimum required fields" time="28.402">
+    </testcase>
+    <testcase classname="Property Registration Workflow (Mobile) should validate property address field" name="Property Registration Workflow (Mobile) should validate property address field" time="16.467">
+      <failure>Test Failed: Failed expectation: TOBEVISIBLE WITH MATCHER(id == “property_address_input”), View “&lt;RCTUITextField: 0x106a84e00&gt;” is not visible: View is clipped by one or more of its superviews&apos; bounds and does not pass visibility percent threshold (75)
+
+HINT: To print view hierarchy on failed actions/matches, use log-level verbose or higher.
+    at Object.toBeVisible (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/e2e/property-registration.detox.test.js:161:60)
+    at Generator.next (&lt;anonymous&gt;)
+    at asyncGeneratorStep (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+    at _next (/Users/scott/Cursor/RWA-Rental-Yield-Tokenisation_v5.1/Development_Environment/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)</failure>
+    </testcase>
+    <testcase classname="Property Registration Workflow (Mobile) should show token standard banner" name="Property Registration Workflow (Mobile) should show token standard banner" time="5.415">
+    </testcase>
+    <testcase classname="Property Registration Workflow (Mobile) should load registration form quickly" name="Property Registration Workflow (Mobile) should load registration form quickly" time="4.254">
+    </testcase>
+  </testsuite>
+  <testsuite name="Wallet Connection Workflow (Mobile)" errors="0" failures="0" skipped="0" timestamp="2025-11-04T07:51:01" time="35.272" tests="5">
+    <testcase classname="Wallet Connection Workflow (Mobile) should display wallet connection banner when not connected" name="Wallet Connection Workflow (Mobile) should display wallet connection banner when not connected" time="3.11">
+    </testcase>
+    <testcase classname="Wallet Connection Workflow (Mobile) should connect wallet using mock mode in simulator" name="Wallet Connection Workflow (Mobile) should connect wallet using mock mode in simulator" time="5.657">
+    </testcase>
+    <testcase classname="Wallet Connection Workflow (Mobile) should show error message when connecting without mock mode" name="Wallet Connection Workflow (Mobile) should show error message when connecting without mock mode" time="15.695">
+    </testcase>
+    <testcase classname="Wallet Connection Workflow (Mobile) should disconnect wallet" name="Wallet Connection Workflow (Mobile) should disconnect wallet" time="5.514">
+    </testcase>
+    <testcase classname="Wallet Connection Workflow (Mobile) should connect mock wallet within acceptable time" name="Wallet Connection Workflow (Mobile) should connect mock wallet within acceptable time" time="5.024">
+    </testcase>
+  </testsuite>
+  <testsuite name="Dashboard (Mobile)" errors="0" failures="0" skipped="0" timestamp="2025-11-04T07:51:37" time="3.37" tests="3">
+    <testcase classname="Dashboard (Mobile) should display dashboard screen on launch" name="Dashboard (Mobile) should display dashboard screen on launch" time="0.137">
+    </testcase>
+    <testcase classname="Dashboard (Mobile) should display wallet connection banner" name="Dashboard (Mobile) should display wallet connection banner" time="0.144">
+    </testcase>
+    <testcase classname="Dashboard (Mobile) should display connect wallet button" name="Dashboard (Mobile) should display connect wallet button" time="0.139">
+    </testcase>
+  </testsuite>
+</testsuites>

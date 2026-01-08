@@ -1,0 +1,542 @@
+[
+  {
+    "v23_img_num": 1,
+    "figure_label": "**Figure 4.1: Multi-Environment Docker Architecture (Logical View)**",
+    "v23_line": 1490
+  },
+  {
+    "v23_img_num": 2,
+    "figure_label": "**Figure 4.2: Multi-Environment Docker Architecture (Physical View)**",
+    "v23_line": 1503
+  },
+  {
+    "v23_img_num": 3,
+    "figure_label": "**Figure 4.4: Monitoring Architecture Diagram**",
+    "v23_line": 1645
+  },
+  {
+    "v23_img_num": 4,
+    "figure_label": "**Figure 4.5: Mobile Application Architecture**",
+    "v23_line": 1773
+  },
+  {
+    "v23_img_num": 5,
+    "figure_label": "**Figure 4.6: Backend API Architecture**",
+    "v23_line": 1854
+  },
+  {
+    "v23_img_num": 6,
+    "figure_label": "**Figure 4.7: Property Owner Workflow**",
+    "v23_line": 1858
+  },
+  {
+    "v23_img_num": 6,
+    "figure_label": "**Figure 4.7: Yield Tokenisation Architecture**",
+    "v23_line": 1926
+  },
+  {
+    "v23_img_num": 7,
+    "figure_label": "**Figure 4.8: Complete Yield Tokenization Workflow**",
+    "v23_line": 1930
+  },
+  {
+    "v23_img_num": 8,
+    "figure_label": "**Figure 4.9: Repayment Processing Decision Tree**",
+    "v23_line": 1934
+  },
+  {
+    "v23_img_num": 9,
+    "figure_label": "**Figure 4.10: Pooling Mechanism Workflow**",
+    "v23_line": 1938
+  },
+  {
+    "v23_img_num": 8,
+    "figure_label": "**Figure 4.11: Default Handling Workflow**",
+    "v23_line": 1942
+  },
+  {
+    "v23_img_num": 10,
+    "figure_label": "**Figure 4.12: ERC-7201 Storage Layout**",
+    "v23_line": 2021
+  },
+  {
+    "v23_img_num": 11,
+    "figure_label": "**Figure 4.13: Analytics Architecture (The Graph Protocol)**",
+    "v23_line": 2082
+  },
+  {
+    "v23_img_num": 12,
+    "figure_label": "**Figure 4.14: Subgraph Entity Relationships**",
+    "v23_line": 2086
+  },
+  {
+    "v23_img_num": 13,
+    "figure_label": "**Figure 4.16: Governance Architecture**",
+    "v23_line": 2450
+  },
+  {
+    "v23_img_num": 14,
+    "figure_label": "**Figure 4.17: Governance Proposal Flow**",
+    "v23_line": 2460
+  },
+  {
+    "v23_img_num": 15,
+    "figure_label": "**Figure 4.18: Secondary Market Architecture**",
+    "v23_line": 2492
+  },
+  {
+    "v23_img_num": 16,
+    "figure_label": "**Figure 4.19: Transfer Restriction Flow**",
+    "v23_line": 2523
+  },
+  {
+    "v23_img_num": 17,
+    "figure_label": "**Figure 4.20: KYC Architecture**",
+    "v23_line": 2554
+  },
+  {
+    "v23_img_num": 18,
+    "figure_label": "**Figure 4.21: KYC Verification Workflow**",
+    "v23_line": 2563
+  },
+  {
+    "v23_img_num": 19,
+    "figure_label": "**Figure 4.22: Entity-Relationship Diagram**",
+    "v23_line": 2595
+  },
+  {
+    "v23_img_num": 20,
+    "figure_label": "**Figure 4.23: ERC-1155 Architecture**",
+    "v23_line": 2620
+  },
+  {
+    "v23_img_num": 21,
+    "figure_label": "**Figure 4.24: ERC-20 Token Flow**",
+    "v23_line": 2637
+  },
+  {
+    "v23_img_num": 22,
+    "figure_label": "**Figure 4.25: Property NFT Architecture**",
+    "v23_line": 2652
+  },
+  {
+    "v23_img_num": 23,
+    "figure_label": "**Figure 4.26: Share Transfer Architecture**",
+    "v23_line": 2667
+  },
+  {
+    "v23_img_num": 24,
+    "figure_label": "**Figure 4.27: Use Case Diagram**",
+    "v23_line": 2701
+  },
+  {
+    "v23_img_num": 25,
+    "figure_label": "**Figure 4.28: Mobile Workflow**",
+    "v23_line": 2729
+  },
+  {
+    "v23_img_num": 26,
+    "figure_label": "**Figure 4.29: Dashboard Wireframe**",
+    "v23_line": 2750
+  },
+  {
+    "v23_img_num": 27,
+    "figure_label": "**Figure 4.30: Property Registration Wireframe**",
+    "v23_line": 2759
+  },
+  {
+    "v23_img_num": 28,
+    "figure_label": "**Figure 4.31: Yield Agreement Wireframe**",
+    "v23_line": 2768
+  },
+  {
+    "v23_img_num": 29,
+    "figure_label": "**Figure 4.32: Mobile Dashboard Wireframe**",
+    "v23_line": 2782
+  },
+  {
+    "v23_img_num": 30,
+    "figure_label": "**Figure 4.33: Mobile Yield Agreement Wireframe**",
+    "v23_line": 2790
+  },
+  {
+    "v23_img_num": 31,
+    "figure_label": "**Figure 5.1: Docker Desktop Container Status**",
+    "v23_line": 3600
+  },
+  {
+    "v23_img_num": 32,
+    "figure_label": "**Figure 5.2: Grafana Monitoring Dashboard**",
+    "v23_line": 3609
+  },
+  {
+    "v23_img_num": 33,
+    "figure_label": "**Figure 5.3: Prometheus Targets**",
+    "v23_line": 3618
+  },
+  {
+    "v23_img_num": 34,
+    "figure_label": "**Figure 5.4: Backup Directory Structure**",
+    "v23_line": 3627
+  },
+  {
+    "v23_img_num": 35,
+    "figure_label": "**Figure 5.5: Foundry Project Structure**",
+    "v23_line": 3725
+  },
+  {
+    "v23_img_num": 36,
+    "figure_label": "**Figure 5.6: Gas Report**",
+    "v23_line": 3734
+  },
+  {
+    "v23_img_num": 37,
+    "figure_label": "**Figure 5.7: ERC-7201 Storage Layout**",
+    "v23_line": 3742
+  },
+  {
+    "v23_img_num": 38,
+    "figure_label": "**Figure 5.8: Bytecode Size Verification**",
+    "v23_line": 3751
+  },
+  {
+    "v23_img_num": 39,
+    "figure_label": "**Figure 5.9: Property Registration Form**",
+    "v23_line": 4185
+  },
+  {
+    "v23_img_num": 40,
+    "figure_label": "**Figure 5.10: Yield Agreement Creation Interface**",
+    "v23_line": 4194
+  },
+  {
+    "v23_img_num": 41,
+    "figure_label": "**Figure 5.11: Analytics Dashboard**",
+    "v23_line": 4204
+  },
+  {
+    "v23_img_num": 42,
+    "figure_label": "**Figure 5.12: Diamond Deployment to Amoy**",
+    "v23_line": 4834
+  },
+  {
+    "v23_img_num": 43,
+    "figure_label": "**Figure 5.13: PolygonScan Transaction Confirmation**",
+    "v23_line": 4843
+  },
+  {
+    "v23_img_num": 44,
+    "figure_label": "**Figure 5.14: Diamond Architecture Test Results**",
+    "v23_line": 4852
+  },
+  {
+    "v23_img_num": 45,
+    "figure_label": "**Figure 5.15: Simulation Test Results**",
+    "v23_line": 4910
+  },
+  {
+    "v23_img_num": 46,
+    "figure_label": "**Figure 5.16: Gas Comparison Report**",
+    "v23_line": 4919
+  },
+  {
+    "v23_img_num": 47,
+    "figure_label": "**Figure 5.17: Variance Tracking Metrics**",
+    "v23_line": 4928
+  },
+  {
+    "v23_img_num": 7,
+    "figure_label": "**Figure 5.18: Yield Tokenization Flowchart**",
+    "v23_line": 4937
+  },
+  {
+    "v23_img_num": 48,
+    "figure_label": "**Figure 6.1: Token Standard Gas Comparison (Bar Chart)**",
+    "v23_line": 5467
+  },
+  {
+    "v23_img_num": 49,
+    "figure_label": "**Figure 6.2: Batch Operation Scaling Curve (Line Chart)**",
+    "v23_line": 5532
+  },
+  {
+    "v23_img_num": 50,
+    "figure_label": "**Figure 6.3: Amoy vs Anvil Variance Heatmap**",
+    "v23_line": 5631
+  },
+  {
+    "v23_img_num": 51,
+    "figure_label": "**Figure 6.4: Volatile Simulation Recovery Percentages (Radar Chart)**",
+    "v23_line": 5664
+  },
+  {
+    "v23_img_num": 52,
+    "figure_label": "**Figure 6.5: Diamond Architecture Call Overhead Analysis (Box Plot)**",
+    "v23_line": 5905
+  },
+  {
+    "v23_img_num": 55,
+    "figure_label": "**Figure 6.8: Test Pass Rate Evolution (Stacked Area Chart)**",
+    "v23_line": 6057
+  },
+  {
+    "v23_img_num": 56,
+    "figure_label": "**Figure 6.9: Architecture Comparison (Side-by-Side Diagram)**",
+    "v23_line": 6061
+  },
+  {
+    "v23_img_num": 57,
+    "figure_label": "**Figure 6.10: User Workflow Diagrams (Sequence Diagrams)**",
+    "v23_line": 6065
+  },
+  {
+    "v23_img_num": 58,
+    "figure_label": "**Figure 6.11: Load Test System Architecture**",
+    "v23_line": 6069
+  },
+  {
+    "v23_img_num": 59,
+    "figure_label": "**Figure 6.12: Load Test Workflow**",
+    "v23_line": 6073
+  },
+  {
+    "v23_img_num": 60,
+    "figure_label": "**Figure 6.13: Load Testing Results Summary**",
+    "v23_line": 6077
+  },
+  {
+    "v23_img_num": 61,
+    "figure_label": "**Figure 6.14: Load Test Gas Scaling**",
+    "v23_line": 6081
+  },
+  {
+    "v23_img_num": 62,
+    "figure_label": "**Figure 6.15: Load Test Shareholder Distribution**",
+    "v23_line": 6085
+  },
+  {
+    "v23_img_num": 63,
+    "figure_label": "**Figure 6.16: Load Test Success Rates**",
+    "v23_line": 6089
+  },
+  {
+    "v23_img_num": 64,
+    "figure_label": "**Figure 6.17: Load Test Latency Distribution**",
+    "v23_line": 6093
+  },
+  {
+    "v23_img_num": 65,
+    "figure_label": "**Figure 6.18: Load Test Metrics Summary**",
+    "v23_line": 6097
+  },
+  {
+    "v23_img_num": 66,
+    "figure_label": "**Figure 6.19: Load Test Cost Comparison**",
+    "v23_line": 6101
+  },
+  {
+    "v23_img_num": 67,
+    "figure_label": "**Figure 6.20: Load Test ERC-1155 Efficiency**",
+    "v23_line": 6105
+  },
+  {
+    "v23_img_num": 68,
+    "figure_label": "**Figure 6.21: Load Test Token Recycling**",
+    "v23_line": 6109
+  },
+  {
+    "v23_img_num": 69,
+    "figure_label": "**Figure 6.22: Load Test Restriction Enforcement**",
+    "v23_line": 6113
+  },
+  {
+    "v23_img_num": 70,
+    "figure_label": "**Figure 6.23: Load Test Restriction Overhead**",
+    "v23_line": 6117
+  },
+  {
+    "v23_img_num": 71,
+    "figure_label": "**Figure 6.24: Load Test Research Question Validation**",
+    "v23_line": 6121
+  },
+  {
+    "v23_img_num": 73,
+    "figure_label": "**Figure 7.2: Tokenisation Interest Distribution and Cross-Tabulation**",
+    "v23_line": 6430
+  },
+  {
+    "v23_img_num": 74,
+    "figure_label": "**Figure 7.3: Spearman Rank Correlation Matrix**",
+    "v23_line": 6434
+  },
+  {
+    "v23_img_num": 73,
+    "figure_label": "**Figure S.2: Tokenisation Interest Analysis (3-Panel Composite)**",
+    "v23_line": 6442
+  },
+  {
+    "v23_img_num": 74,
+    "figure_label": "**Figure S.3: Spearman Correlation Matrix (Heatmap)**",
+    "v23_line": 6446
+  },
+  {
+    "v23_img_num": 77,
+    "figure_label": "**Figure S.6: Platform Feature Importance Ranking**",
+    "v23_line": 6460
+  },
+  {
+    "v23_img_num": 78,
+    "figure_label": "**Figure 7.4: Interview Participant Demographics (4-Panel Composite)**",
+    "v23_line": 6631
+  },
+  {
+    "v23_img_num": 79,
+    "figure_label": "**Figure 7.5: Theme Frequency Analysis**",
+    "v23_line": 6635
+  },
+  {
+    "v23_img_num": 78,
+    "figure_label": "**Figure I.1: Interview Participant Demographics (4-Panel Composite)**",
+    "v23_line": 6639
+  },
+  {
+    "v23_img_num": 79,
+    "figure_label": "**Figure I.2: Thematic Code Frequencies by Domain (9-Panel Composite)**",
+    "v23_line": 6643
+  },
+  {
+    "v23_img_num": 82,
+    "figure_label": "**Figure 7.11: Token Standard Decision Framework**",
+    "v23_line": 6833
+  },
+  {
+    "v23_img_num": 83,
+    "figure_label": "**Figure 7.12: Volatile Market Simulation Recovery Comparison**",
+    "v23_line": 7137
+  },
+  {
+    "v23_img_num": 84,
+    "figure_label": "**Figure 7.13: Testnet vs Local Performance Comparison**",
+    "v23_line": 7141
+  },
+  {
+    "v23_img_num": 85,
+    "figure_label": "**Figure F.1: Analytics Dashboard Wireframe**",
+    "v23_line": 8407
+  },
+  {
+    "v23_img_num": 86,
+    "figure_label": "**Figure F.2: Governance Dashboard Wireframe**",
+    "v23_line": 8411
+  },
+  {
+    "v23_img_num": 87,
+    "figure_label": "**Figure F.3: Governance Proposal Detail Wireframe**",
+    "v23_line": 8415
+  },
+  {
+    "v23_img_num": 88,
+    "figure_label": "**Figure F.4: KYC Verification Wireframe**",
+    "v23_line": 8419
+  },
+  {
+    "v23_img_num": 89,
+    "figure_label": "**Figure F.5: KYC Admin Wireframe**",
+    "v23_line": 8423
+  },
+  {
+    "v23_img_num": 90,
+    "figure_label": "**Figure F.6: Secondary Market Wireframe**",
+    "v23_line": 8427
+  },
+  {
+    "v23_img_num": 91,
+    "figure_label": "**Figure F.7: Investor Portfolio Wireframe**",
+    "v23_line": 8431
+  },
+  {
+    "v23_img_num": 92,
+    "figure_label": "**Figure F.8: Properties List Wireframe**",
+    "v23_line": 8435
+  },
+  {
+    "v23_img_num": 93,
+    "figure_label": "**Figure F.9: Yield Agreement Detail Wireframe**",
+    "v23_line": 8439
+  },
+  {
+    "v23_img_num": 94,
+    "figure_label": "**Figure F.10: Yield Agreements List Wireframe**",
+    "v23_line": 8443
+  },
+  {
+    "v23_img_num": 95,
+    "figure_label": "**Figure F.11: Mobile Analytics Wireframe**",
+    "v23_line": 8449
+  },
+  {
+    "v23_img_num": 96,
+    "figure_label": "**Figure F.12: Mobile Governance Wireframe**",
+    "v23_line": 8453
+  },
+  {
+    "v23_img_num": 97,
+    "figure_label": "**Figure F.13: Mobile KYC Wireframe**",
+    "v23_line": 8457
+  },
+  {
+    "v23_img_num": 98,
+    "figure_label": "**Figure F.14: Mobile KYC Admin Wireframe**",
+    "v23_line": 8461
+  },
+  {
+    "v23_img_num": 99,
+    "figure_label": "**Figure F.15: Mobile Marketplace Wireframe**",
+    "v23_line": 8465
+  },
+  {
+    "v23_img_num": 100,
+    "figure_label": "**Figure F.16: Mobile Portfolio Wireframe**",
+    "v23_line": 8469
+  },
+  {
+    "v23_img_num": 101,
+    "figure_label": "**Figure F.17: Mobile Properties List Wireframe**",
+    "v23_line": 8473
+  },
+  {
+    "v23_img_num": 102,
+    "figure_label": "**Figure F.18: Mobile Register Property Wireframe**",
+    "v23_line": 8477
+  },
+  {
+    "v23_img_num": 103,
+    "figure_label": "**Figure F.19: Mobile Yield Agreements List Wireframe**",
+    "v23_line": 8481
+  },
+  {
+    "v23_img_num": 75,
+    "figure_label": "**Figure G.1: Respondent Cluster Analysis**",
+    "v23_line": 8492
+  },
+  {
+    "v23_img_num": 77,
+    "figure_label": "**Figure G.2: Platform Feature Importance Rankings**",
+    "v23_line": 8496
+  },
+  {
+    "v23_img_num": 76,
+    "figure_label": "**Figure G.3: Investment Motivations and Concerns**",
+    "v23_line": 8500
+  },
+  {
+    "v23_img_num": 80,
+    "figure_label": "**Figure G.4: Landlord vs FinTech Expert Comparison**",
+    "v23_line": 8506
+  },
+  {
+    "v23_img_num": 81,
+    "figure_label": "**Figure G.5: Likert Scale Response Distributions**",
+    "v23_line": 8510
+  }
+]

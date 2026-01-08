@@ -1,0 +1,31 @@
+# React with Vite Frontend Dockerfile for Development Environment
+# Single-stage build with hot module replacement for development
+
+FROM node:18-alpine
+
+# Install system dependencies
+RUN apk add --no-cache curl
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY frontend/package.json frontend/package-lock.json* ./
+
+# Install dependencies (with legacy-peer-deps for React version compatibility between web and mobile)
+RUN npm install --legacy-peer-deps --verbose
+
+# Copy application source code (excluding package files which are already copied)
+COPY frontend/src ./src
+COPY frontend/index.html .
+COPY frontend/vite.config.js .
+
+# Expose Vite dev server port
+EXPOSE 5173
+
+# Set environment and PATH
+ENV NODE_ENV=development
+ENV PATH=/app/node_modules/.bin:$PATH
+
+# Run Vite dev server with hot module replacement
+CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "5173"]

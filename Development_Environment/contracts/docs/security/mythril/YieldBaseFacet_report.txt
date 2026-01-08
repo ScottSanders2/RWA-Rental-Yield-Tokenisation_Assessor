@@ -1,0 +1,31 @@
+rosetta error: failed to open elf at /lib64/ld-linux-x86-64.so.2
+ mythril.interfaces.cli [ERROR]: Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/solcx/install.py", line 633, in _validate_installation
+    installed_version = wrapper._get_solc_version(binary_path)
+  File "/usr/local/lib/python3.10/site-packages/solcx/wrapper.py", line 17, in _get_solc_version
+    stdout_data = subprocess.check_output([str(solc_binary), "--version"], encoding="utf8")
+  File "/usr/local/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/local/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/mythril/.solcx/solc-v0.8.24', '--version']' died with <Signals.SIGTRAP: 5>.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/mythril/interfaces/cli.py", line 967, in parse_args_and_execute
+    disassembler = MythrilDisassembler(
+  File "/usr/local/lib/python3.10/site-packages/mythril/mythril/mythril_disassembler.py", line 61, in __init__
+    self.solc_binary = self._init_solc_binary(solc_version)
+  File "/usr/local/lib/python3.10/site-packages/mythril/mythril/mythril_disassembler.py", line 93, in _init_solc_binary
+    solc_binary = util.solc_exists(version)
+  File "/usr/local/lib/python3.10/site-packages/mythril/ethereum/util.py", line 140, in solc_exists
+    solcx.install_solc("v" + version)
+  File "/usr/local/lib/python3.10/site-packages/solcx/install.py", line 466, in install_solc
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/solcx/install.py", line 459, in install_solc
+    _validate_installation(version, solcx_binary_path)
+  File "/usr/local/lib/python3.10/site-packages/solcx/install.py", line 636, in _validate_installation
+    raise SolcInstallationError(
+solcx.exceptions.SolcInstallationError: Downloaded binary would not execute, or returned unexpected output. If this issue persists, you can try to compile from source code using `solcx.compile_solc('0.8.24')`.
+

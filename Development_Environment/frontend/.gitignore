@@ -1,0 +1,42 @@
+# Ignore backups directory from project root
+../backups/
+
+# Also ignore any other problematic directories
+../Shared_Environment/
+../Production_Environment/
+../Test_Environment/
+
+# Node modules and build artifacts
+node_modules/
+build/
+dist/
+
+# iOS build artifacts
+ios/build/
+*.ipa
+
+# Android build artifacts
+android/app/build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
+
+
+
+
+
+

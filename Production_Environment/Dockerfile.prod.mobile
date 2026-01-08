@@ -1,0 +1,48 @@
+# Multi-stage build for React Native mobile production environment
+FROM node:18-alpine AS base
+
+# Install system dependencies for React Native
+RUN apk add --no-cache \
+    curl \
+    git \
+    bash \
+    openjdk11 \
+    && rm -rf /var/cache/apk/*
+
+# Set working directory
+WORKDIR /app
+
+# Dependencies stage
+FROM base AS dependencies
+
+# Copy package files
+COPY frontend/package*.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+# Production stage
+FROM dependencies AS production
+
+# Copy all frontend files
+COPY frontend/ ./
+
+# Set environment variables for production
+ENV NODE_ENV=production
+ENV ENVIRONMENT=production
+
+# Expose Metro bundler port (production-specific)
+EXPOSE 8083
+
+# Health check for Expo dev server
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8083/status || exit 1
+
+# Start Expo dev server for production with host binding for Docker
+CMD ["sh", "-c", "npx expo start --host lan --port 8083"]
+
+# This Dockerfile sets up React Native production environment with Expo dev server for Production environment, enabling mobile app deployment and testing with Production-specific configuration and port 8083 to avoid conflicts with Development (port 8081) and Test (port 8082) environments.
+
+
+
+

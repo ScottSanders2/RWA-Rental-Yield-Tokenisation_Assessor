@@ -1,0 +1,255 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "forge-std/Test.sol";
+import "../script/DeployDiamond.s.sol";
+
+// Facet interfaces
+import "../src/facets/YieldBaseFacet.sol";
+import "../src/facets/ViewsFacet.sol";
+import "../src/KYCRegistry.sol";
+import "../src/PropertyNFT.sol";
+import "../src/YieldSharesToken.sol";
+
+/**
+ * @title YieldSharesToken Diamond Test Suite
+ * @notice Comprehensive tests for YieldSharesToken (ERC-20) created via Diamond YieldBase
+ * @dev Tests token lifecycle, transfers, allowances, and integration with agreements
+ */
+contract YieldSharesTokenDiamondTest is Test {
+    DeployDiamond public deployer;
+    
+    KYCRegistry public kycRegistry;
+    YieldBaseFacet public yieldBaseFacet;
+    ViewsFacet public viewsFacet;
+    PropertyNFT public propertyNFT;
+    
+    address public owner;
+    address public propertyOwner;
+    address public investor1;
+    address public investor2;
+    address public investor3;
+    
+    uint256 public propertyId;
+    uint256 public agreementId;
+    YieldSharesToken public yieldToken;
+    
+    function setUp() public {
+        owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
+        propertyOwner = makeAddr("propertyOwner");
+        investor1 = makeAddr("investor1");
+        investor2 = makeAddr("investor2");
+        investor3 = makeAddr("investor3");
+        
+        // Deploy via actual script
+        deployer = new DeployDiamond();
+        deployer.run();
+        
+        // Get deployed contracts
+        kycRegistry = deployer.kycRegistry();
+        propertyNFT = deployer.propertyNFT();
+        
+        address diamondAddr = address(deployer.yieldBaseDiamond());
+        yieldBaseFacet = YieldBaseFacet(diamondAddr);
+        viewsFacet = ViewsFacet(diamondAddr);
+        
+        // Setup KYC
+        vm.startPrank(owner);
+        kycRegistry.addToWhitelist(propertyOwner);
+        kycRegistry.addToWhitelist(investor1);
+        kycRegistry.addToWhitelist(investor2);
+        kycRegistry.addToWhitelist(investor3);
+        vm.stopPrank();
+        
+        // Create property and agreement
+        vm.startPrank(owner);
+        propertyId = propertyNFT.mintProperty(
+            keccak256("TestProperty"),
+            "ipfs://test"
+        );
+        propertyNFT.verifyProperty(propertyId);
+        propertyNFT.transferFrom(owner, propertyOwner, propertyId);
+        vm.stopPrank();
+        
+        vm.prank(propertyOwner);
+        agreementId = yieldBaseFacet.createYieldAgreement(
+            propertyId,
+            100 ether,
+            100000 ether,
+            12,
+            500,
+            propertyOwner,
+            30,
+            200,
+            3,
+            true,
+            true
+        );
+        
+        // Get the created token
+        yieldToken = viewsFacet.agreementTokens(agreementId);
+    }
+    
+    // ============ TOKEN INITIALIZATION ============
+    
+    function testTokenInitialization() public view {
+        assertTrue(address(yieldToken) != address(0));
+        assertEq(yieldToken.totalSupply(), 100 ether);
+        assertEq(yieldToken.balanceOf(propertyOwner), 100 ether);
+    }
+    
+    function testTokenName() public view {
+        string memory name = yieldToken.name();
+        assertTrue(bytes(name).length > 0);
+    }
+    
+    function testTokenSymbol() public view {
+        string memory symbol = yieldToken.symbol();
+        assertTrue(bytes(symbol).length > 0);
+    }
+    
+    function testTokenDecimals() public view {
+        assertEq(yieldToken.decimals(), 18);
+    }
+    
+    // ============ TOKEN TRANSFERS ============
+    
+    function testTransferToWhitelistedUser() public {
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor1, 10 ether);
+        
+        assertEq(yieldToken.balanceOf(investor1), 10 ether);
+        assertEq(yieldToken.balanceOf(propertyOwner), 90 ether);
+    }
+    
+    function testTransferToNonWhitelistedUserFails() public {
+        address nonKYC = makeAddr("nonKYC");
+        
+        vm.prank(propertyOwner);
+        vm.expectRevert();
+        yieldToken.transfer(nonKYC, 10 ether);
+    }
+    
+    function testTransferFromWhitelistedUser() public {
+        // Transfer some tokens to investor1
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor1, 20 ether);
+        
+        // investor1 transfers to investor2
+        vm.prank(investor1);
+        yieldToken.transfer(investor2, 5 ether);
+        
+        assertEq(yieldToken.balanceOf(investor1), 15 ether);
+        assertEq(yieldToken.balanceOf(investor2), 5 ether);
+    }
+    
+    function testTransferZeroAmount() public {
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor1, 0);
+        
+        assertEq(yieldToken.balanceOf(investor1), 0);
+    }
+    
+    function testTransferInsufficientBalance() public {
+        vm.prank(investor1);
+        vm.expectRevert();
+        yieldToken.transfer(investor2, 1 ether);
+    }
+    
+    // ============ TOKEN ALLOWANCES ============
+    
+    function testApprove() public {
+        vm.prank(propertyOwner);
+        yieldToken.approve(investor1, 50 ether);
+        
+        assertEq(yieldToken.allowance(propertyOwner, investor1), 50 ether);
+    }
+    
+    function testTransferFrom() public {
+        // Approve investor1
+        vm.prank(propertyOwner);
+        yieldToken.approve(investor1, 30 ether);
+        
+        // investor1 transfers on behalf of propertyOwner
+        vm.prank(investor1);
+        yieldToken.transferFrom(propertyOwner, investor2, 20 ether);
+        
+        assertEq(yieldToken.balanceOf(investor2), 20 ether);
+        assertEq(yieldToken.balanceOf(propertyOwner), 80 ether);
+        assertEq(yieldToken.allowance(propertyOwner, investor1), 10 ether);
+    }
+    
+    function testTransferFromWithoutApprovalFails() public {
+        vm.prank(investor1);
+        vm.expectRevert();
+        yieldToken.transferFrom(propertyOwner, investor2, 10 ether);
+    }
+    
+    function testTransferFromExceedsAllowanceFails() public {
+        vm.prank(propertyOwner);
+        yieldToken.approve(investor1, 10 ether);
+        
+        vm.prank(investor1);
+        vm.expectRevert();
+        yieldToken.transferFrom(propertyOwner, investor2, 20 ether);
+    }
+    
+    function testIncreaseAllowance() public {
+        vm.startPrank(propertyOwner);
+        yieldToken.approve(investor1, 10 ether);
+        yieldToken.increaseAllowance(investor1, 5 ether);
+        vm.stopPrank();
+        
+        assertEq(yieldToken.allowance(propertyOwner, investor1), 15 ether);
+    }
+    
+    function testDecreaseAllowance() public {
+        vm.startPrank(propertyOwner);
+        yieldToken.approve(investor1, 20 ether);
+        yieldToken.decreaseAllowance(investor1, 5 ether);
+        vm.stopPrank();
+        
+        assertEq(yieldToken.allowance(propertyOwner, investor1), 15 ether);
+    }
+    
+    // ============ MULTIPLE INVESTORS ============
+    
+    function testMultipleInvestorsHoldTokens() public {
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor1, 30 ether);
+        
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor2, 20 ether);
+        
+        vm.prank(propertyOwner);
+        yieldToken.transfer(investor3, 10 ether);
+        
+        assertEq(yieldToken.balanceOf(propertyOwner), 40 ether);
+        assertEq(yieldToken.balanceOf(investor1), 30 ether);
+        assertEq(yieldToken.balanceOf(investor2), 20 ether);
+        assertEq(yieldToken.balanceOf(investor3), 10 ether);
+        assertEq(yieldToken.totalSupply(), 100 ether);
+    }
+    
+    // ============ TOKEN BURNS (NOT SUPPORTED) ============
+    
+    function testTokensBurnNotSupported() public view {
+        // YieldSharesToken doesn't support burning
+        // Total supply should remain constant
+        assertEq(yieldToken.totalSupply(), 100 ether);
+    }
+    
+    // ============ KYC INTEGRATION ============
+    
+    function testKYCEnforcementOnTransfer() public {
+        address blacklisted = makeAddr("blacklisted");
+        
+        vm.prank(owner);
+        kycRegistry.addToBlacklist(blacklisted);
+        
+        vm.prank(propertyOwner);
+        vm.expectRevert();
+        yieldToken.transfer(blacklisted, 5 ether);
+    }
+}
+

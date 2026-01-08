@@ -1,0 +1,328 @@
+/**
+ * Governance Proposal Creation Screen (React Native)
+ * Mobile-optimized touch interface for creating governance proposals
+ */
+
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  Alert
+} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { createGovernanceProposal } from '../services/apiClient.native';
+
+const GovernanceCreate = ({ navigation, route }) => {
+  const [formData, setFormData] = useState({
+    agreement_id: '',
+    proposal_type: '',
+    target_roi_percent: '',
+    target_value_usd: '',
+    description: ''
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [ethEquivalent, setEthEquivalent] = useState(null);
+
+  // Placeholder ETH price
+  const ethPrice = 2000;
+  const tokenStandard = 'ERC721';
+
+  useEffect(() => {
+    if (formData.target_value_usd && formData.proposal_type.includes('RESERVE')) {
+      const ethValue = parseFloat(formData.target_value_usd) / ethPrice;
+      setEthEquivalent(ethValue.toFixed(4));
+    } else {
+      setEthEquivalent(null);
+    }
+  }, [formData.target_value_usd, formData.proposal_type]);
+
+  const validateForm = () => {
+    if (!formData.agreement_id || formData.agreement_id <= 0) {
+      Alert.alert('Validation Error', 'Agreement ID must be greater than 0');
+      return false;
+    }
+
+    if (!formData.proposal_type) {
+      Alert.alert('Validation Error', 'Please select a proposal type');
+      return false;
+    }
+
+    if (formData.proposal_type === 'ROI_ADJUSTMENT') {
+      if (!formData.target_roi_percent || formData.target_roi_percent < 1 || formData.target_roi_percent > 50) {
+        Alert.alert('Validation Error', 'ROI must be between 1% and 50%');
+        return false;
+      }
+    }
+
+    if (formData.proposal_type.includes('RESERVE')) {
+      if (!formData.target_value_usd || formData.target_value_usd <= 0) {
+        Alert.alert('Validation Error', 'Reserve amount must be greater than 0');
+        return false;
+      }
+    }
+
+    if (!formData.description || formData.description.length < 10 || formData.description.length > 500) {
+      Alert.alert('Validation Error', 'Description must be between 10 and 500 characters');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      let targetValue;
+      if (formData.proposal_type === 'ROI_ADJUSTMENT') {
+        targetValue = Math.floor(parseFloat(formData.target_roi_percent) * 100);
+      } else if (formData.proposal_type.includes('RESERVE')) {
+        const ethValue = parseFloat(formData.target_value_usd) / ethPrice;
+        targetValue = Math.floor(ethValue * 1e18);
+      }
+
+      const proposalData = {
+        agreement_id: parseInt(formData.agreement_id),
+        proposal_type: formData.proposal_type,
+        target_value: targetValue,
+        target_value_usd: formData.target_value_usd ? parseFloat(formData.target_value_usd) : null,
+        description: formData.description,
+        token_standard: tokenStandard
+      };
+
+      const { data } = await createGovernanceProposal(proposalData);
+
+      Alert.alert(
+        'Success',
+        `Proposal created successfully! Proposal ID: ${data.blockchain_proposal_id}`,
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('GovernanceDetail', { proposalId: data.blockchain_proposal_id })
+          }
+        ]
+      );
+    } catch (err) {
+      Alert.alert('Error', err.message || 'Failed to create proposal');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Create Governance Proposal</Text>
+        <Text style={styles.subtitle}>Token Standard: {tokenStandard}</Text>
+      </View>
+
+      <View style={styles.form}>
+        {/* Agreement ID */}
+        <Text style={styles.label}>Agreement ID *</Text>
+        <TextInput
+          style={styles.input}
+          value={formData.agreement_id}
+          onChangeText={(text) => setFormData({ ...formData, agreement_id: text })}
+          keyboardType="numeric"
+          placeholder="Enter agreement ID"
+        />
+
+        {/* Proposal Type */}
+        <Text style={styles.label}>Proposal Type *</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={formData.proposal_type}
+            onValueChange={(value) => setFormData({ ...formData, proposal_type: value })}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select proposal type..." value="" />
+            <Picker.Item label="ROI Adjustment (±5% bounds)" value="ROI_ADJUSTMENT" />
+            <Picker.Item label="Reserve Allocation (≤20% capital)" value="RESERVE_ALLOCATION" />
+            <Picker.Item label="Reserve Withdrawal" value="RESERVE_WITHDRAWAL" />
+            <Picker.Item label="Parameter Update" value="PARAMETER_UPDATE" />
+          </Picker>
+        </View>
+
+        {/* Conditional Fields */}
+        {formData.proposal_type === 'ROI_ADJUSTMENT' && (
+          <>
+            <Text style={styles.label}>New Annual ROI (%) *</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.target_roi_percent}
+              onChangeText={(text) => setFormData({ ...formData, target_roi_percent: text })}
+              keyboardType="decimal-pad"
+              placeholder="e.g., 12.6"
+            />
+            <Text style={styles.helper}>Must be within ±5% of original ROI</Text>
+          </>
+        )}
+
+        {(formData.proposal_type === 'RESERVE_ALLOCATION' || formData.proposal_type === 'RESERVE_WITHDRAWAL') && (
+          <>
+            <Text style={styles.label}>Reserve Amount (USD) *</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.target_value_usd}
+              onChangeText={(text) => setFormData({ ...formData, target_value_usd: text })}
+              keyboardType="decimal-pad"
+              placeholder="e.g., 10000"
+            />
+            {ethEquivalent && (
+              <Text style={styles.helper}>≈ {ethEquivalent} ETH (at ${ethPrice}/ETH)</Text>
+            )}
+            <Text style={styles.helper}>
+              {formData.proposal_type === 'RESERVE_ALLOCATION' 
+                ? 'Maximum 20% of upfront capital' 
+                : 'Amount to return to investors'}
+            </Text>
+          </>
+        )}
+
+        {/* Description */}
+        <Text style={styles.label}>Proposal Description *</Text>
+        <TextInput
+          style={[styles.input, styles.textArea]}
+          value={formData.description}
+          onChangeText={(text) => setFormData({ ...formData, description: text })}
+          multiline
+          numberOfLines={4}
+          placeholder="Explain rationale for this governance action (10-500 characters)"
+        />
+        <Text style={styles.charCount}>{formData.description.length}/500 characters</Text>
+
+        {/* Submit Button */}
+        <TouchableOpacity
+          style={[styles.submitButton, loading && styles.submitButtonDisabled]}
+          onPress={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.submitButtonText}>Create Proposal</Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Help Text */}
+        <View style={styles.helpContainer}>
+          <Text style={styles.helpTitle}>Governance Requirements:</Text>
+          <Text style={styles.helpText}>• Minimum 1% of tokens to create proposal</Text>
+          <Text style={styles.helpText}>• 1 day delay before voting starts</Text>
+          <Text style={styles.helpText}>• 7 day voting period</Text>
+          <Text style={styles.helpText}>• 10% quorum required</Text>
+          <Text style={styles.helpText}>• Simple majority wins (For &gt; Against)</Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#2196F3',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#fff',
+    marginTop: 4,
+  },
+  form: {
+    padding: 16,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+  },
+  textArea: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+  },
+  picker: {
+    height: 50,
+  },
+  helper: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 4,
+    marginLeft: 4,
+  },
+  charCount: {
+    fontSize: 12,
+    color: '#999',
+    textAlign: 'right',
+    marginTop: 4,
+  },
+  submitButton: {
+    backgroundColor: '#2196F3',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#B0BEC5',
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  helpContainer: {
+    marginTop: 24,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  helpTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: '#333',
+  },
+  helpText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 6,
+  },
+});
+
+export default GovernanceCreate;
+

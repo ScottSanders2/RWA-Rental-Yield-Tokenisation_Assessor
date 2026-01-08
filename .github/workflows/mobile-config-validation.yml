@@ -1,0 +1,43 @@
+name: Mobile Configuration Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '**/frontend/.env.mobile'
+      - '**/frontend/src/services/apiClient.native.js'
+      - 'Shared_Environment/scripts/validate-mobile-config.sh'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '**/frontend/.env.mobile'
+      - '**/frontend/src/services/apiClient.native.js'
+      - 'Shared_Environment/scripts/validate-mobile-config.sh'
+  workflow_dispatch:
+
+jobs:
+  validate-mobile-config:
+    name: Validate Mobile Configuration
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Make validation script executable
+        run: chmod +x Shared_Environment/scripts/validate-mobile-config.sh
+      
+      - name: Run mobile configuration validation
+        run: ./Shared_Environment/scripts/validate-mobile-config.sh
+      
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-config-validation-report
+          path: |
+            Development_Environment/frontend/.env.mobile
+            Test_Environment/frontend/.env.mobile
+            Production_Environment/frontend/.env.mobile
+          retention-days: 30
+

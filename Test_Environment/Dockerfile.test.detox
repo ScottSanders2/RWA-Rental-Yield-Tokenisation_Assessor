@@ -1,0 +1,77 @@
+# Enhanced Detox Mobile Testing Dockerfile for Test Environment
+# Full Android SDK and emulator setup for React Native E2E testing
+
+FROM node:18
+
+# Install system dependencies (full Ubuntu for Android SDK)
+RUN apt-get update && apt-get install -y \
+    curl \
+    bash \
+    git \
+    unzip \
+    wget \
+    openjdk-11-jdk \
+    lib32stdc++6 \
+    lib32z1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /detox
+
+# Install Android SDK
+ENV ANDROID_HOME=/opt/android-sdk
+ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
+
+# Download and install Android command-line tools
+RUN mkdir -p $ANDROID_HOME/cmdline-tools && \
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip && \
+    unzip commandlinetools-linux-11076708_latest.zip && \
+    mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest && \
+    rm commandlinetools-linux-11076708_latest.zip
+
+# Install Android SDK components
+RUN yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses && \
+    $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+    "platform-tools" \
+    "platforms;android-30" \
+    "platforms;android-33" \
+    "build-tools;33.0.0" \
+    "emulator" \
+    "system-images;android-30;google_apis;x86"
+
+# Create Android Virtual Device
+RUN echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd \
+    -n Pixel_4_API_30 \
+    -k "system-images;android-30;google_apis;x86" \
+    --device "pixel_4"
+
+# Install Detox CLI globally
+RUN npm install -g detox-cli
+
+# Copy package.json and install dependencies
+COPY frontend/package*.json ./
+RUN npm ci
+
+# Copy Detox configuration and test files
+COPY frontend/.detoxrc.js ./
+COPY frontend/jest.config.detox.js ./
+COPY frontend/detox-setup.js ./
+COPY frontend/e2e/ ./e2e/
+
+# Copy Android build files
+COPY frontend/android/ ./android/
+
+# Set environment variables
+ENV ANDROID_SDK_ROOT=$ANDROID_HOME
+ENV PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
+
+# Expose emulator console ports
+EXPOSE 5554 5555
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
+    CMD $ANDROID_HOME/platform-tools/adb devices | grep emulator || exit 1
+
+# Start Android emulator and run Detox tests
+CMD ["sh", "-c", "emulator -avd Pixel_4_API_30 -no-window -no-audio -gpu swiftshader_indirect & sleep 30 && detox test --configuration android.emu.debug"]
+// This enhanced Dockerfile provides full Android emulator environment for Detox E2E testing, installs Android SDK and emulator, configures Detox test runner, and executes automated mobile tests in Test environment for user validation.

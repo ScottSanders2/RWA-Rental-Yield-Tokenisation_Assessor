@@ -1,0 +1,84 @@
+# Node.js artifacts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+.pnp.js
+dist/
+build/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Backup artifacts
+backups/
+*.tar
+*.bundle
+
+# Database files
+*.db
+*.sqlite
+postgres-data/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker artifacts
+*.log
+.docker/
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Detox artifacts
+detox/test.artifacts/
+
+# Foundry artifacts
+out/
+cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.dbProduction_Environment_Backup_*.tar.gz

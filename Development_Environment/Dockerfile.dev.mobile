@@ -1,0 +1,42 @@
+# Multi-stage build for React Native mobile development
+FROM node:18-alpine AS base
+
+# Install system dependencies for React Native development
+RUN apk add --no-cache \
+    curl \
+    git \
+    bash \
+    openjdk11 \
+    && rm -rf /var/cache/apk/*
+
+# Set working directory
+WORKDIR /app
+
+# Dependencies stage
+FROM base AS dependencies
+
+# Copy package files
+COPY frontend/package*.json ./
+
+    # Install dependencies
+    RUN npm install --legacy-peer-deps
+
+# Development stage
+FROM dependencies AS development
+
+# Copy all frontend files
+COPY frontend/ ./
+
+# Set environment variables
+ENV NODE_ENV=development
+
+# Expose Metro bundler port
+EXPOSE 8081
+
+# Health check for Expo dev server
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8081/status || exit 1
+
+# Start Expo dev server with host binding for Docker - use npm run but without dev-client and cache clear flags
+CMD ["sh", "-c", "npx expo start --host lan --port 8081"]
+# This Dockerfile sets up React Native development environment with Expo dev server, installs all mobile dependencies including WalletConnect, ethers.js with polyfills, and react-native-dotenv for environment variable injection, enabling hot-reload via volume mounts in docker-compose.dev.yml.

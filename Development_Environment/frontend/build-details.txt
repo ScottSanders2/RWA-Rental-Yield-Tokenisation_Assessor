@@ -1,0 +1,24 @@
+★ eas-cli@16.28.0 is now available.
+To upgrade, run:
+npm install -g eas-cli
+Proceeding with outdated version.
+
+- Fetching the build…
+✔ Found a matching build for the project @scott-sanders/rwa-tokenization-mobile
+
+ID                       af1d395a-4104-4402-a127-40e7e06a5482
+Platform                 iOS
+Status                   finished
+Profile                  development
+Distribution             internal
+SDK Version              51.0.0
+Version                  1.0.0-dev.20251107
+Build number             20251107.1
+Commit                   aac4ad2010cdf8074d1e3586c626672b7b9a79c2
+Logs                     https://expo.dev/accounts/scott-sanders/projects/rwa-tokenization-mobile/builds/af1d395a-4104-4402-a127-40e7e06a5482
+Application Archive URL  https://expo.dev/artifacts/eas/nCbBb5AqBsL1VsCvFKf3hs.tar.gz
+Build Artifacts URL      null
+Fingerprint              not found
+Started at               11/24/2025, 3:26:03 PM
+Finished at              11/24/2025, 3:32:12 PM
+Started by               scott-sanders
