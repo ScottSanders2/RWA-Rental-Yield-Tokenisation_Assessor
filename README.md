@@ -1,68 +1,141 @@
 # RWA Tokenisation Platform - Real Estate Rental Yield Tokenisation Prototype
 
-This repository contains the prototype implementation for an MSc Financial Technology dissertation on blockchain-based tokenisation of real estate rental yields. The platform enables fractional ownership of rental income streams through a hybrid token system (ERC-20, ERC-721, ERC-1155), addressing traditional financing inefficiencies for underserved landlords.
+## Assessor Access Information
 
-**GitHub Repository:** https://github.com/ScottSanders2/RWA-Rental-Yield-Tokenisation_Assessor
+This repository contains the complete prototype implementation for an MSc Financial Technology dissertation on blockchain-based tokenisation of real estate rental yields.
+
+| Access Details | Value |
+|----------------|-------|
+| **Repository URL** | https://github.com/ScottSanders2/RWA-Rental-Yield-Tokenisation_Assessor |
+| **Visibility** | Public |
+| **Clone Command** | `git clone https://github.com/ScottSanders2/RWA-Rental-Yield-Tokenisation_Assessor.git` |
 
 ---
 
-## ⚠️ For Assessors: Extracting the Split Archive
+## Quick Start for Assessors
 
-If you received this repository as split zip files (`RWA_Platform_Complete.z01`, `.z02`, etc.), follow these instructions to extract:
+### Step 1: Clone the Repository
 
-### Prerequisites
-- All split archive files must be in the same directory
-- Files required: `RWA_Platform_Complete.z01` through `RWA_Platform_Complete.z07` AND `RWA_Platform_Complete.zip`
-
-### Extraction Instructions
-
-**On macOS/Linux:**
 ```bash
-# Navigate to the directory containing all zip parts
-cd /path/to/zip/files
-
-# Combine and extract using zip command
-zip -s 0 RWA_Platform_Complete.zip --out RWA_Platform_Combined.zip
-unzip RWA_Platform_Combined.zip
-
-# Or use a single command (requires all parts present)
-unzip RWA_Platform_Complete.zip
+git clone https://github.com/ScottSanders2/RWA-Rental-Yield-Tokenisation_Assessor.git
+cd RWA-Rental-Yield-Tokenisation_Assessor
 ```
 
-**On Windows:**
-```powershell
-# Option 1: Use 7-Zip (recommended, free download from https://www.7-zip.org/)
-# Right-click on RWA_Platform_Complete.zip → 7-Zip → Extract Here
+### Step 2: Verify Prerequisites
 
-# Option 2: Use PowerShell with 7-Zip CLI
-& "C:\Program Files\7-Zip\7z.exe" x RWA_Platform_Complete.zip
+| Requirement | Minimum | Check Command |
+|-------------|---------|---------------|
+| Docker Desktop | 4.0+ | `docker --version` |
+| Git | 2.30+ | `git --version` |
+| RAM | 8GB | - |
+| Disk Space | 10GB | - |
 
-# Option 3: Use WinRAR
-# Right-click on RWA_Platform_Complete.zip → Extract Here
-```
+### Step 3: Start the Development Environment
 
-**Using 7-Zip (Cross-Platform):**
+**Option A: Using the Assessor Setup Script (Recommended)**
+
 ```bash
-# 7-Zip automatically detects split archives
-7z x RWA_Platform_Complete.zip
+# Make the script executable
+chmod +x Shared_Environment/scripts/assessor_setup.sh
+
+# Run the setup script for Development environment
+./Shared_Environment/scripts/assessor_setup.sh dev setup
 ```
 
-### After Extraction
+The script will:
+- Check all prerequisites (Docker, docker-compose)
+- Build all Docker containers
+- Start all services
+- Wait for services to be healthy
+- Display access URLs and demo instructions
 
-Once extracted, you will have the complete repository structure. Continue with the "Quick Start for Assessors" section below.
+**Option B: Manual Docker Compose**
 
-### Archive Contents
+```bash
+# Navigate to Development Environment
+cd Development_Environment
 
-| Part | Size | Description |
-|------|------|-------------|
-| RWA_Platform_Complete.z01 | 450 MB | Part 1 of 2 |
-| RWA_Platform_Complete.zip | 83 MB | Part 2 of 2 (main file) |
-| **Total** | **533 MB** | Complete platform with all environments |
+# Start all Docker containers (11 services)
+docker-compose -f docker-compose.dev.yml up -d --build
 
-**Excludes:** 
-- node_modules, __pycache__, .git, venv, build artifacts (regenerated during setup)
-- Documentation files (.md) that are not essential for platform operation
-- Dissertation-specific working documents
+# Wait for services to initialise (approximately 2-3 minutes)
+docker-compose -f docker-compose.dev.yml logs -f
+```
+
+### Step 4: Access the Platform
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Web Frontend** | http://localhost:5173 | React web application |
+| **Backend API** | http://localhost:8000 | FastAPI REST endpoints |
+| **API Documentation** | http://localhost:8000/docs | Swagger/OpenAPI interface |
+| **Prometheus** | http://localhost:9090 | Metrics monitoring |
+| **Grafana** | http://localhost:3000 | Dashboard visualisation |
+
+### Step 5: Run Smart Contract Tests
+
+```bash
+# In a new terminal, access the contracts container
+docker exec -it rwa-dev-contracts bash
+
+# Run Foundry tests
+forge test -vvv
+
+# Run specific test suites
+forge test --match-path test/Diamond* -vvv  # Diamond architecture tests
+forge test --match-path test/LoadTesting* -vvv  # Load tests
+```
+
+### Step 6: Shutdown
+
+**Option A: Using the Assessor Setup Script**
+
+```bash
+./Shared_Environment/scripts/assessor_setup.sh dev stop
+```
+
+**Option B: Manual Docker Compose**
+
+```bash
+# Stop all containers
+docker-compose -f docker-compose.dev.yml down
+
+# Remove volumes (optional - clears all data)
+docker-compose -f docker-compose.dev.yml down -v
+```
+
+---
+
+## Assessor Scripts Reference
+
+The following scripts are provided in `Shared_Environment/scripts/` for assessor convenience:
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `assessor_setup.sh` | Main setup/teardown script | `./assessor_setup.sh [env] [command]` |
+| `assessor_bootstrap.sh` | Clone and setup in one step | `curl -fsSL [url] \| bash` |
+
+### assessor_setup.sh Commands
+
+```bash
+# Setup and start Development environment
+./Shared_Environment/scripts/assessor_setup.sh dev setup
+
+# Setup and start Test environment
+./Shared_Environment/scripts/assessor_setup.sh test setup
+
+# Setup and start Production environment
+./Shared_Environment/scripts/assessor_setup.sh prod setup
+
+# Run smart contract tests
+./Shared_Environment/scripts/assessor_setup.sh dev test
+
+# Display access URLs and demo instructions
+./Shared_Environment/scripts/assessor_setup.sh dev info
+
+# Stop and cleanup environment
+./Shared_Environment/scripts/assessor_setup.sh dev stop
+```
 
 ---
 
@@ -77,7 +150,6 @@ Once extracted, you will have the complete repository structure. Continue with t
 | **Gas Savings (ERC-1155)** | 89.4% for batch operations |
 | **Docker Containers** | 11-13 per environment |
 | **API Endpoints** | 45+ REST endpoints |
-| **Documentation** | 7,000+ lines |
 
 ---
 
@@ -120,9 +192,17 @@ The platform was developed through 16 structured iterations following a mandator
 RWA-Rental-Yield-Tokenisation_Assessor/
 ├── Development_Environment/      # Development Docker setup (11 containers)
 │   ├── contracts/                # Smart contracts with Foundry tests
+│   │   ├── src/                  # Solidity source files
+│   │   ├── test/                 # Foundry test suites
+│   │   ├── script/               # Deployment scripts
 │   │   └── REMIX_Deployment/     # Flattened contracts for Amoy deployment
 │   ├── backend/                  # FastAPI backend service
+│   │   ├── app/                  # Application code
+│   │   ├── config/               # Configuration files
+│   │   └── tests/                # PyTest test suites
 │   ├── frontend/                 # React web + React Native mobile
+│   │   ├── web/                  # React web application
+│   │   └── mobile/               # React Native application
 │   └── docker-compose.dev.yml    # Development orchestration
 ├── Test_Environment/             # Test Docker setup (13 containers)
 │   ├── contracts/                # Contract submodule
@@ -135,64 +215,62 @@ RWA-Rental-Yield-Tokenisation_Assessor/
 │   ├── frontend/                 # Optimised production build
 │   └── docker-compose.prod.yml   # Production with Nginx
 ├── Shared_Environment/           # Common configurations and shared resources
-│   ├── docs/                     # Comprehensive documentation suite
-│   │   ├── architecture/         # Architecture diagrams (Mermaid + PNG)
-│   │   ├── deployment/           # Deployment guides and records
-│   │   ├── iterations/           # Iteration-specific documentation (1-16)
-│   │   ├── testing/              # Test strategies, patterns, and reports
-│   │   └── operations/           # Backup registry and operational docs
 │   ├── scripts/                  # Assessor setup and utility scripts
 │   ├── monitoring/               # Prometheus/Grafana configurations
 │   └── theme/                    # Shared Material-UI theme
-├── README.md                     # This file
-└── LICENSE                       # Project license
+├── README.md                     # This file (assessor guide)
+└── LICENSE                       # MIT Licence
 ```
 
 ---
 
-## Key Documentation
+## Key Files for Assessment
 
-| Document | Purpose | Location |
-|----------|---------|----------|
-| **DEPLOYMENT_GUIDE.md** | Polygon Amoy deployment instructions | `Shared_Environment/docs/deployment/guides/` |
-| **AMOY_DEPLOYMENT_RECORD_V3.md** | Complete deployment record (23 contracts) | `Shared_Environment/docs/deployment/records/` |
-| **MANUAL_UAT_TEST_CHECKLIST.md** | User acceptance testing results | `Shared_Environment/docs/testing/reports/` |
-| **Load_Testing_Report.md** | Performance and load testing analysis | `Shared_Environment/docs/testing/reports/` |
+| File/Directory | Purpose |
+|----------------|---------|
+| `Development_Environment/contracts/` | All smart contracts with 534 Foundry tests |
+| `Development_Environment/backend/` | FastAPI backend with 45+ REST endpoints |
+| `Development_Environment/frontend/` | React web + React Native mobile apps |
+| `Development_Environment/docker-compose.dev.yml` | Docker orchestration for all services |
 
 ---
 
-## Getting Started
+## Alternative Setup Methods
 
-### Prerequisites
+### Method A: Using Docker Compose (Recommended)
 
-| Requirement | Minimum | Recommended | Check Command |
-|-------------|---------|-------------|---------------|
-| Docker Desktop | 4.0+ | Latest | `docker --version` |
-| Git | 2.30+ | Latest | `git --version` |
-| RAM | 8GB | 16GB+ | - |
-| Disk Space | 10GB | 20GB+ | - |
+See "Quick Start for Assessors" section above.
 
-### Quick Start for Assessors
+### Method B: Manual Container Start
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/ScottSanders2/RWA-Rental-Yield-Tokenisation_Assessor.git
-cd RWA-Rental-Yield-Tokenisation_Assessor
+cd Development_Environment
 
-# 2. Initialise submodules
-git submodule update --init --recursive
+# Build containers
+docker-compose -f docker-compose.dev.yml build
 
-# 3. Run assessor setup script
-chmod +x Shared_Environment/scripts/assessor_setup.sh
-./Shared_Environment/scripts/assessor_setup.sh dev setup
+# Start in detached mode
+docker-compose -f docker-compose.dev.yml up -d
 
-# 4. Access the platform
-# Frontend: http://localhost:5173
-# Backend API: http://localhost:8000
-# API Docs: http://localhost:8000/docs
+# View logs
+docker-compose -f docker-compose.dev.yml logs -f
 ```
 
-### Access URLs by Environment
+### Method C: Running Tests Only (No Full Platform)
+
+```bash
+cd Development_Environment/contracts
+
+# If Foundry is installed locally
+forge test -vvv
+
+# Or use Docker
+docker run --rm -v $(pwd):/app -w /app ghcr.io/foundry-rs/foundry forge test -vvv
+```
+
+---
+
+## Access URLs by Environment
 
 | Service | Development | Test | Production |
 |---------|-------------|------|------------|
@@ -296,9 +374,6 @@ This prototype addresses 10 research questions with empirical evidence:
 - **Total Deployment Gas:** 32,647,862 (0.86 POL)
 - **Deployer Address:** `0xa5902Da508412B8782B5CD18DAf6C6956cAB19F9`
 
-For complete deployment record and contract addresses, see:
-`Shared_Environment/docs/deployment/records/AMOY_DEPLOYMENT_RECORD_V3.md`
-
 ---
 
 ## Development Workflow
@@ -312,14 +387,55 @@ The project follows a strict 4-step mandatory development process:
 
 ---
 
-## License
+## Troubleshooting
 
-MIT License - See LICENSE file for details.
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| **Port already in use** | Stop existing services: `docker-compose down` or change ports in `.env` |
+| **Docker build fails** | Ensure Docker Desktop is running and has sufficient memory (8GB+) |
+| **Contracts not compiling** | Run `forge clean && forge build` inside contracts container |
+| **Backend connection refused** | Wait 30 seconds for PostgreSQL to initialise |
+| **Frontend blank page** | Clear browser cache or check console for errors |
+
+### Verifying Installation
+
+```bash
+# Check all containers are running
+docker ps
+
+# Expected output: 11 containers for Development environment
+# - rwa-dev-frontend
+# - rwa-dev-backend
+# - rwa-dev-contracts
+# - rwa-dev-postgres
+# - rwa-dev-redis
+# - rwa-dev-prometheus
+# - rwa-dev-grafana
+# - rwa-dev-node-exporter
+# - rwa-dev-anvil
+# - rwa-dev-graph-node
+# - rwa-dev-ipfs
+```
+
+### Getting Help
+
+If you encounter issues not covered above, please check:
+1. Docker Desktop logs for container-specific errors
+2. Browser developer console for frontend issues
+3. Backend logs: `docker logs rwa-dev-backend`
+
+---
+
+## Licence
+
+MIT Licence - See LICENCE file for details.
 
 ## Author
 
 Scott Sanders - MSc Financial Technology, Middlesex University Dubai
 
-## Acknowledgments
+## Acknowledgements
 
 Supervisor guidance and support throughout the dissertation process.
